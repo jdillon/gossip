@@ -16,8 +16,8 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.gossip.Gossip;
 import org.slf4j.ILoggerFactory;
+import org.slf4j.gossip.Gossip;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 /**

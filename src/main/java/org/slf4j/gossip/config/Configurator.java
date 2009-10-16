@@ -17,7 +17,10 @@
 package org.slf4j.gossip.config;
 
 import org.slf4j.gossip.InternalLogger;
-import org.slf4j.gossip.model.*;
+import org.slf4j.gossip.model.Configuration;
+import org.slf4j.gossip.model.EffectiveProfile;
+import org.slf4j.gossip.model.Profile;
+import org.slf4j.gossip.model.Source;
 import org.slf4j.gossip.model.filter.ConsoleWriter;
 import org.slf4j.gossip.model.source.URLSource;
 import org.slf4j.gossip.model.trigger.AlwaysTrigger;

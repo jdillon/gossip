@@ -16,6 +16,7 @@
 
 package org.slf4j.gossip.config;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.gossip.InternalLogger;
 import org.slf4j.gossip.model.Configuration;
 import org.slf4j.gossip.model.Filter;
@@ -24,7 +25,6 @@ import org.slf4j.gossip.model.Profile;
 import org.slf4j.gossip.model.Source;
 import org.slf4j.gossip.model.Trigger;
 import org.slf4j.gossip.model.render.Renderer;
-import org.codehaus.plexus.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

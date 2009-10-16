@@ -17,11 +17,11 @@
 package org.slf4j.gossip.config;
 
 import junit.framework.TestCase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.gossip.Event;
 import org.slf4j.gossip.Level;
 import org.slf4j.gossip.model.render.ColorRenderer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Tests for the {@link ColorRenderer} class.

@@ -16,10 +16,10 @@
 
 package org.slf4j.gossip;
 
-import org.slf4j.gossip.config.Configurator;
-import org.slf4j.gossip.model.EffectiveProfile;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.gossip.config.Configurator;
+import org.slf4j.gossip.model.EffectiveProfile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
