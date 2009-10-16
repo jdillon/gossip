@@ -10,6 +10,7 @@ Building
 
 * Maven 2.x
 * Java 5
+* JLine 2.x
 
 Check out and build:
 
