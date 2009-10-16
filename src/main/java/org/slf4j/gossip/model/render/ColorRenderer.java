@@ -16,10 +16,13 @@
 
 package org.slf4j.gossip.model.render;
 
-import jline.ANSIBuffer;
 import jline.Terminal;
+import jline.TerminalFactory;
 import org.slf4j.gossip.Event;
 import org.slf4j.gossip.Level;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.Ansi.Color;
+import org.fusesource.jansi.Ansi.Attribute;
 
 /**
  * Renders events with ANSI colors.
@@ -35,15 +38,8 @@ public class ColorRenderer
     private int maxLength;
 
     public ColorRenderer() {
-        Terminal term = Terminal.getTerminal();
-
-        int w = term.getTerminalWidth();
-        if (w < 1) {
-            maxLength = 79;
-        }
-        else {
-            maxLength = w - 1;
-        }
+        Terminal term = TerminalFactory.get();
+        int w = term.getWidth() - 1;
     }
 
     public String toString() {
@@ -82,50 +78,45 @@ public class ColorRenderer
     public String render(final Event event) {
         assert event != null;
 
-        ANSIBuffer buff = new ANSIBuffer();
+        Ansi ansi = Ansi.ansi();
 
-        buff.append("[");
+        ansi = ansi.a("[");
 
         switch (event.level.id) {
             case Level.TRACE_ID:
             case Level.DEBUG_ID:
-                buff.yellow(event.level.label);
+                ansi = ansi.fg(Color.YELLOW).a(event.level.label).reset();
                 break;
 
             case Level.INFO_ID:
-                buff.green(event.level.label);
+                ansi = ansi.fg(Color.GREEN).a(event.level.label).reset();
                 break;
 
             case Level.WARN_ID:
             case Level.ERROR_ID:
-                buff.red(event.level.label);
+                ansi = ansi.fg(Color.RED).a(event.level.label).reset();
                 break;
 
             default:
                 throw new InternalError();
         }
 
-        buff.append("]");
+        ansi = ansi.a("]");
 
         switch (event.level.id) {
             case Level.INFO_ID:
             case Level.WARN_ID:
-                buff.append(" ");
+                ansi = ansi.a(" ");
         }
 
-        buff.append(" ");
-        buff.append(event.logger.getName());
-        buff.append(" - ");
-
-        buff.append(event.message);
-        buff.append(NEWLINE);
+        ansi = ansi.a(" ").a(event.logger.getName()).a(" - ").a(event.message).a(NEWLINE);
 
         if (event.cause != null) {
-            buff.append(event.toString());
+            ansi = ansi.a(event.toString());
 
             StackTraceElement[] trace = event.cause.getStackTrace();
             for (int i=0; i<trace.length; i++ ) {
-                buff.append(trace[i].toString());
+                ansi = ansi.a(trace[i].toString());
             }
         }
 
@@ -134,10 +125,10 @@ public class ColorRenderer
         //        and color escaping properly...
         //
 
-        if (truncate && buff.getPlainBuffer().length() > maxLength) {
-            return buff.toString().substring(0, maxLength - 4) + " ..." + NEWLINE;
-        }
+        // if (truncate && buff.getPlainBuffer().length() > maxLength) {
+        //     return buff.toString().substring(0, maxLength - 4) + " ..." + NEWLINE;
+        // }
 
-        return buff.toString();
+        return ansi.toString();
     }
 }
