@@ -19,7 +19,7 @@ package org.slf4j.gossip.model.trigger;
 /**
  * Triggers activation when a system property is set.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class SystemPropertyTrigger

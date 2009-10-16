@@ -23,7 +23,7 @@ import org.slf4j.helpers.MessageFormatter;
 /**
  * Support for the Gossip {@link org.slf4j.Logger} implementation.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public abstract class AbstractLogger

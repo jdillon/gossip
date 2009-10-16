@@ -21,7 +21,7 @@ import org.slf4j.gossip.model.Trigger;
 /**
  * Support for triggers which expect a name and value for configuration.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public abstract class NameValueTriggerSupport

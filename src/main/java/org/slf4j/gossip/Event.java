@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 /**
  * Gossip logging event container.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public final class Event

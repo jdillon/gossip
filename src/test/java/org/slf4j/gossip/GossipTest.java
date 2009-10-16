@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Tests for the {@link Gossip} class.
  *
- * @version $Id$
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class GossipTest

@@ -23,7 +23,7 @@ import java.util.Properties;
 /**
  * Configuration node.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class Configuration

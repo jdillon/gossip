@@ -19,12 +19,14 @@ package org.slf4j.gossip.config;
 /**
  * Thrown to indicate a required configuration property is missing.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class MissingPropertyException
     extends ConfigurationException
 {
+    ///CLOVER:OFF
+
     public MissingPropertyException(final String name) {
         super("Missing required configuration property: " + name);
     }

@@ -19,7 +19,7 @@ package org.slf4j.gossip.model;
 /**
  * Configuration model node.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public interface Node

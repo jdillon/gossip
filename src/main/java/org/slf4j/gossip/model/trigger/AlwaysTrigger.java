@@ -21,7 +21,7 @@ import org.slf4j.gossip.model.Trigger;
 /**
  * Always triggers.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class AlwaysTrigger

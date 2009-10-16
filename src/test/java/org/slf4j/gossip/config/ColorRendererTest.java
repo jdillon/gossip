@@ -26,7 +26,6 @@ import org.slf4j.gossip.model.render.ColorRenderer;
 /**
  * Tests for the {@link ColorRenderer} class.
  *
- * @version $Id$
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class ColorRendererTest

@@ -27,7 +27,7 @@ import java.io.PrintStream;
 /**
  * Writes events to console.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class ConsoleWriter

@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * Effective profile node.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class EffectiveProfile

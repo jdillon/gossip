@@ -23,7 +23,6 @@ import org.slf4j.gossip.model.Configuration;
 /**
  * Tests for the {@link org.slf4j.gossip.model.source.SystemPropertySource} class.
  *
- * @version $Id$
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class SystemPropertySourceTest

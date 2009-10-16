@@ -24,7 +24,6 @@ import java.net.URL;
 /**
  * Tests for the {@link org.slf4j.gossip.model.source.URLSource} class.
  *
- * @version $Id$
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class URLSourceTest

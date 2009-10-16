@@ -19,12 +19,14 @@ package org.slf4j.gossip.config;
 /**
  * Thrown to indicate a failure has occured while configuring Gossip.
  *
- * @version $Id$
+ * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class ConfigurationException
     extends RuntimeException
 {
+    ///CLOVER:OFF
+
     public ConfigurationException() {}
 
     public ConfigurationException(final String message) {
