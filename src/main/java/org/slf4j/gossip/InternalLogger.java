@@ -16,8 +16,6 @@
 
 package org.slf4j.gossip;
 
-import org.codehaus.plexus.util.StringUtils;
-
 import java.io.PrintStream;
 
 /**
@@ -99,7 +97,7 @@ public final class InternalLogger
             }
 
             if (nameWidth > 0) {
-                out.print(StringUtils.right(getName(), nameWidth));
+                out.print(right(getName(), nameWidth));
             }
             else {
                 out.print(getName());
@@ -113,6 +111,18 @@ public final class InternalLogger
             }
 
             out.flush();
+        }
+    }
+
+    private static String right(String str, int len) {
+        if (len < 0) {
+            throw new IllegalArgumentException("Requested String length " + len + " is less than zero");
+        }
+        if ((str == null) || (str.length() <= len)) {
+            return str;
+        }
+        else {
+            return str.substring(str.length() - len);
         }
     }
 }

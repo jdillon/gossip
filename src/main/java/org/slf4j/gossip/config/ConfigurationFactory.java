@@ -16,7 +16,6 @@
 
 package org.slf4j.gossip.config;
 
-import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.gossip.InternalLogger;
 import org.slf4j.gossip.model.Configuration;
 import org.slf4j.gossip.model.Filter;
@@ -462,7 +461,7 @@ public class ConfigurationFactory
         assert name != null;
         assert value != null;
 
-        String tmp = "set" + StringUtils.capitalise(name);
+        String tmp = "set" + capitalise(name);
 
         log.trace("Looking for setter: {}", tmp);
 
@@ -484,6 +483,21 @@ public class ConfigurationFactory
         }
         catch (Exception e) {
             log.error("Failed to set '{}={}'", new Object[] { name, value, e });
+        }
+    }
+
+    private static String capitalise(String str) {
+        if (str == null) {
+            return null;
+        }
+        else if (str.length() == 0) {
+            return "";
+        }
+        else {
+            return new StringBuffer(str.length())
+                    .append(Character.toTitleCase(str.charAt(0)))
+                    .append(str.substring(1))
+                    .toString();
         }
     }
 }

@@ -24,10 +24,10 @@
     
     <modelVersion>4.0.0</modelVersion>
     
-    <groupId>org.codehaus.gmaven.support</groupId>
+    <groupId>org.slf4j</groupId>
     <artifactId>gossip</artifactId>
     <name>Gossip</name>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     
     <description>
         Gossip is a plugin for SLF4j which has simple and flexible configuration.
@@ -79,12 +79,6 @@
             <artifactId>jline</artifactId>
             <version>0.9.94</version>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>1.5.5</version>
         </dependency>
         
         <dependency>
