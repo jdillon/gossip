@@ -1,7 +1,7 @@
 Description
 -----------
 
-SLF4j Gossip Provider
+[SLF4j](http://slf4j.org) Gossip Provider
 
 License
 -------
