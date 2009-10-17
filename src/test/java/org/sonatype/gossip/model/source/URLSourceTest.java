@@ -14,34 +14,30 @@
  * limitations under the License.
  */
 
-package org.slf4j.impl;
+package org.sonatype.gossip.model.source;
 
-import org.slf4j.ILoggerFactory;
-import org.slf4j.spi.LoggerFactoryBinder;
-import org.sonatype.gossip.Gossip;
+import junit.framework.TestCase;
+import org.sonatype.gossip.model.Configuration;
+
+import java.net.URL;
 
 /**
- * Gossip logger binder for SLF4J.
+ * Tests for the {@link org.sonatype.gossip.model.source.URLSource} class.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public final class StaticLoggerBinder
-    implements LoggerFactoryBinder
+public class URLSourceTest
+    extends TestCase
 {
-    public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
-    
-    private final ILoggerFactory factory;
+    public void test1() throws Exception {
+        URLSource s = new URLSource();
 
-    public StaticLoggerBinder() {
-        this.factory = new Gossip();
-    }
+        URL url = getClass().getResource("config1.properties");
+        assertNotNull(url);
 
-    public ILoggerFactory getLoggerFactory() {
-        return factory;
-    }
+        s.setUrl(url);
 
-    public String getLoggerFactoryClassStr() {
-        return Gossip.class.getName();
+        Configuration c = s.load();
+        assertNotNull(c);
     }
 }

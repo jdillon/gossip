@@ -14,34 +14,18 @@
  * limitations under the License.
  */
 
-package org.slf4j.impl;
-
-import org.slf4j.ILoggerFactory;
-import org.slf4j.spi.LoggerFactoryBinder;
-import org.sonatype.gossip.Gossip;
+package org.sonatype.gossip.model.trigger;
 
 /**
- * Gossip logger binder for SLF4J.
+ * Triggers activation based on a environment variable.
  *
  * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public final class StaticLoggerBinder
-    implements LoggerFactoryBinder
+public class EnvironmentVariableTrigger
+    extends NameValueTriggerSupport
 {
-    public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
-    
-    private final ILoggerFactory factory;
-
-    public StaticLoggerBinder() {
-        this.factory = new Gossip();
-    }
-
-    public ILoggerFactory getLoggerFactory() {
-        return factory;
-    }
-
-    public String getLoggerFactoryClassStr() {
-        return Gossip.class.getName();
+    protected String resolve() {
+        return System.getenv(getName());
     }
 }

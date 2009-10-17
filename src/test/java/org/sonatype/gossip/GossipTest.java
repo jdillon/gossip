@@ -14,34 +14,33 @@
  * limitations under the License.
  */
 
-package org.slf4j.impl;
+package org.sonatype.gossip;
 
+import junit.framework.TestCase;
 import org.slf4j.ILoggerFactory;
-import org.slf4j.spi.LoggerFactoryBinder;
-import org.sonatype.gossip.Gossip;
+import org.slf4j.LoggerFactory;
 
 /**
- * Gossip logger binder for SLF4J.
+ * Tests for the {@link org.sonatype.gossip.Gossip} class.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public final class StaticLoggerBinder
-    implements LoggerFactoryBinder
+public class GossipTest
+    extends TestCase
 {
-    public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
-    
-    private final ILoggerFactory factory;
+    public void testBasic() throws Exception {
+        ILoggerFactory factory = LoggerFactory.getILoggerFactory();
 
-    public StaticLoggerBinder() {
-        this.factory = new Gossip();
-    }
+        assertNotNull(factory);
+        assertEquals(Gossip.class.getName(), factory.getClass().getName());
+        
+        org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
+        assertNotNull(log);
 
-    public ILoggerFactory getLoggerFactory() {
-        return factory;
-    }
-
-    public String getLoggerFactoryClassStr() {
-        return Gossip.class.getName();
+        log.trace("trace");
+        log.debug("debug");
+        log.info("info");
+        log.warn("warn");
+        log.error("error");
     }
 }

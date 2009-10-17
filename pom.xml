@@ -22,9 +22,9 @@
     
     <modelVersion>4.0.0</modelVersion>
     
-    <groupId>org.slf4j</groupId>
+    <groupId>org.sonatype.gossip</groupId>
     <artifactId>gossip</artifactId>
-    <name>Gossip</name>
+    <name>Gossip - ${project.version}</name>
     <version>1.0-SNAPSHOT</version>
     
     <description>
@@ -38,14 +38,13 @@
     <repositories>
         <repository>
             <id>jansi</id>
-            <name>jansi Release Repository</name>
             <url>http://jansi.fusesource.org/repo/release</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
             <releases>
                 <enabled>true</enabled>
             </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
     
@@ -117,10 +116,6 @@
             </testResource>
         </testResources>
 
-        <!--
-        TODO: Change to Java5 & retrotranslate
-        -->
-        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -155,9 +150,26 @@
                 <configuration>
                     <debug>true</debug>
                     <optimize>false</optimize>
-                    <source>1.4</source>
-                    <target>1.4</target>
+                    <source>1.5</source>
+                    <target>1.5</target>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>retrotranslator-maven-plugin</artifactId>
+                <version>1.0-alpha-4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>translate-project</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>jdk14</classifier>
+                            <attach>true</attach>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

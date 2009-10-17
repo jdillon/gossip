@@ -14,34 +14,26 @@
  * limitations under the License.
  */
 
-package org.slf4j.impl;
-
-import org.slf4j.ILoggerFactory;
-import org.slf4j.spi.LoggerFactoryBinder;
-import org.sonatype.gossip.Gossip;
+package org.sonatype.gossip.model;
 
 /**
- * Gossip logger binder for SLF4J.
+ * Container node.
  *
  * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public final class StaticLoggerBinder
-    implements LoggerFactoryBinder
+public abstract class ContainerNode
+    extends AbstractNode
 {
-    public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
-    
-    private final ILoggerFactory factory;
+    //
+    // TODO: add children() Iterator
+    //
 
-    public StaticLoggerBinder() {
-        this.factory = new Gossip();
-    }
+    //
+    // TODO: Add attach(Node child)
+    //
 
-    public ILoggerFactory getLoggerFactory() {
-        return factory;
-    }
-
-    public String getLoggerFactoryClassStr() {
-        return Gossip.class.getName();
-    }
+    //
+    // TODO: Add attach(Node child, List siblings)... ?
+    //
 }

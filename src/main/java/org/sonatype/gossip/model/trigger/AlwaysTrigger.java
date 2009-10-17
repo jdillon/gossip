@@ -14,34 +14,20 @@
  * limitations under the License.
  */
 
-package org.slf4j.impl;
+package org.sonatype.gossip.model.trigger;
 
-import org.slf4j.ILoggerFactory;
-import org.slf4j.spi.LoggerFactoryBinder;
-import org.sonatype.gossip.Gossip;
+import org.sonatype.gossip.model.Trigger;
 
 /**
- * Gossip logger binder for SLF4J.
+ * Always triggers.
  *
  * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public final class StaticLoggerBinder
-    implements LoggerFactoryBinder
+public class AlwaysTrigger
+    extends Trigger
 {
-    public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
-    
-    private final ILoggerFactory factory;
-
-    public StaticLoggerBinder() {
-        this.factory = new Gossip();
-    }
-
-    public ILoggerFactory getLoggerFactory() {
-        return factory;
-    }
-
-    public String getLoggerFactoryClassStr() {
-        return Gossip.class.getName();
+    public boolean isActive() {
+        return true;
     }
 }

@@ -14,34 +14,27 @@
  * limitations under the License.
  */
 
-package org.slf4j.impl;
+package org.sonatype.gossip.model.render;
 
-import org.slf4j.ILoggerFactory;
-import org.slf4j.spi.LoggerFactoryBinder;
-import org.sonatype.gossip.Gossip;
+import junit.framework.TestCase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonatype.gossip.Event;
+import org.sonatype.gossip.Level;
 
 /**
- * Gossip logger binder for SLF4J.
+ * Tests for the {@link ColorRenderer} class.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public final class StaticLoggerBinder
-    implements LoggerFactoryBinder
+public class ColorRendererTest
+    extends TestCase
 {
-    public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
-    
-    private final ILoggerFactory factory;
+    public void test1() throws Exception {
+        Logger log = LoggerFactory.getLogger("foo");
+        Event e = new Event(log, Level.DEBUG, "foo bar baz", null);
 
-    public StaticLoggerBinder() {
-        this.factory = new Gossip();
-    }
-
-    public ILoggerFactory getLoggerFactory() {
-        return factory;
-    }
-
-    public String getLoggerFactoryClassStr() {
-        return Gossip.class.getName();
+        ColorRenderer r = new ColorRenderer();
+        r.render(e);
     }
 }
