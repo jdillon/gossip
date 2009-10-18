@@ -16,6 +16,8 @@
 
 package org.sonatype.gossip.config;
 
+import java.text.MessageFormat;
+
 /**
  * Thrown to indicate a required configuration property is missing.
  *
@@ -28,6 +30,6 @@ public class MissingPropertyException
     ///CLOVER:OFF
 
     public MissingPropertyException(final String name) {
-        super("Missing required configuration property: " + name);
+        super(MessageFormat.format("Missing required configuration property: {0}", name));
     }
 }

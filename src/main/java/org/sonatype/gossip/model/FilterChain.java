@@ -54,7 +54,7 @@ public class FilterChain
 
         // Else execute all filters until we get a stop
         if (chain == null) {
-            chain = (Filter[]) filters().toArray(new Filter[filters.size()]);
+            chain = filters().toArray(new Filter[filters.size()]);
         }
 
         // log.debug("Applying {} filters to event: {}", String.valueOf(chain.length), event);

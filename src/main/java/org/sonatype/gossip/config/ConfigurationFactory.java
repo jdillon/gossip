@@ -47,12 +47,13 @@ public class ConfigurationFactory
 
     private ClassLoader classLoader;
 
-    public ConfigurationFactory(ClassLoader cl) {
+    public ConfigurationFactory(final ClassLoader cl) {
         if (cl == null) {
-            cl = getClass().getClassLoader();
+            this.classLoader = getClass().getClassLoader();
         }
-
-        this.classLoader = cl;
+        else {
+            this.classLoader = cl;
+        }
     }
 
     public ConfigurationFactory() {
