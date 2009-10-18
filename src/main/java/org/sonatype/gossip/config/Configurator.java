@@ -16,7 +16,7 @@
 
 package org.sonatype.gossip.config;
 
-import org.sonatype.gossip.InternalLogger;
+import org.sonatype.gossip.Log;
 import org.sonatype.gossip.model.Configuration;
 import org.sonatype.gossip.model.EffectiveProfile;
 import org.sonatype.gossip.model.Profile;
@@ -38,7 +38,7 @@ public class Configurator
 {
     private static final String BOOTSTRAP_RESOURCE = "bootstrap.properties";
 
-    private final InternalLogger log = InternalLogger.getLogger(getClass());
+    private final Log log = Log.getLogger(getClass());
 
     public EffectiveProfile configure() {
         log.debug("Configuring");

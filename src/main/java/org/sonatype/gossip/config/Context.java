@@ -16,7 +16,7 @@
 
 package org.sonatype.gossip.config;
 
-import org.sonatype.gossip.InternalLogger;
+import org.sonatype.gossip.Log;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -26,7 +26,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -40,7 +39,7 @@ import java.util.Set;
 public final class Context
     implements Cloneable
 {
-    private final InternalLogger log = InternalLogger.getLogger(getClass());
+    private final Log log = Log.getLogger(getClass());
 
     private Map<String,Object> store;
 

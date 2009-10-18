@@ -16,7 +16,7 @@
 
 package org.sonatype.gossip.model;
 
-import org.sonatype.gossip.InternalLogger;
+import org.sonatype.gossip.Log;
 
 import java.util.Iterator;
 import java.util.Properties;
@@ -30,7 +30,7 @@ import java.util.Properties;
 public abstract class AbstractNode
     implements Node
 {
-    protected transient InternalLogger log = InternalLogger.getLogger(getClass());
+    protected transient Log log = Log.getLogger(getClass());
 
     private transient Node parent;
 

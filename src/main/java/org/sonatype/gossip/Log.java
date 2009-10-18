@@ -24,7 +24,7 @@ import java.io.PrintStream;
  * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public final class InternalLogger
+public final class Log
     extends AbstractLogger
 {
     private static Level level = Level.WARN;
@@ -38,38 +38,38 @@ public final class InternalLogger
     static {
         String tmp;
 
-        tmp = System.getProperty(InternalLogger.class.getName() + ".level");
+        tmp = System.getProperty(Log.class.getName() + ".level");
 
         if (tmp != null) {
             level = Level.forLabel(tmp);
         }
 
-        tmp = System.getProperty(InternalLogger.class.getName() + ".nameWidth");
+        tmp = System.getProperty(Log.class.getName() + ".nameWidth");
 
         if (tmp != null) {
             try {
                 nameWidth = Integer.parseInt(tmp);
             }
             catch (NumberFormatException e) {
-                throw new Error("Invalid InternalLogger.nameWidth value: " + tmp, e);
+                throw new Error("Invalid Log.nameWidth value: " + tmp, e);
             }
         }
     }
     
-    public InternalLogger(final String name) {
+    public Log(final String name) {
         super(name);
     }
 
-    public static InternalLogger getLogger(final String name) {
+    public static Log getLogger(final String name) {
         assert name != null;
 
-        return new InternalLogger(name);
+        return new Log(name);
     }
     
-    public static InternalLogger getLogger(final Class type) {
+    public static Log getLogger(final Class type) {
         assert type != null;
 
-        return new InternalLogger(type.getName());
+        return new Log(type.getName());
     }
 
     protected boolean isEnabled(final Level l) {

@@ -16,7 +16,7 @@
 
 package org.sonatype.gossip.config;
 
-import org.sonatype.gossip.InternalLogger;
+import org.sonatype.gossip.Log;
 import org.sonatype.gossip.model.Configuration;
 import org.sonatype.gossip.model.Filter;
 import org.sonatype.gossip.model.Logger;
@@ -43,7 +43,7 @@ import java.util.Properties;
  */
 public class ConfigurationFactory
 {
-    private final InternalLogger log = InternalLogger.getLogger(getClass());
+    private final Log log = Log.getLogger(getClass());
 
     private ClassLoader classLoader;
 

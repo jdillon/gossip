@@ -35,7 +35,7 @@ import java.util.Map;
 public final class Gossip
     implements ILoggerFactory
 {
-    private final InternalLogger log = InternalLogger.getLogger(getClass());
+    private final Log log = Log.getLogger(getClass());
 
     private final Map loggers;
 
