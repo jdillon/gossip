@@ -45,9 +45,7 @@ public final class Gossip
 
     public Gossip() {
         loggers = new HashMap();
-
         profile = new Configurator().configure();
-
         prime();
     }
 
@@ -55,12 +53,9 @@ public final class Gossip
         log.trace("Priming");
 
         // Prime the loggers we have configured
-        for (Iterator iter = profile.loggers().entrySet().iterator(); iter.hasNext();) {
-            Map.Entry entry = (Map.Entry)iter.next();
-            String name = (String) entry.getKey();
-            org.sonatype.gossip.model.Logger node =
-                    (org.sonatype.gossip.model.Logger)entry.getValue();
-
+        for (Map.Entry<String,org.sonatype.gossip.model.Logger> entry : profile.loggers().entrySet()) {
+            String name = entry.getKey();
+            org.sonatype.gossip.model.Logger node = entry.getValue();
             LoggerImpl logger = (LoggerImpl) getLogger(name);
             logger.level = node.getLevel();
         }

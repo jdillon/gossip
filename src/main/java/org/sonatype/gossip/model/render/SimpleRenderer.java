@@ -18,6 +18,7 @@ package org.sonatype.gossip.model.render;
 
 import org.sonatype.gossip.Event;
 import org.sonatype.gossip.Level;
+import static org.sonatype.gossip.Level.*;
 
 /**
  * A simple event renderer.
@@ -80,12 +81,12 @@ public class SimpleRenderer
         StringBuilder buff = new StringBuilder();
 
         buff.append("[");
-        buff.append(event.level.label);
+        buff.append(event.level.name());
         buff.append("]");
 
-        switch (event.level.id) {
-            case Level.INFO_ID:
-            case Level.WARN_ID:
+        switch (event.level) {
+            case INFO:
+            case WARN:
                 buff.append(" ");
         }
 

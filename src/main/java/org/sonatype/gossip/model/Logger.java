@@ -76,7 +76,7 @@ public class Logger
     }
 
     public void setLevel(final String label) {
-        setLevel(Level.forLabel(label));
+        setLevel(Level.valueOf(label.toUpperCase()));
     }
 
     public List<Logger> loggers() {

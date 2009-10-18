@@ -54,7 +54,7 @@ public class EffectiveProfile
 
     private Map<String,Logger> loggers;
 
-    public Map loggers() {
+    public Map<String,Logger> loggers() {
         if (loggers == null) {
             log.trace("Loading effective logger table");
 

@@ -22,6 +22,7 @@ import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.Color;
 import org.sonatype.gossip.Event;
 import org.sonatype.gossip.Level;
+import static org.sonatype.gossip.Level.*;
 
 /**
  * Renders events with ANSI colors.
@@ -81,19 +82,19 @@ public class ColorRenderer
 
         ansi = ansi.a("[");
 
-        switch (event.level.id) {
-            case Level.TRACE_ID:
-            case Level.DEBUG_ID:
-                ansi = ansi.fg(Color.YELLOW).a(event.level.label).reset();
+        switch (event.level) {
+            case TRACE:
+            case DEBUG:
+                ansi = ansi.fg(Color.YELLOW).a(event.level.name()).reset();
                 break;
 
-            case Level.INFO_ID:
-                ansi = ansi.fg(Color.GREEN).a(event.level.label).reset();
+            case INFO:
+                ansi = ansi.fg(Color.GREEN).a(event.level.name()).reset();
                 break;
 
-            case Level.WARN_ID:
-            case Level.ERROR_ID:
-                ansi = ansi.fg(Color.RED).a(event.level.label).reset();
+            case WARN:
+            case ERROR:
+                ansi = ansi.fg(Color.RED).a(event.level.name()).reset();
                 break;
 
             default:
@@ -102,9 +103,9 @@ public class ColorRenderer
 
         ansi = ansi.a("]");
 
-        switch (event.level.id) {
-            case Level.INFO_ID:
-            case Level.WARN_ID:
+        switch (event.level) {
+            case INFO:
+            case WARN:
                 ansi = ansi.a(" ");
         }
 

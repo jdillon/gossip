@@ -41,7 +41,7 @@ public final class Log
         tmp = System.getProperty(Log.class.getName() + ".level");
 
         if (tmp != null) {
-            level = Level.forLabel(tmp);
+            level = Level.valueOf(tmp);
         }
 
         tmp = System.getProperty(Log.class.getName() + ".nameWidth");
@@ -87,12 +87,12 @@ public final class Log
 
         synchronized (out) {
             out.print("[");
-            out.print(level.label);
+            out.print(level.name());
             out.print("] ");
 
-            switch (level.id) {
-                case Level.INFO_ID:
-                case Level.WARN_ID:
+            switch (level) {
+                case INFO:
+                case WARN:
                     out.print(" ");
             }
 
@@ -114,11 +114,11 @@ public final class Log
         }
     }
 
-    private static String right(String str, int len) {
+    private static String right(final String str, final int len) {
         if (len < 0) {
             throw new IllegalArgumentException("Requested String length " + len + " is less than zero");
         }
-        if ((str == null) || (str.length() <= len)) {
+        if (str == null || str.length() <= len) {
             return str;
         }
         else {
