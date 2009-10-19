@@ -60,7 +60,6 @@
         <class xml.tagName="source">
             <name>SourceNode</name>
             <version>1.0.0+</version>
-
             <fields>
                 <field>
                     <name>type</name>
@@ -75,6 +74,26 @@
                     <type>DOM</type>
                 </field>
             </fields>
+
+            <codeSegments>
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public void setType(Class type) {
+                            setType(type.getName());
+                        }
+                    ]]></code>
+                </codeSegment>
+
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[<![CDATA[
+                        public org.sonatype.gossip.source.Source create() throws Exception {
+                            return ComponentFactory.create(this);
+                        }
+                    ]]>]]></code>
+                </codeSegment>
+            </codeSegments>
         </class>
 
         <class xml.tagName="profile">
@@ -176,6 +195,27 @@
                     <type>DOM</type>
                 </field>
             </fields>
+
+            <codeSegments>
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public void setType(final Class type) {
+                            assert type != null;
+                            setType(type.getName());
+                        }
+                    ]]></code>
+                </codeSegment>
+
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public org.sonatype.gossip.trigger.Trigger create() throws Exception {
+                            return ComponentFactory.create(this);
+                        }
+                    ]]></code>
+                </codeSegment>
+            </codeSegments>
         </class>
 
         <class xml.tagName="filter">
@@ -196,6 +236,27 @@
                     <type>DOM</type>
                 </field>
             </fields>
+
+            <codeSegments>
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public void setType(final Class type) {
+                            assert type != null;
+                            setType(type.getName());
+                        }
+                    ]]></code>
+                </codeSegment>
+
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public org.sonatype.gossip.filter.Filter create() throws Exception {
+                            return ComponentFactory.create(this);
+                        }
+                    ]]></code>
+                </codeSegment>
+            </codeSegments>
         </class>
     </classes>
 

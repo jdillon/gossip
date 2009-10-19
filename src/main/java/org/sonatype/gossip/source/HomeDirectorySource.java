@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.source;
+package org.sonatype.gossip.source;
 
 import org.sonatype.gossip.MissingPropertyException;
 import org.sonatype.gossip.model.Model;

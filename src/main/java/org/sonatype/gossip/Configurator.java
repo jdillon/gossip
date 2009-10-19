@@ -18,12 +18,13 @@ package org.sonatype.gossip;
 
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.EffectiveProfile;
+import org.sonatype.gossip.source.URLSource;
 import org.sonatype.gossip.filter.ConsoleWritingFilter;
 import org.sonatype.gossip.model.FilterNode;
 import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.ProfileNode;
 import org.sonatype.gossip.model.TriggerNode;
-import org.sonatype.gossip.model.source.URLSource;
+import org.sonatype.gossip.model.merge.ModelMerger;
 import org.sonatype.gossip.trigger.AlwaysTrigger;
 
 import java.net.URL;
@@ -43,21 +44,17 @@ public class Configurator
     public EffectiveProfile configure() {
         log.debug("Configuring");
 
-        Model root = new Model();
-
         EffectiveProfile profile = new EffectiveProfile();
 
         try {
-            // FIXME:
-            
             // Load the bootstrap configuration
-            // Model bootstrap = loadBootstrap();
+            Model bootstrap = loadBootstrap();
 
             // Resolve sources and merge
-            // Model config = resolve(bootstrap, root);
+            Model config = resolve(bootstrap);
 
             // Configure the active profiles
-            // configureActiveProfiles(profile, config);
+            configureActiveProfiles(profile, config);
         }
         catch (Throwable t) {
             log.error("Failed to configure; using fall-back provider", t);
@@ -71,6 +68,17 @@ public class Configurator
         }
 
         return profile;
+    }
+
+    private Model resolve(final Model bootstrap) {
+        assert bootstrap != null;
+
+        Model config = new Model();
+        ModelMerger merger = new ModelMerger();
+
+        // TODO: Load all bootstrap sources (and any of their sources) and merge into config
+
+        return config;
     }
 
     private void configureActiveProfiles(final EffectiveProfile profile, final Model model) throws Exception {
@@ -121,11 +129,11 @@ public class Configurator
         p.setName("fallback");
 
         TriggerNode t = new TriggerNode();
-        t.setType(AlwaysTrigger.class.getName());
+        t.setType(AlwaysTrigger.class);
         p.addTrigger(t);
 
         FilterNode f = new FilterNode();
-        f.setType(ConsoleWritingFilter.class.getName());
+        f.setType(ConsoleWritingFilter.class);
 
         return p;
     }

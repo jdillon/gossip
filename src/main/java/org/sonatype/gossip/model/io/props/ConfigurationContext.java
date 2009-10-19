@@ -78,10 +78,10 @@ public final class ConfigurationContext
     @Override
     public String toString() {
         if (prefix == null) {
-            return getClass().getSimpleName() + "[]";
+            return getClass().getSimpleName() + "[]: " + store;
         }
 
-        return getClass().getSimpleName() + "[" + prefix + "]";
+        return getClass().getSimpleName() + "[" + prefix + "]: " + store;
     }
 
     @Override
