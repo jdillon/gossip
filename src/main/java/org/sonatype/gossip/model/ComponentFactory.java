@@ -37,48 +37,15 @@ public class ComponentFactory
     private static Log log = Log.getLogger(ComponentFactory.class);
 
     public static Source create(final SourceNode node) throws Exception {
-        assert node != null;
-
-        String className = node.getType();
-        if (className == null) {
-            throw new MissingPropertyException("type");
-        }
-
-        Source obj = (Source)create(className, node.getConfiguration());
-
-        log.trace("Created source: {}", obj);
-
-        return obj;
+        return (Source) build(node);
     }
 
     public static Trigger create(final TriggerNode node) throws Exception {
-        assert node != null;
-
-        String className = node.getType();
-        if (className == null) {
-            throw new MissingPropertyException("type");
-        }
-
-        Trigger obj = (Trigger)create(className, node.getConfiguration());
-
-        log.trace("Created trigger: {}", obj);
-
-        return  obj;
+        return (Trigger) build(node);
     }
 
     public static Filter create(final FilterNode node) throws Exception {
-        assert node != null;
-
-        String className = node.getType();
-        if (className == null) {
-            throw new MissingPropertyException("type");
-        }
-
-        Filter obj = (Filter)create(className, node.getConfiguration());
-
-        log.trace("Created filter: {}", obj);
-
-        return obj;
+        return (Filter) build(node);
     }
 
     //
@@ -95,11 +62,12 @@ public class ComponentFactory
         return type;
     }
 
-    private static Object create(final String className, final Object config) throws Exception {
-        assert className != null;
+    private static Object build(final FactoryNode node) throws Exception {
+        assert node != null;
 
-        Class type = loadClass(className);
+        Class type = loadClass(node.getType());
         Object obj = type.newInstance();
+        Object config = node.getConfiguration();
 
         if (config != null) {
             //
@@ -113,6 +81,8 @@ public class ComponentFactory
                 log.error("Unsupported configuration type: " + config.getClass().getName());
             }
         }
+
+        log.trace("Created: {}", obj);
 
         return obj;
     }
