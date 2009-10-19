@@ -69,8 +69,6 @@ public class GossipPropertiesReader
     public Model read(final InputStream in) throws IOException {
         assert in != null;
 
-        log.trace("Creating model from: {}", in);
-
         Model model = new Model();
 
         ConfigurationContext ctx = ConfigurationContext.create(in);
@@ -105,10 +103,7 @@ public class GossipPropertiesReader
         assert model != null;
         assert ctx != null;
 
-        log.trace("Configuring sources: {}", ctx);
-
         if (!ctx.contains(SOURCES)) {
-            log.trace("Missing 'sources' property; skipping");
             return;
         }
 
@@ -129,8 +124,6 @@ public class GossipPropertiesReader
         assert type != null;
         assert ctx != null;
 
-        log.trace("Creating source: {}, with: {}", type, ctx);
-
         SourceNode source = new SourceNode();
         source.setType(type);
         source.setConfiguration(ctx);
@@ -144,10 +137,7 @@ public class GossipPropertiesReader
         assert model != null;
         assert ctx != null;
 
-        log.trace("Configuring profiles: {}", ctx);
-
         if (!ctx.contains(PROFILES)) {
-            log.trace("Missing 'profiles' property; skipping");
             return;
         }
 
@@ -165,8 +155,6 @@ public class GossipPropertiesReader
     private ProfileNode createProfileNode(final String name, final ConfigurationContext ctx) {
         assert name != null;
         assert ctx != null;
-
-        log.trace("Creating profile: {}", name);
 
         ProfileNode profile = new ProfileNode();
         profile.setName(name);
@@ -187,8 +175,6 @@ public class GossipPropertiesReader
         assert profile != null;
         assert ctx != null;
 
-        log.trace("Configuring loggers: {}", ctx);
-
         for (String name : ctx.names()) {
             name = name.trim();
             String value = ctx.get(name, (String)null);
@@ -207,10 +193,7 @@ public class GossipPropertiesReader
         assert profile != null;
         assert ctx != null;
 
-        log.trace("Configuring triggers: {}", ctx);
-
         if (!ctx.contains(TRIGGERS)) {
-            log.trace("Missing 'triggers' property; skipping");
             return;
         }
 
@@ -229,8 +212,6 @@ public class GossipPropertiesReader
         assert type != null;
         assert ctx != null;
 
-        log.trace("Creating trigger: {}", type);
-
         TriggerNode trigger = new TriggerNode();
         trigger.setType(type);
         trigger.setConfiguration(ctx);
@@ -244,10 +225,7 @@ public class GossipPropertiesReader
         assert profile != null;
         assert ctx != null;
 
-        log.trace("Configuring filters: {}", ctx);
-
         if (!ctx.contains(FILTERS)) {
-            log.trace("Missing 'filters' property; skipping");
             return;
         }
 
@@ -265,8 +243,6 @@ public class GossipPropertiesReader
     private FilterNode createFilterNode(final String type, final ConfigurationContext ctx) {
         assert type != null;
         assert ctx != null;
-
-        log.trace("Creating filter: {}", type);
 
         FilterNode filter = new FilterNode();
         filter.setType(type);

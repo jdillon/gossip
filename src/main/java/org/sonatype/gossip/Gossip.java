@@ -171,7 +171,7 @@ public final class Gossip
         String name = logger.getName();
         int length = name.length();
 
-        log.trace("Update parents: {}", name);
+        // log.trace("Update parents: {}", name);
 
         boolean parentFound = false;
 
@@ -218,7 +218,7 @@ public final class Gossip
         for (int i = 0; i < last; i++) {
             LoggerImpl l = (LoggerImpl) pn.get(i);
 
-            log.trace("Updating child {}", l.name);
+            // log.trace("Updating child {}", l.name);
 
             // Unless this child already points to a correct (lower) parent,
             // make cat.parent point to l.parent and l.parent to cat.

@@ -57,45 +57,6 @@
             </fields>
         </class>
 
-        <class xml.tagName="source">
-            <name>SourceNode</name>
-            <version>1.0.0+</version>
-            <fields>
-                <field>
-                    <name>type</name>
-                    <version>1.0.0+</version>
-                    <required>true</required>
-                    <type>String</type>
-                </field>
-
-                <field>
-                    <name>configuration</name>
-                    <version>1.0.0+</version>
-                    <type>DOM</type>
-                </field>
-            </fields>
-
-            <codeSegments>
-                <codeSegment>
-                    <version>1.0.0+</version>
-                    <code><![CDATA[
-                        public void setType(Class type) {
-                            setType(type.getName());
-                        }
-                    ]]></code>
-                </codeSegment>
-
-                <codeSegment>
-                    <version>1.0.0+</version>
-                    <code><![CDATA[
-                        public org.sonatype.gossip.source.Source create() throws Exception {
-                            return ComponentFactory.create(this);
-                        }
-                    ]]></code>
-                </codeSegment>
-            </codeSegments>
-        </class>
-
         <class xml.tagName="profile">
             <name>ProfileNode</name>
             <version>1.0.0+</version>
@@ -145,6 +106,19 @@
                     </association>
                 </field>
             </fields>
+
+            <codeSegments>
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public String toString() {
+                            return getClass().getSimpleName() +
+                                "{name=" + getName() +
+                                "}";
+                        }
+                    ]]></code>
+                </codeSegment>
+            </codeSegments>
         </class>
 
         <class xml.tagName="logger">
@@ -175,12 +149,25 @@
                     </association>
                 </field>
             </fields>
+
+            <codeSegments>
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public String toString() {
+                            return getClass().getSimpleName() +
+                                "{name=" + getName() +
+                                ", level=" + getLevel() +
+                                "}";
+                        }
+                    ]]></code>
+                </codeSegment>
+            </codeSegments>
         </class>
 
-        <class xml.tagName="trigger">
-            <name>TriggerNode</name>
+        <class java.abstract="true">
+            <name>FactoryNode</name>
             <version>1.0.0+</version>
-
             <fields>
                 <field>
                     <name>type</name>
@@ -200,13 +187,49 @@
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[
-                        public void setType(final Class type) {
-                            assert type != null;
-                            setType(type.getName());
+                        public String toString() {
+                            return getClass().getSimpleName() +
+                                "{ type=" + getType() +
+                                ", configuration=" + getConfiguration() +
+                                " }";
                         }
                     ]]></code>
                 </codeSegment>
 
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public void setType(Class type) {
+                            setType(type.getName());
+                        }
+                    ]]></code>
+                </codeSegment>
+            </codeSegments>
+        </class>
+
+        <class xml.tagName="source">
+            <name>SourceNode</name>
+            <version>1.0.0+</version>
+            <superClass>FactoryNode</superClass>
+
+            <codeSegments>
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public org.sonatype.gossip.source.Source create() throws Exception {
+                            return ComponentFactory.create(this);
+                        }
+                    ]]></code>
+                </codeSegment>
+            </codeSegments>
+        </class>
+        
+        <class xml.tagName="trigger">
+            <name>TriggerNode</name>
+            <version>1.0.0+</version>
+            <superClass>FactoryNode</superClass>
+
+            <codeSegments>
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[
@@ -221,33 +244,9 @@
         <class xml.tagName="filter">
             <name>FilterNode</name>
             <version>1.0.0+</version>
-
-            <fields>
-                <field>
-                    <name>type</name>
-                    <version>1.0.0+</version>
-                    <required>true</required>
-                    <type>String</type>
-                </field>
-
-                <field>
-                    <name>configuration</name>
-                    <version>1.0.0+</version>
-                    <type>DOM</type>
-                </field>
-            </fields>
+            <superClass>FactoryNode</superClass>
 
             <codeSegments>
-                <codeSegment>
-                    <version>1.0.0+</version>
-                    <code><![CDATA[
-                        public void setType(final Class type) {
-                            assert type != null;
-                            setType(type.getName());
-                        }
-                    ]]></code>
-                </codeSegment>
-
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[

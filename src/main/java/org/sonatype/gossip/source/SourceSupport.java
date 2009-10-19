@@ -38,7 +38,7 @@ public abstract class SourceSupport
     protected Model load(final URL url) throws Exception {
         assert url != null;
 
-        log.trace("Loading model from: {}", url);
+        log.debug("Loading model from: {}", url);
 
         // HACK: FOr now just assume we are doing properties, support xpp3 optionally in the future
         GossipPropertiesReader reader = new GossipPropertiesReader();
@@ -51,7 +51,7 @@ public abstract class SourceSupport
         log.trace("Loading: {}", file);
 
         if (!file.exists()) {
-            log.debug("File does not exist; skipping: {}", file);
+            log.trace("File does not exist; skipping: {}", file);
             return null;
         }
 
