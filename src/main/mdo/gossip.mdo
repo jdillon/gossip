@@ -87,11 +87,11 @@
 
                 <codeSegment>
                     <version>1.0.0+</version>
-                    <code><![CDATA[<![CDATA[
+                    <code><![CDATA[
                         public org.sonatype.gossip.source.Source create() throws Exception {
                             return ComponentFactory.create(this);
                         }
-                    ]]>]]></code>
+                    ]]></code>
                 </codeSegment>
             </codeSegments>
         </class>

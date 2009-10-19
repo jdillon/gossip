@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.source;
+package org.sonatype.gossip.source;
 
 import junit.framework.TestCase;
 import org.sonatype.gossip.ConfigurationException;
-import org.sonatype.gossip.source.SystemPropertySource;
 import org.sonatype.gossip.model.Model;
 
 /**

@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.source;
+package org.sonatype.gossip.source;
 
 import junit.framework.TestCase;
-import org.sonatype.gossip.source.URLSource;
 import org.sonatype.gossip.model.Model;
 
 import java.net.URL;
