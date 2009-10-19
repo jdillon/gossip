@@ -42,7 +42,7 @@ public final class Log
         tmp = System.getProperty(Log.class.getName() + ".level");
 
         if (tmp != null) {
-            level = Level.valueOf(tmp);
+            level = Level.valueOf(tmp.toUpperCase());
         }
 
         tmp = System.getProperty(Log.class.getName() + ".nameWidth");

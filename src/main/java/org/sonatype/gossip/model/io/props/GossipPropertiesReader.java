@@ -109,9 +109,12 @@ public class GossipPropertiesReader
         }
 
         for (String name : ctx.split(SOURCES)) {
+            name = name.trim();
             if (name.length() == 0) {
                 throw new ConfigurationException("Source name must not be blank");
             }
+
+            log.trace("Configuring source: {}", name);
 
             SourceNode source = createSourceNode(ctx.get(SOURCE_DOT + name, (String)null), ctx.child(SOURCE_DOT + name));
             model.addSource(source);
@@ -122,7 +125,7 @@ public class GossipPropertiesReader
         assert type != null;
         assert ctx != null;
 
-        log.trace("Creating source: {}", type);
+        log.trace("Creating source: {}, with: {}", type, ctx);
 
         SourceNode source = new SourceNode();
         source.setType(type);
@@ -145,6 +148,7 @@ public class GossipPropertiesReader
         }
 
         for (String name : ctx.split(PROFILES)) {
+            name = name.trim();
             if (name.length() == 0) {
                 throw new ConfigurationException("Profile name must not be blank");
             }
@@ -182,6 +186,7 @@ public class GossipPropertiesReader
         log.trace("Configuring loggers: {}", ctx);
 
         for (String name : ctx.names()) {
+            name = name.trim();
             String value = ctx.get(name, (String)null);
 
             LoggerNode logger = new LoggerNode();
@@ -206,6 +211,7 @@ public class GossipPropertiesReader
         }
 
         for (String name : ctx.split(TRIGGERS)) {
+            name = name.trim();
             if (name.length() == 0) {
                 throw new ConfigurationException("Trigger name must not be blank");
             }
@@ -242,6 +248,7 @@ public class GossipPropertiesReader
         }
 
         for (String name : ctx.split(FILTERS)) {
+            name = name.trim();
             if (name.length() == 0) {
                 throw new ConfigurationException("Filter name must not be blank");
             }
