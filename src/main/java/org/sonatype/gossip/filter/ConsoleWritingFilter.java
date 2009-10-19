@@ -47,7 +47,9 @@ public class ConsoleWritingFilter
 
     private String name = SYSTEM_OUT;
 
-    private transient PrintStream stream;
+    private PrintStream stream;
+
+    private Renderer renderer;
 
     public ConsoleWritingFilter() {
         this(SYSOUT);
@@ -59,8 +61,9 @@ public class ConsoleWritingFilter
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "name='" + name + '\'' +
+        return getClass().getSimpleName() +
+                "{name='" + name + '\'' +
+                ",renderer=" + renderer +
                 '}';
     }
 
@@ -72,6 +75,14 @@ public class ConsoleWritingFilter
         assert name != null;
 
         this.name = name;
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
+    }
+
+    public void setRenderer(final Renderer renderer) {
+        this.renderer = renderer;
     }
 
     private PrintStream getStream() {
@@ -96,7 +107,10 @@ public class ConsoleWritingFilter
     public Result filter(final Event event) {
         assert event != null;
 
-        Renderer renderer = new SimpleRenderer();
+        if (renderer == null) {
+            renderer = new SimpleRenderer();
+        }
+        
         String text = renderer.render(event);
 
         PrintStream out = getStream();
