@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model
+package org.sonatype.gossip.model.io.xpp3
 
-import org.sonatype.gossip.model.io.xpp3.GossipXpp3Reader
 import org.junit.Test
+import org.sonatype.gossip.model.Model
 
 /**
- * ???
+ * Tests for {@link GossipXpp3Reader}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-class ModelTest
+class GossipXpp3ReaderTest
 {
     @Test
     void testLoadXml() {

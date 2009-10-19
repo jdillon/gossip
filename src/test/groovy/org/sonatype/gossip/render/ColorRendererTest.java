@@ -16,7 +16,7 @@
 
 package org.sonatype.gossip.render;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.gossip.Event;
@@ -29,8 +29,8 @@ import org.sonatype.gossip.filter.render.ColorRenderer;
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class ColorRendererTest
-    extends TestCase
 {
+    @Test
     public void test1() throws Exception {
         Logger log = LoggerFactory.getLogger("foo");
         Event e = new Event(log, Level.DEBUG, "foo bar baz", null);

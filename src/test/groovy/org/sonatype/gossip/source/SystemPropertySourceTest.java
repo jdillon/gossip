@@ -16,7 +16,9 @@
 
 package org.sonatype.gossip.source;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+import org.junit.Test;
 import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.model.Model;
 
@@ -26,8 +28,8 @@ import org.sonatype.gossip.model.Model;
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class SystemPropertySourceTest
-    extends TestCase
 {
+    @Test
     public void test1() throws Exception {
         SystemPropertySource s = new SystemPropertySource();
         String name = "foo.bar";
@@ -43,6 +45,7 @@ public class SystemPropertySourceTest
         }
     }
 
+    @Test
     public void test2() throws Exception {
         SystemPropertySource s = new SystemPropertySource();
         String name = "foo.bar";
@@ -54,6 +57,7 @@ public class SystemPropertySourceTest
         assertNull(model);
     }
 
+    @Test
     public void test3() throws Exception {
         try {
             SystemPropertySource s = new SystemPropertySource();

@@ -17,6 +17,8 @@
 package org.sonatype.gossip.source;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 import org.sonatype.gossip.model.Model;
 
 import java.net.URL;
@@ -27,8 +29,8 @@ import java.net.URL;
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class URLSourceTest
-    extends TestCase
 {
+    @Test
     public void test1() throws Exception {
         URLSource s = new URLSource();
 
