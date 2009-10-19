@@ -62,10 +62,7 @@ public class SystemPropertySource
             return null;
         }
 
-        log.debug("Converting to URL: {}", value);
-        
         URL url = null;
-
         try {
             url = new URL(value);
         }

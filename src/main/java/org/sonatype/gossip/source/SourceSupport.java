@@ -48,8 +48,6 @@ public abstract class SourceSupport
     protected Model load(final File file) throws Exception {
         assert file != null;
 
-        log.trace("Loading: {}", file);
-
         if (!file.exists()) {
             log.trace("File does not exist; skipping: {}", file);
             return null;

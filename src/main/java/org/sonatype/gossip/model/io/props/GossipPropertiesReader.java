@@ -124,6 +124,8 @@ public class GossipPropertiesReader
         assert type != null;
         assert ctx != null;
 
+        log.trace("Configuring source: {} -> {}", type, ctx);
+
         SourceNode source = new SourceNode();
         source.setType(type);
         source.setConfiguration(ctx);
@@ -155,6 +157,8 @@ public class GossipPropertiesReader
     private ProfileNode createProfileNode(final String name, final ConfigurationContext ctx) {
         assert name != null;
         assert ctx != null;
+
+        log.trace("Configuring profile: {} -> {}", name, ctx);
 
         ProfileNode profile = new ProfileNode();
         profile.setName(name);
@@ -212,6 +216,8 @@ public class GossipPropertiesReader
         assert type != null;
         assert ctx != null;
 
+        log.trace("Configuring trigger: {} -> {}", type, ctx);
+
         TriggerNode trigger = new TriggerNode();
         trigger.setType(type);
         trigger.setConfiguration(ctx);
@@ -243,6 +249,8 @@ public class GossipPropertiesReader
     private FilterNode createFilterNode(final String type, final ConfigurationContext ctx) {
         assert type != null;
         assert ctx != null;
+
+        log.trace("Configuring filter: {} -> {}", type, ctx);
 
         FilterNode filter = new FilterNode();
         filter.setType(type);

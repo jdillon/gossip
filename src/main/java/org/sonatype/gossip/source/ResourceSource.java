@@ -107,8 +107,6 @@ public class ResourceSource
         
         URL url = cl.getResource(name);
 
-        log.trace("Loaded resource: {}", url);
-        
         if (url == null) {
             log.trace("Unable to load; missing resource: {}", name);
         }
