@@ -57,7 +57,7 @@ public final class Gossip
             String name = entry.getKey();
             LoggerNode node = entry.getValue();
             LoggerImpl logger = (LoggerImpl) getLogger(name);
-            logger.level = Level.valueOf(node.getLevel().toUpperCase());
+            logger.level = node.asLevel();
         }
     }
 
