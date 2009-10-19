@@ -18,7 +18,6 @@ package org.sonatype.gossip.model.io.props
 
 import org.junit.Test
 import org.sonatype.gossip.model.Model
-import org.sonatype.gossip.model.io.xpp3.GossipXpp3Reader
 
 /**
  * Tests for {@link GossipPropertiesReader}.

@@ -16,7 +16,6 @@
 
 package org.sonatype.gossip.source;
 
-import junit.framework.TestCase;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.sonatype.gossip.model.Model;

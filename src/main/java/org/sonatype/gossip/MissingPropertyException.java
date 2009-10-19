@@ -16,8 +16,6 @@
 
 package org.sonatype.gossip;
 
-import org.sonatype.gossip.ConfigurationException;
-
 import java.text.MessageFormat;
 
 /**

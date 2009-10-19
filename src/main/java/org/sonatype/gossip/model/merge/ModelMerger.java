@@ -20,12 +20,12 @@ import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.ProfileNode;
 import org.sonatype.gossip.model.SourceNode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.List;
-import java.util.LinkedHashMap;
-import java.util.ArrayList;
 
 /**
  * Handels merging {@link Model} objects.
