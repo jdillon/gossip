@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Factory to produce {@link Logger} instances.
+ * Factory to produce <em>Gossip</em> {@link Logger} instances.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
@@ -34,16 +34,17 @@ import java.util.Map;
 public final class Gossip
     implements ILoggerFactory
 {
+    private static final String ROOT = "<ROOT>";
+
     private final Log log = Log.getLogger(getClass());
 
-    private final Map<String,Object> loggers;
+    private final Map<String,Loggerish> loggers = new HashMap<String,Loggerish>();
 
     private EffectiveProfile profile;
 
-    private LoggerImpl root = new LoggerImpl("<ROOT>", Level.INFO);
+    private LoggerImpl root = new LoggerImpl(ROOT, Level.INFO);
 
     public Gossip() {
-        loggers = new HashMap<String,Object>();
         profile = new Configurator().configure();
         prime();
     }
@@ -52,7 +53,7 @@ public final class Gossip
         log.trace("Priming");
 
         // Prime the loggers we have configured
-        for (Map.Entry<String, LoggerNode> entry : profile.loggers().entrySet()) {
+        for (Map.Entry<String,LoggerNode> entry : profile.loggers().entrySet()) {
             String name = entry.getKey();
             LoggerNode node = entry.getValue();
             LoggerImpl logger = (LoggerImpl) getLogger(name);
@@ -70,27 +71,21 @@ public final class Gossip
 
             if (obj == null) {
                 logger = new LoggerImpl(name);
-
                 loggers.put(name, logger);
-
                 log.trace("Created logger: {}", logger);
 
                 updateParents(logger);
             }
             else if (obj instanceof ProvisionNode) {
                 logger = new LoggerImpl(name);
-
                 loggers.put(name, logger);
-
                 log.trace("Replaced provision node with logger: {}", logger);
 
                 updateChildren((ProvisionNode)obj, logger);
-                
                 updateParents(logger);
             }
             else if (obj instanceof LoggerImpl) {
                 logger = (LoggerImpl)obj;
-
                 log.trace("Using cached logger: {}", logger);
             }
             else {
@@ -101,8 +96,14 @@ public final class Gossip
         return logger;
     }
 
+    private interface Loggerish
+    {
+        // Marker
+    }
+
     private class LoggerImpl
         extends LoggerSupport
+        implements Loggerish
     {
         private Level level;
 
@@ -157,6 +158,7 @@ public final class Gossip
 
     private class ProvisionNode
         extends ArrayList<Object>
+        implements Loggerish
     {
         private ProvisionNode(final LoggerImpl logger) {
             assert logger != null;

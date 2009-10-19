@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Effective profile.
+ * Effective profile.  This handles what is currently configured/activated.  The meat of filtering is done here.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
