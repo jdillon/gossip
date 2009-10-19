@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<gossip>
+    <version>1.0.0</version>
+
+    <properties>
+        <foo>bar</foo>
+    </properties>
+
+    <sources>
+        <source>
+            <type>org.sonatype.gossip.model.source.FileSource</type>
+            <configuration>
+                <file>/tmp/foo.xml</file>
+            </configuration>
+        </source>
+    </sources>
+
+    <profiles>
+        <profile>
+            <name>foo</name>
+
+            <properties>
+                <bz>ick</bz>
+            </properties>
+
+            <loggers>
+                <logger>
+                    <name>foo</name>
+                    <level>DEBUG</level>
+                </logger>
+
+                <!--
+                <loggers>
+                    <logger>
+                        <name>bar</name>
+                        <level>TRACE</level>
+                    </logger>
+                </loggers>
+                -->
+            </loggers>
+
+            <triggers>
+                <trigger>
+                    <type>org.sonatype.gossip.model.trigger.SystemPropertyTrigger</type>
+                    <configuration>
+                        <name>test.foo</name>
+                    </configuration>
+                </trigger>
+            </triggers>
+
+            <filters>
+                <filter>
+                    <type>org.sonatype.gossip.model.filter.ConsoleWriter</type>
+                    <configuration>
+                        <name>SYSTEM.OUT</name>
+                    </configuration>
+                </filter>
+            </filters>
+        </profile>
+    </profiles>
+
+</gossip>

@@ -55,13 +55,12 @@
             <version>1.5.8</version>
         </dependency>
 
-        <!--
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
             <version>2.0.0</version>
+            <optional>true</optional>
         </dependency>
-        -->
         
         <dependency>
             <groupId>jline</groupId>
@@ -82,6 +81,31 @@
             <artifactId>junit</artifactId>
             <version>4.7</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>1.6.5</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>jline</groupId>
+                    <artifactId>jline</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.ant</groupId>
+                    <artifactId>ant</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.ant</groupId>
+                    <artifactId>ant-launcher</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     
@@ -164,6 +188,25 @@
             </plugin>
 
             <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <providerSelection>1.6</providerSelection>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generateStubs</goal>
+                            <goal>compile</goal>
+                            <goal>generateTestStubs</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.codehaus.modello</groupId>
                 <artifactId>modello-maven-plugin</artifactId>
                 <version>1.1</version>
@@ -179,10 +222,8 @@
                         <goals>
                             <goal>java</goal>
                             <goal>xsd</goal>
-                            <!--
                             <goal>xpp3-reader</goal>
                             <goal>xpp3-writer</goal>
-                            -->
                         </goals>
                     </execution>
                 </executions>

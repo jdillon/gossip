@@ -41,7 +41,7 @@
                     <name>sources</name>
                     <version>1.0.0+</version>
                     <association>
-                        <type>Source</type>
+                        <type>SourceNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
                 </field>
@@ -50,7 +50,7 @@
                     <name>profiles</name>
                     <version>1.0.0+</version>
                     <association>
-                        <type>Profile</type>
+                        <type>ProfileNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
                 </field>
@@ -58,7 +58,7 @@
         </class>
 
         <class xml.tagName="source">
-            <name>Source</name>
+            <name>SourceNode</name>
             <version>1.0.0+</version>
 
             <fields>
@@ -78,7 +78,7 @@
         </class>
 
         <class xml.tagName="profile">
-            <name>Profile</name>
+            <name>ProfileNode</name>
             <version>1.0.0+</version>
 
             <fields>
@@ -103,7 +103,7 @@
                     <name>loggers</name>
                     <version>1.0.0+</version>
                     <association>
-                        <type>Logger</type>
+                        <type>LoggerNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
                 </field>
@@ -112,7 +112,7 @@
                     <name>triggers</name>
                     <version>1.0.0+</version>
                     <association>
-                        <type>Trigger</type>
+                        <type>TriggerNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
                 </field>
@@ -121,7 +121,7 @@
                     <name>filters</name>
                     <version>1.0.0+</version>
                     <association>
-                        <type>Filter</type>
+                        <type>FilterNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
                 </field>
@@ -129,7 +129,7 @@
         </class>
 
         <class xml.tagName="logger">
-            <name>Logger</name>
+            <name>LoggerNode</name>
             <version>1.0.0+</version>
 
             <fields>
@@ -151,7 +151,7 @@
                     <name>loggers</name>
                     <version>1.0.0+</version>
                     <association>
-                        <type>Logger</type>
+                        <type>LoggerNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
                 </field>
@@ -159,7 +159,7 @@
         </class>
 
         <class xml.tagName="trigger">
-            <name>Trigger</name>
+            <name>TriggerNode</name>
             <version>1.0.0+</version>
 
             <fields>
@@ -179,7 +179,7 @@
         </class>
 
         <class xml.tagName="filter">
-            <name>Filter</name>
+            <name>FilterNode</name>
             <version>1.0.0+</version>
 
             <fields>
