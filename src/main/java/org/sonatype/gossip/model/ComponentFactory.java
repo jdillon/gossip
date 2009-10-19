@@ -17,7 +17,6 @@
 package org.sonatype.gossip.model;
 
 import org.sonatype.gossip.Log;
-import org.sonatype.gossip.MissingPropertyException;
 import org.sonatype.gossip.filter.Filter;
 import org.sonatype.gossip.model.io.props.ConfigurationContext;
 import org.sonatype.gossip.source.Source;
