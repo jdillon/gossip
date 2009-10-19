@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Handels merging {@link Model} objects.
+ * Handles merging {@link Model} objects.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *

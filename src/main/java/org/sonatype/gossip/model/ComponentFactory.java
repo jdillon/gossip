@@ -154,17 +154,17 @@ public class ComponentFactory
 
             if (setter != null) {
                 if (log.isTraceEnabled()) {
-                    log.trace("Setting '{}={}' via: {}", new Object[] { name, value, setter });
+                    log.trace("Setting '{}={}' via: {}", name, value, setter);
                 }
 
                 setter.invoke(target, value);
             }
         }
         catch (NoSuchMethodException e) {
-            log.warn("No '{}(String)' found for: {} in: {}", new Object[] { tmp, name, type });
+            log.warn("No '{}(String)' found for: {} in: {}", tmp, name, type);
         }
         catch (Exception e) {
-            log.error("Failed to set '{}={}'", new Object[] { name, value, e });
+            log.error("Failed to set '{}={}'", name, value, e);
         }
     }
 

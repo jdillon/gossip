@@ -102,7 +102,7 @@ public final class ConfigurationContext
         assert pad != null;
 
         for (Map.Entry<String,Object> entry : store.entrySet()) {
-            log.debug("{}{}={}", new Object[] { pad, entry.getKey(), entry.getValue() });
+            log.debug("{}{}={}", pad, entry.getKey(), entry.getValue());
         }
     }
 

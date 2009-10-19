@@ -87,7 +87,7 @@ public abstract class NameValueTriggerSupport
         String have = resolve();
 
         if (log.isTraceEnabled()) {
-            log.trace("Checking active state; name={}, expect={}, found={}", new Object[] { name, value, have });
+            log.trace("Checking active state; name={}, expect={}, found={}", name, value, have);
         }
 
         // If not set, its not active

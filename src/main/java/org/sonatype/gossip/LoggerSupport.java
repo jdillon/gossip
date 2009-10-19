@@ -138,7 +138,7 @@ public abstract class LoggerSupport
         log(Level.TRACE, format, arg1, arg2);
     }
 
-    public void trace(final String format, final Object[] args) {
+    public void trace(final String format, final Object... args) {
         log(Level.TRACE, format, args);
     }
 
@@ -166,7 +166,7 @@ public abstract class LoggerSupport
         log(Level.DEBUG, format, arg1, arg2);
     }
 
-    public void debug(final String format, final Object[] args) {
+    public void debug(final String format, final Object... args) {
         log(Level.DEBUG, format, args);
     }
 
@@ -194,7 +194,7 @@ public abstract class LoggerSupport
         log(Level.INFO, format, arg1, arg2);
     }
 
-    public void info(final String format, final Object[] args) {
+    public void info(final String format, final Object... args) {
         log(Level.INFO, format, args);
     }
 
@@ -218,7 +218,7 @@ public abstract class LoggerSupport
         log(Level.WARN, format, arg);
     }
 
-    public void warn(final String format, final Object[] args) {
+    public void warn(final String format, final Object... args) {
         log(Level.WARN, format, args);
     }
 
@@ -250,7 +250,7 @@ public abstract class LoggerSupport
         log(Level.ERROR, format, arg1, arg2);
     }
 
-    public void error(final String format, final Object[] args) {
+    public void error(final String format, final Object... args) {
         log(Level.ERROR, format, args);
     }
 
