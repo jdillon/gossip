@@ -157,7 +157,7 @@
                         public String toString() {
                             return getClass().getSimpleName() +
                                 "{name=" + getName() +
-                                ", level=" + getLevel() +
+                                ",level=" + getLevel() +
                                 "}";
                         }
                     ]]></code>
@@ -189,8 +189,8 @@
                     <code><![CDATA[
                         public String toString() {
                             return getClass().getSimpleName() +
-                                "{ type=" + getType() +
-                                ", configuration=" + getConfiguration() +
+                                "{type=" + getType() +
+                                ",configuration=" + getConfiguration() +
                                 " }";
                         }
                     ]]></code>
