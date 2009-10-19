@@ -16,7 +16,8 @@
 
 package org.sonatype.gossip;
 
-import org.sonatype.gossip.Event;
+import org.sonatype.gossip.filter.Filter;
+import org.sonatype.gossip.model.FilterNode;
 import org.sonatype.gossip.model.LoggerNode;
 import org.sonatype.gossip.model.ProfileNode;
 
@@ -69,32 +70,47 @@ public class EffectiveProfile
         return loggers;
     }
 
+    private Filter[] filters;
+
     public void filter(final Event event) {
         assert event != null;
 
-        log.trace("Filtering event: {}", event);
+        if (this.filters == null) {
+            log.trace("Building filter chain");
 
-        // TODO:
+            List<Filter> filters = new ArrayList<Filter>();
+            for (ProfileNode profile : profiles()) {
+                for (FilterNode filter : profile.getFilters()) {
+                    try {
+                        log.trace("Adding filter: {}", filter);
+                        filters.add(filter.create());
+                    }
+                    catch (Exception e) {
+                        log.error("Failed to create filter: " + filter, e);
+                    }
+                }
+            }
 
-        /*
-        // Else execute all filters until we get a stop
-        if (chain == null) {
-            chain = filters().toArray(new Filter[filters.size()]);
+            this.filters = filters.toArray(new Filter[filters.size()]);
         }
 
-        // log.debug("Applying {} filters to event: {}", String.valueOf(chain.length), event);
+        // log.trace("Filtering event: {}", event);
 
-        for (int i=0; i<chain.length; i++) {
-            // log.debug("Applying filter[{}]: {}", String.valueOf(i), chain[i]);
+        log.trace("Applying {} filters to event: {}", filters.length, event);
 
-            Filter.Result r = chain[i].filter(event);
+        int i=0;
+        for (Filter filter : filters) {
+            log.trace("Applying filter[{}]: {}", i, filter);
 
-            // log.debug("Filter[{}] result: ", String.valueOf(i), r);
+            Filter.Result r = filter.filter(event);
+
+            log.trace("Filter[{}] result: ", i, r);
 
             if (r == Filter.Result.STOP) {
                 break;
             }
+
+            i++;
         }
-        */
     }
 }

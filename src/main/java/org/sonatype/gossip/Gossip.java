@@ -18,7 +18,6 @@ package org.sonatype.gossip;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
-import org.sonatype.gossip.Configurator;
 import org.sonatype.gossip.model.LoggerNode;
 
 import java.util.ArrayList;
@@ -37,14 +36,14 @@ public final class Gossip
 {
     private final Log log = Log.getLogger(getClass());
 
-    private final Map loggers;
+    private final Map<String,Object> loggers;
 
     private EffectiveProfile profile;
 
     private LoggerImpl root = new LoggerImpl("<ROOT>", Level.INFO);
 
     public Gossip() {
-        loggers = new HashMap();
+        loggers = new HashMap<String,Object>();
         profile = new Configurator().configure();
         prime();
     }
@@ -157,7 +156,7 @@ public final class Gossip
     //
 
     private class ProvisionNode
-        extends ArrayList
+        extends ArrayList<Object>
     {
         private ProvisionNode(final LoggerImpl logger) {
             assert logger != null;

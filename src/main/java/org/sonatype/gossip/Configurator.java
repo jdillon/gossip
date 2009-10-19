@@ -16,24 +16,27 @@
 
 package org.sonatype.gossip;
 
-import org.sonatype.gossip.Log;
-import org.sonatype.gossip.EffectiveProfile;
-import org.sonatype.gossip.source.URLSource;
 import org.sonatype.gossip.filter.ConsoleWritingFilter;
 import org.sonatype.gossip.model.FilterNode;
 import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.ProfileNode;
+import org.sonatype.gossip.model.SourceNode;
 import org.sonatype.gossip.model.TriggerNode;
 import org.sonatype.gossip.model.merge.ModelMerger;
+import org.sonatype.gossip.source.Source;
+import org.sonatype.gossip.source.URLSource;
 import org.sonatype.gossip.trigger.AlwaysTrigger;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Configures Gossip.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public class Configurator
 {
@@ -75,8 +78,17 @@ public class Configurator
 
         Model config = new Model();
         ModelMerger merger = new ModelMerger();
+        Map<Object,Object> hints = new HashMap<Object,Object>();
 
-        // TODO: Load all bootstrap sources (and any of their sources) and merge into config
+        for (SourceNode source : bootstrap.getSources()) {
+            try {
+                Source loader = source.create();
+                merger.merge(config, loader.load(), true, hints);
+            }
+            catch (Exception e) {
+                log.error("Failed to resolve source: " + source, e);
+            }
+        }
 
         return config;
     }
@@ -98,28 +110,20 @@ public class Configurator
     private boolean isProfileActive(final ProfileNode profile) {
         assert profile != null;
 
-        // FIXME: Check if profile is active
-
-        /*
-        // No triggers means its not active
-        if (triggers == null) {
-            log.trace("No triggers found; profile is not active");
-
-            return false;
-        }
-
         log.trace("Checking for active triggers");
 
-        for (Trigger trigger : triggers()) {
-            // If active, then stop now
-            if (trigger.isActive()) {
-                log.debug("Active trigger: {}", trigger);
-                return true;
+        for (TriggerNode trigger : profile.getTriggers()) {
+            try {
+                if (trigger.create().isActive()) {
+                    log.debug("Active trigger: {}", trigger);
+                    return true;
+                }
             }
-        }
+            catch (Exception e) {
+                log.error("Failed to evaluate trigger: " + trigger, e);
+            }
 
-        return false;
-         */
+        }
 
         return false;
     }
