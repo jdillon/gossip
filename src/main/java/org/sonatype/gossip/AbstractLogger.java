@@ -23,8 +23,9 @@ import org.slf4j.helpers.MessageFormatter;
 /**
  * Support for the Gossip {@link org.slf4j.Logger} implementation.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public abstract class AbstractLogger
     extends MarkerIgnoringBase

@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.source;
+package org.sonatype.gossip.source;
 
 import org.sonatype.gossip.config.ConfigurationException;
 import org.sonatype.gossip.config.MissingPropertyException;
 import org.sonatype.gossip.model.Configuration;
 import org.sonatype.gossip.model.Source;
+import org.sonatype.gossip.model2.Model;
 
 import java.net.URL;
 
 /**
  * Resource-based configuration source.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public class ResourceSource
-    extends Source
+    extends SourceSupport
 {
     private static final String CL_TYPE_TCL = "TCL";
 
@@ -93,12 +95,12 @@ public class ResourceSource
         this.classLoader = cl;
     }
 
-    public Configuration load() throws Exception {
+    public Model load() throws Exception {
         if (name == null) {
             throw new MissingPropertyException("name");
         }
 
-        Configuration config = null;
+        Model model = null;
 
         ClassLoader cl = getClassLoader();
         assert cl != null;
@@ -113,10 +115,10 @@ public class ResourceSource
             log.trace("Unable to load; missing resource: {}", name);
         }
         else {
-            config = load(url);
+            model = load(url);
         }
 
-        return config;
+        return model;
     }
 
     public String toString() {

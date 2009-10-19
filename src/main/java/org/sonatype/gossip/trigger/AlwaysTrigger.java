@@ -14,30 +14,19 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model2.io.props;
+package org.sonatype.gossip.trigger;
 
 /**
- * Thrown to indicate a failure has occurred while configuring Gossip.
+ * Always triggers.
+ *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public class ConfigurationException
-    extends RuntimeException
+public class AlwaysTrigger
+    implements Trigger
 {
-    ///CLOVER:OFF
-
-    public ConfigurationException() {}
-
-    public ConfigurationException(final String message) {
-        super(message);
-    }
-
-    public ConfigurationException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
-
-    public ConfigurationException(final Throwable cause) {
-        super(cause);
+    public boolean isActive() {
+        return true;
     }
 }

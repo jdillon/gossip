@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.source;
+package org.sonatype.gossip.source;
 
 import org.sonatype.gossip.config.ConfigurationException;
 import org.sonatype.gossip.config.MissingPropertyException;
 import org.sonatype.gossip.model.Configuration;
 import org.sonatype.gossip.model.Source;
+import org.sonatype.gossip.model2.Model;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -28,11 +29,12 @@ import java.net.URL;
 /**
  * System-property configuration source.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public class SystemPropertySource
-    extends Source
+    extends SourceSupport
 {
     public SystemPropertySource() {}
 
@@ -50,7 +52,7 @@ public class SystemPropertySource
         this.name = name;
     }
 
-    public Configuration load() throws Exception {
+    public Model load() throws Exception {
         if (name == null) {
             throw new MissingPropertyException("name");
         }

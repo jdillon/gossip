@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.trigger;
+package org.sonatype.gossip.trigger;
 
 /**
- * Triggers activation when a system property is set.
+ * Triggers activation based on a environment variable.
+ *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public class SystemPropertyTrigger
+public class EnvironmentVariableTrigger
     extends NameValueTriggerSupport
 {
     protected String resolve() {
-        return System.getProperty(getName());
+        return System.getenv(getName());
     }
 }

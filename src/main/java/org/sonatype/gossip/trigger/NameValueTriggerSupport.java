@@ -14,26 +14,29 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.trigger;
+package org.sonatype.gossip.trigger;
 
-import org.sonatype.gossip.model.Trigger;
+import org.sonatype.gossip.Log;
 
 /**
  * Support for triggers which expect a name and value for configuration.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public abstract class NameValueTriggerSupport
-    extends Trigger
+    implements Trigger
 {
+    protected transient Log log = Log.getLogger(getClass());
+
     private String name;
 
     private String value;
 
-    private Boolean trim;
+    private boolean trim;
 
-    private Boolean ignoreCase;
+    private boolean ignoreCase;
 
     public String getName() {
         return name;
@@ -55,7 +58,7 @@ public abstract class NameValueTriggerSupport
         return trim;
     }
 
-    public void setTrim(final Boolean trim) {
+    public void setTrim(final boolean trim) {
         this.trim = trim;
     }
 
@@ -63,23 +66,15 @@ public abstract class NameValueTriggerSupport
         setTrim(Boolean.valueOf(trim));
     }
 
-    public void setTrim(final boolean trim) {
-        setTrim(Boolean.valueOf(trim));
-    }
-
     public Boolean getIgnoreCase() {
         return ignoreCase;
     }
 
-    public void setIgnoreCase(final Boolean ignoreCase) {
+    public void setIgnoreCase(final boolean ignoreCase) {
         this.ignoreCase = ignoreCase;
     }
 
     public void setIgnoreCase(final String ignoreCase) {
-        setIgnoreCase(Boolean.valueOf(ignoreCase));
-    }
-    
-    public void setIgnoreCase(final boolean ignoreCase) {
         setIgnoreCase(Boolean.valueOf(ignoreCase));
     }
 
@@ -108,13 +103,13 @@ public abstract class NameValueTriggerSupport
         String want = value;
 
         // Trim if asked
-        if (trim != null && trim.equals(Boolean.TRUE)) {
+        if (trim) {
             want = want.trim();
             have = have.trim();
         }
 
         // Else value needs to equal our value
-        if (ignoreCase != null && ignoreCase.equals(Boolean.TRUE)) {
+        if (ignoreCase) {
             return want.equalsIgnoreCase(have);
         }
         else {

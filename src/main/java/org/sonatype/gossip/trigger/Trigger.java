@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.trigger;
+package org.sonatype.gossip.trigger;
 
 /**
- * Triggers activation based on a environment variable.
+ * Profile trigger.
+ *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public class EnvironmentVariableTrigger
-    extends NameValueTriggerSupport
+public interface Trigger
 {
-    protected String resolve() {
-        return System.getenv(getName());
-    }
+    boolean isActive();
 }

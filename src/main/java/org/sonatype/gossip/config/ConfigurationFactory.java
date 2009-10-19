@@ -17,13 +17,13 @@
 package org.sonatype.gossip.config;
 
 import org.sonatype.gossip.Log;
+import org.sonatype.gossip.filter.render.Renderer;
 import org.sonatype.gossip.model.Configuration;
 import org.sonatype.gossip.model.Filter;
 import org.sonatype.gossip.model.Logger;
 import org.sonatype.gossip.model.Profile;
 import org.sonatype.gossip.model.Source;
 import org.sonatype.gossip.model.Trigger;
-import org.sonatype.gossip.model.render.Renderer;
 
 import java.io.IOException;
 import java.io.InputStream;

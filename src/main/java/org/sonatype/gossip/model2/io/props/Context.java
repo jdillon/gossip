@@ -26,12 +26,10 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -39,8 +37,9 @@ import java.util.Set;
 /**
  * Container for Gossip configuration details.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public final class Context
     implements Cloneable
@@ -147,16 +146,6 @@ public final class Context
 
     public Object get(final String name) {
         return get(name, (Object)null);
-    }
-
-    public Object remove(final String name) {
-        assert name != null;
-
-        return store.remove(key(name));
-    }
-
-    public void clear() {
-        store.clear();
     }
 
     public int size() {

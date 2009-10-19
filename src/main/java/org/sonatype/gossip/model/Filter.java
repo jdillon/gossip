@@ -17,8 +17,8 @@
 package org.sonatype.gossip.model;
 
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.model.render.Renderer;
-import org.sonatype.gossip.model.render.SimpleRenderer;
+import org.sonatype.gossip.filter.render.Renderer;
+import org.sonatype.gossip.filter.render.SimpleRenderer;
 
 /**
  * Filter node.

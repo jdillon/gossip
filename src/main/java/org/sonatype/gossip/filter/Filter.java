@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.render;
+package org.sonatype.gossip.filter;
 
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.model.AbstractNode;
 
 /**
- * Support for renderer implementations.
+ * Event Filter.
+ *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public abstract class Renderer
-    extends AbstractNode
+public interface Filter
 {
-    protected static final String NEWLINE = System.getProperty("line.separator");
+    Result filter(Event event);
 
-    public abstract String render(Event event);
+    enum Result
+    {
+        CONTINUE,
+        STOP
+    }
 }

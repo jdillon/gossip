@@ -17,6 +17,7 @@
 package org.sonatype.gossip.model2.io.props;
 
 import org.sonatype.gossip.Log;
+import org.sonatype.gossip.config.ConfigurationException;
 import org.sonatype.gossip.model2.FilterNode;
 import org.sonatype.gossip.model2.LoggerNode;
 import org.sonatype.gossip.model2.Model;
@@ -26,6 +27,7 @@ import org.sonatype.gossip.model2.TriggerNode;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * Reads a Gossip {@link Model} from a properties file.
@@ -82,6 +84,17 @@ public class GossipPropertiesReader
         configureProfileNodes(model, ctx);
 
         return model;
+    }
+
+    public Model read(final URL url) throws IOException {
+        InputStream in = url.openStream();
+
+        try {
+            return read(in);
+        }
+        finally {
+            in.close();
+        }
     }
 
     private void configureSourceNodes(final Model model, final Context ctx) {

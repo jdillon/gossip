@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.filter;
+package org.sonatype.gossip.filter;
 
 import org.sonatype.gossip.Event;
 import org.sonatype.gossip.config.ConfigurationException;
-import org.sonatype.gossip.model.Filter;
-import org.sonatype.gossip.model.render.Renderer;
-import org.sonatype.gossip.model.render.SimpleRenderer;
+import org.sonatype.gossip.filter.render.Renderer;
+import org.sonatype.gossip.filter.render.SimpleRenderer;
 
 import java.io.PrintStream;
 
 /**
  * Writes events to console.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
-public class ConsoleWriter
-    extends Filter
+public class ConsoleWritingFilter
+    implements Filter
 {
     public static final String OUT = "OUT";
 
@@ -46,17 +46,17 @@ public class ConsoleWriter
     public static final String SYSTEM_ERR = "SYSTEM.ERR";
 
     private String name = SYSTEM_OUT;
-    
+
     private transient PrintStream stream;
 
-    public ConsoleWriter() {}
+    public ConsoleWritingFilter() {}
 
-    public ConsoleWriter(final String name) {
+    public ConsoleWritingFilter(final String name) {
         setName(name);
     }
 
     public String toString() {
-        return "ConsoleWriter{" +
+        return "ConsoleWritingFilter{" +
                 "name='" + name + '\'' +
                 '}';
     }
@@ -93,15 +93,7 @@ public class ConsoleWriter
     public Result filter(final Event event) {
         assert event != null;
 
-        Renderer renderer = getRenderer();
-        
-        if (renderer == null) {
-            log.debug("Renderer not set; using default");
-            
-            renderer = new SimpleRenderer();
-            setRenderer(renderer);
-        }
-
+        Renderer renderer = new SimpleRenderer();
         String text = renderer.render(event);
 
         PrintStream out = getStream();

@@ -14,29 +14,18 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip;
+package org.sonatype.gossip.source;
 
-import org.slf4j.spi.LocationAwareLogger;
+import org.sonatype.gossip.model2.Model;
 
 /**
- * Gossip logging level container.
+ * Model source.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
  */
-public enum Level
+public interface Source
 {
-    TRACE(LocationAwareLogger.TRACE_INT),
-    DEBUG(LocationAwareLogger.DEBUG_INT),
-    INFO(LocationAwareLogger.INFO_INT),
-    WARN(LocationAwareLogger.WARN_INT),
-    ERROR(LocationAwareLogger.ERROR_INT),
-    ;
-
-    public final int id;
-
-    private Level(final int id) {
-        this.id = id;
-    }
+    Model load() throws Exception;
 }

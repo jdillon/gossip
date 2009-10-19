@@ -18,11 +18,12 @@ package org.sonatype.gossip.model.source;
 
 import junit.framework.TestCase;
 import org.sonatype.gossip.model.Configuration;
+import org.sonatype.gossip.source.URLSource;
 
 import java.net.URL;
 
 /**
- * Tests for the {@link org.sonatype.gossip.model.source.URLSource} class.
+ * Tests for the {@link org.sonatype.gossip.source.URLSource} class.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */

@@ -14,25 +14,27 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.render;
+package org.sonatype.gossip.filter.render;
 
 import jline.Terminal;
 import jline.TerminalFactory;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.Color;
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.Level;
-import static org.sonatype.gossip.Level.*;
+import org.sonatype.gossip.Log;
 
 /**
  * Renders events with ANSI colors.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public class ColorRenderer
-    extends Renderer
+    implements Renderer
 {
+    private transient Log log = Log.getLogger(getClass());
+
     private boolean truncate = false;
 
     private int maxLength;

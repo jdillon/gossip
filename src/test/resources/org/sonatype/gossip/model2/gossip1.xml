@@ -9,7 +9,7 @@
 
     <sources>
         <source>
-            <type>org.sonatype.gossip.model.source.FileSource</type>
+            <type>org.sonatype.gossip.source.FileSource</type>
             <configuration>
                 <file>/tmp/foo.xml</file>
             </configuration>
@@ -42,7 +42,7 @@
 
             <triggers>
                 <trigger>
-                    <type>org.sonatype.gossip.model.trigger.SystemPropertyTrigger</type>
+                    <type>org.sonatype.gossip.trigger.SystemPropertyTrigger</type>
                     <configuration>
                         <name>test.foo</name>
                     </configuration>

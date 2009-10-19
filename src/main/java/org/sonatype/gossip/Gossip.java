@@ -23,14 +23,14 @@ import org.sonatype.gossip.model.EffectiveProfile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
  * Factory to produce {@link Logger} instances.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public final class Gossip
     implements ILoggerFactory

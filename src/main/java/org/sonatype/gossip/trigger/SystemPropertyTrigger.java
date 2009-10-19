@@ -14,29 +14,19 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip;
-
-import org.slf4j.spi.LocationAwareLogger;
+package org.sonatype.gossip.trigger;
 
 /**
- * Gossip logging level container.
+ * Triggers activation when a system property is set.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
  */
-public enum Level
+public class SystemPropertyTrigger
+    extends NameValueTriggerSupport
 {
-    TRACE(LocationAwareLogger.TRACE_INT),
-    DEBUG(LocationAwareLogger.DEBUG_INT),
-    INFO(LocationAwareLogger.INFO_INT),
-    WARN(LocationAwareLogger.WARN_INT),
-    ERROR(LocationAwareLogger.ERROR_INT),
-    ;
-
-    public final int id;
-
-    private Level(final int id) {
-        this.id = id;
+    protected String resolve() {
+        return System.getProperty(getName());
     }
 }

@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.render;
+package org.sonatype.gossip.filter.render;
 
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.Level;
-import static org.sonatype.gossip.Level.*;
+import org.sonatype.gossip.Log;
 
 /**
  * A simple event renderer.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public class SimpleRenderer
-    extends Renderer
+    implements Renderer
 {
+    private transient Log log = Log.getLogger(getClass());
+
     private boolean includeName = false;
 
     private boolean shortName = false;

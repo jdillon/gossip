@@ -19,9 +19,10 @@ package org.sonatype.gossip.model.source;
 import junit.framework.TestCase;
 import org.sonatype.gossip.config.ConfigurationException;
 import org.sonatype.gossip.model.Configuration;
+import org.sonatype.gossip.source.SystemPropertySource;
 
 /**
- * Tests for the {@link org.sonatype.gossip.model.source.SystemPropertySource} class.
+ * Tests for the {@link org.sonatype.gossip.source.SystemPropertySource} class.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */

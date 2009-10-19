@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.trigger;
+package org.sonatype.gossip.filter.render;
 
-import org.sonatype.gossip.model.Trigger;
+import org.sonatype.gossip.Event;
+import org.sonatype.gossip.model.AbstractNode;
 
 /**
- * Always triggers.
+ * Log event renderer.
+ *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public class AlwaysTrigger
-    extends Trigger
+public interface Renderer
 {
-    public boolean isActive() {
-        return true;
-    }
+    String NEWLINE = System.getProperty("line.separator");
+
+    String render(Event event);
 }

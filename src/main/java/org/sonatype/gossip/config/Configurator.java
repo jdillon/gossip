@@ -21,9 +21,10 @@ import org.sonatype.gossip.model.Configuration;
 import org.sonatype.gossip.model.EffectiveProfile;
 import org.sonatype.gossip.model.Profile;
 import org.sonatype.gossip.model.Source;
-import org.sonatype.gossip.model.filter.ConsoleWriter;
-import org.sonatype.gossip.model.source.URLSource;
-import org.sonatype.gossip.model.trigger.AlwaysTrigger;
+import org.sonatype.gossip.filter.ConsoleWritingFilter;
+import org.sonatype.gossip.model2.Model;
+import org.sonatype.gossip.source.URLSource;
+import org.sonatype.gossip.trigger.AlwaysTrigger;
 
 import java.net.URL;
 import java.util.Iterator;
@@ -49,10 +50,10 @@ public class Configurator
 
         try {
             // Load the bootstrap configuration
-            Configuration bootstrap = loadBootstrap();
+            Model bootstrap = loadBootstrap();
 
             // Resolve sources and merge
-            Configuration config = resolve(bootstrap, root);
+            Model config = resolve(bootstrap, root);
 
             // Configure the active profiles
             configureActiveProfiles(profile, config);
@@ -92,12 +93,12 @@ public class Configurator
 
         p.addTrigger(new AlwaysTrigger());
 
-        p.addFilter(new ConsoleWriter(ConsoleWriter.SYSOUT));
+        p.addFilter(new ConsoleWritingFilter(ConsoleWritingFilter.SYSOUT));
 
         return p;
     }
 
-    private Configuration loadBootstrap() throws Exception {
+    private Model loadBootstrap() throws Exception {
         URL url = getClass().getResource(BOOTSTRAP_RESOURCE);
 
         // This should really never happen unless something is messed up, but don't toss an exception, let the fallback provider kickin
@@ -110,7 +111,7 @@ public class Configurator
         return source.load();
     }
 
-    private Configuration resolve(final Configuration config, final Configuration base) throws Exception {
+    private Model resolve(final Configuration config, final Configuration base) throws Exception {
         assert config != null;
         assert base != null;
         
