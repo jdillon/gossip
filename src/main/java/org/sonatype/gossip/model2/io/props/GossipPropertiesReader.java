@@ -16,8 +16,8 @@
 
 package org.sonatype.gossip.model2.io.props;
 
+import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.Log;
-import org.sonatype.gossip.config.ConfigurationException;
 import org.sonatype.gossip.model2.FilterNode;
 import org.sonatype.gossip.model2.LoggerNode;
 import org.sonatype.gossip.model2.Model;
@@ -69,7 +69,7 @@ public class GossipPropertiesReader
 
         Model model = new Model();
 
-        Context ctx = Context.create(in);
+        ConfigurationContext ctx = ConfigurationContext.create(in);
 
         // Validate the version
         String tmp = ctx.get("version", (String)null);
@@ -97,7 +97,7 @@ public class GossipPropertiesReader
         }
     }
 
-    private void configureSourceNodes(final Model model, final Context ctx) {
+    private void configureSourceNodes(final Model model, final ConfigurationContext ctx) {
         assert model != null;
         assert ctx != null;
 
@@ -118,7 +118,7 @@ public class GossipPropertiesReader
         }
     }
 
-    private SourceNode createSourceNode(final String type, final Context ctx) {
+    private SourceNode createSourceNode(final String type, final ConfigurationContext ctx) {
         assert type != null;
         assert ctx != null;
 
@@ -133,7 +133,7 @@ public class GossipPropertiesReader
         return source;
     }
 
-    private void configureProfileNodes(final Model model, final Context ctx) {
+    private void configureProfileNodes(final Model model, final ConfigurationContext ctx) {
         assert model != null;
         assert ctx != null;
 
@@ -154,7 +154,7 @@ public class GossipPropertiesReader
         }
     }
 
-    private ProfileNode createProfileNode(final String name, final Context ctx) {
+    private ProfileNode createProfileNode(final String name, final ConfigurationContext ctx) {
         assert name != null;
         assert ctx != null;
 
@@ -175,7 +175,7 @@ public class GossipPropertiesReader
         return profile;
     }
 
-    private void configureLoggerNodes(final ProfileNode profile, final Context ctx) {
+    private void configureLoggerNodes(final ProfileNode profile, final ConfigurationContext ctx) {
         assert profile != null;
         assert ctx != null;
 
@@ -194,7 +194,7 @@ public class GossipPropertiesReader
         }
     }
 
-    private void configureTriggerNodes(final ProfileNode profile, final Context ctx) {
+    private void configureTriggerNodes(final ProfileNode profile, final ConfigurationContext ctx) {
         assert profile != null;
         assert ctx != null;
 
@@ -215,7 +215,7 @@ public class GossipPropertiesReader
         }
     }
 
-    private TriggerNode createTriggerNode(final String type, final Context ctx) {
+    private TriggerNode createTriggerNode(final String type, final ConfigurationContext ctx) {
         assert type != null;
         assert ctx != null;
 
@@ -230,7 +230,7 @@ public class GossipPropertiesReader
         return trigger;
     }
 
-    private void configureFilterNodes(final ProfileNode profile, final Context ctx) {
+    private void configureFilterNodes(final ProfileNode profile, final ConfigurationContext ctx) {
         assert profile != null;
         assert ctx != null;
 
@@ -251,7 +251,7 @@ public class GossipPropertiesReader
         }
     }
 
-    private FilterNode createFilterNode(final String type, final Context ctx) {
+    private FilterNode createFilterNode(final String type, final ConfigurationContext ctx) {
         assert type != null;
         assert ctx != null;
 

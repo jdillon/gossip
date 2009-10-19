@@ -17,8 +17,7 @@
 package org.sonatype.gossip.model.source;
 
 import junit.framework.TestCase;
-import org.sonatype.gossip.config.ConfigurationException;
-import org.sonatype.gossip.model.Configuration;
+import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.source.SystemPropertySource;
 
 /**

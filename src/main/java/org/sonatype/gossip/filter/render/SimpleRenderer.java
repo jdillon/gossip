@@ -39,8 +39,9 @@ public class SimpleRenderer
 
     public SimpleRenderer() {}
     
+    @Override
     public String toString() {
-        return "SimpleRenderer{" +
+        return getClass().getSimpleName() + "{" +
                 "includeName=" + includeName +
                 ", shortName=" + shortName +
                 ", nameWidth=" + nameWidth +

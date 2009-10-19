@@ -17,10 +17,6 @@
 package org.sonatype.gossip.source;
 
 import org.sonatype.gossip.Log;
-import org.sonatype.gossip.config.ConfigurationFactory;
-import org.sonatype.gossip.model.AbstractNode;
-import org.sonatype.gossip.model.Configuration;
-import org.sonatype.gossip.model.MergePolicy;
 import org.sonatype.gossip.model2.Model;
 import org.sonatype.gossip.model2.io.props.GossipPropertiesReader;
 

@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.config;
+package org.sonatype.gossip.model2.io.props;
 
+import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.Log;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,6 +29,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -33,10 +37,11 @@ import java.util.Set;
 /**
  * Container for Gossip configuration details.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
-public final class Context
+public final class ConfigurationContext
     implements Cloneable
 {
     private final Log log = Log.getLogger(getClass());
@@ -45,39 +50,41 @@ public final class Context
 
     private String prefix;
 
-    private Context parent;
+    private ConfigurationContext parent;
 
-    public Context(final Map<String,Object> store, final String prefix) {
+    public ConfigurationContext(final Map<String,Object> store, final String prefix) {
         assert store != null;
         this.store = store;
         this.prefix = prefix;
     }
 
-    public Context(final Map<String,Object> store) {
+    public ConfigurationContext(final Map<String,Object> store) {
         this(store, null);
     }
 
     @SuppressWarnings({"unchecked"})
-    public Context(final Properties store) {
+    public ConfigurationContext(final Properties store) {
         this((Map)store, null);
     }
 
-    public Context() {
+    public ConfigurationContext() {
         this(new HashMap<String,Object>(), null);
     }
 
-    public Context(final Context config) {
+    public ConfigurationContext(final ConfigurationContext config) {
         this(config.store, config.prefix);
     }
 
+    @Override
     public String toString() {
         if (prefix == null) {
-            return "Context[]";
+            return getClass().getSimpleName() + "[]";
         }
 
-        return "Context[" + prefix + "]"; 
+        return getClass().getSimpleName() + "[" + prefix + "]";
     }
 
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -143,16 +150,6 @@ public final class Context
         return get(name, (Object)null);
     }
 
-    public Object remove(final String name) {
-        assert name != null;
-
-        return store.remove(key(name));
-    }
-
-    public void clear() {
-        store.clear();
-    }
-
     public int size() {
         if (prefix == null) {
             return store.size();
@@ -177,7 +174,7 @@ public final class Context
         if (prefix == null) {
             return Collections.unmodifiableSet(store.keySet());
         }
-        
+
         Set<String> matching = new HashSet<String>();
         int l = prefix.length();
 
@@ -188,7 +185,7 @@ public final class Context
                 matching.add(key);
             }
         }
-        
+
         return Collections.unmodifiableSet(matching);
     }
 
@@ -196,7 +193,7 @@ public final class Context
     // Children
     //
 
-    public Context parent() {
+    public ConfigurationContext parent() {
         if (parent == null) {
             throw new IllegalStateException("Parent is not bound");
         }
@@ -204,10 +201,10 @@ public final class Context
         return parent;
     }
 
-    public Context child(final String prefix) {
+    public ConfigurationContext child(final String prefix) {
         assert prefix != null;
 
-        Context child = (Context) clone();
+        ConfigurationContext child = (ConfigurationContext) clone();
 
         child.parent = this;
 
@@ -325,5 +322,42 @@ public final class Context
         catch (URISyntaxException e) {
             throw new ConfigurationException("Unable to decode URI; name=" + name + ", value=" + value, e);
         }
+    }
+
+    //
+    // Helpers
+    //
+
+    public static ConfigurationContext create(final InputStream input) throws IOException {
+        assert input != null;
+
+        Properties props = new Properties();
+        props.load(input);
+        ConfigurationContext ctx = new ConfigurationContext(props);
+
+        return ctx;
+    }
+
+    public static Properties asProperties(final ConfigurationContext ctx) {
+        assert ctx != null;
+
+        Properties props = new Properties();
+
+        for (Iterator iter = ctx.names().iterator(); iter.hasNext();) {
+            String key = (String)iter.next();
+            String value = ctx.get(key, (String)null);
+
+            props.setProperty(key, value);
+        }
+
+        return props;
+    }
+
+    public Properties toProperties() {
+        return asProperties(this);
+    }
+
+    public String[] split(final String name) {
+        return this.get(name, "").split(",");
     }
 }

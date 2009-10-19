@@ -16,7 +16,7 @@
 
 package org.sonatype.gossip.source;
 
-import org.sonatype.gossip.config.MissingPropertyException;
+import org.sonatype.gossip.MissingPropertyException;
 import org.sonatype.gossip.model2.Model;
 
 import java.io.File;
@@ -61,8 +61,9 @@ public class FileSource
         return load(getFile());
     }
 
+    @Override
     public String toString() {
-        return "FileSource{" +
+        return getClass().getSimpleName() + "{" +
                 "file=" + file +
                 '}';
     }

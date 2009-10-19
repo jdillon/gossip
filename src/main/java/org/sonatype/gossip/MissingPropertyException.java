@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model;
+package org.sonatype.gossip;
+
+import org.sonatype.gossip.ConfigurationException;
+
+import java.text.MessageFormat;
 
 /**
- * Container node.
+ * Thrown to indicate a required configuration property is missing.
  *
  * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public abstract class ContainerNode
-    extends AbstractNode
+public class MissingPropertyException
+    extends ConfigurationException
 {
-    //
-    // TODO: add children() Iterator
-    //
+    ///CLOVER:OFF
 
-    //
-    // TODO: Add attach(Node child)
-    //
-
-    //
-    // TODO: Add attach(Node child, List siblings)... ?
-    //
+    public MissingPropertyException(final String name) {
+        super(MessageFormat.format("Missing required configuration property: {0}", name));
+    }
 }

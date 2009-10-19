@@ -44,8 +44,9 @@ public class ColorRenderer
         int w = term.getWidth() - 1;
     }
 
+    @Override
     public String toString() {
-        return "ColorRenderer{" +
+        return getClass().getSimpleName() + "{" +
                 "truncate=" + truncate +
                 ", maxLength=" + maxLength +
                 '}';

@@ -17,7 +17,6 @@
 package org.sonatype.gossip.filter.render;
 
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.model.AbstractNode;
 
 /**
  * Log event renderer.

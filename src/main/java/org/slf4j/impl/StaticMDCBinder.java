@@ -27,6 +27,7 @@ import org.slf4j.spi.MDCAdapter;
  */
 public final class StaticMDCBinder
 {
+    @SuppressWarnings({"UnusedDeclaration"})
     public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
     private StaticMDCBinder() {}

@@ -117,8 +117,9 @@ public abstract class NameValueTriggerSupport
         }
     }
 
+    @Override
     public String toString() {
-        return "NameValueTriggerSupport{" +
+        return getClass().getSimpleName() + "{" +
                 "name='" + name + '\'' +
                 ", value='" + value + '\'' +
                 ", trim=" + trim +

@@ -14,51 +14,76 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model;
+package org.sonatype.gossip;
 
 import org.sonatype.gossip.Event;
+import org.sonatype.gossip.model2.LoggerNode;
+import org.sonatype.gossip.model2.ProfileNode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Filter-chain node.
+ * Effective profile.
+ *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public class FilterChain
-    extends AbstractNode
+public class EffectiveProfile
 {
-    private List<Filter> filters;
+    private final Log log = Log.getLogger(getClass());
 
-    private Filter[] chain;
+    private List<ProfileNode> profiles = new ArrayList<ProfileNode>();
 
-    public List<Filter> filters() {
-        if (filters == null) {
-            filters = new ArrayList<Filter>();
-        }
+    private Map<String,LoggerNode> loggers;
 
-        return filters;
+    public EffectiveProfile() {}
+
+    public List<ProfileNode> profiles() {
+        return profiles;
     }
 
-    public void addFilter(final Filter node) {
+    public void addProfile(final ProfileNode node) {
         assert node != null;
 
-        filters().add(node);
-        node.setParent(this);
+        profiles().add(node);
     }
-    
+
+    public Map<String,LoggerNode> loggers() {
+        if (loggers == null) {
+            log.trace("Loading effective logger table");
+
+            Map<String,LoggerNode> map = new HashMap<String,LoggerNode>();
+
+            for (ProfileNode profile : profiles()) {
+                for (LoggerNode node : profile.getLoggers()) {
+                    map.put(node.getName(), node);
+                }
+            }
+            this.loggers = map;
+        }
+
+        return loggers;
+    }
+
     public void filter(final Event event) {
         assert event != null;
 
+        log.trace("Filtering event: {}", event);
+
+        // TODO:
+
+        /*
         // Else execute all filters until we get a stop
         if (chain == null) {
             chain = filters().toArray(new Filter[filters.size()]);
         }
 
         // log.debug("Applying {} filters to event: {}", String.valueOf(chain.length), event);
-        
+
         for (int i=0; i<chain.length; i++) {
             // log.debug("Applying filter[{}]: {}", String.valueOf(i), chain[i]);
 
@@ -70,5 +95,6 @@ public class FilterChain
                 break;
             }
         }
+        */
     }
 }

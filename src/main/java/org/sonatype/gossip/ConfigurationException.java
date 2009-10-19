@@ -14,22 +14,30 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model;
+package org.sonatype.gossip;
 
 /**
- * Root node.
+ * Thrown to indicate a failure has occurred while configuring Gossip.
  *
  * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public abstract class RootNode
-    extends ContainerNode
+public class ConfigurationException
+    extends RuntimeException
 {
-    public final Node getParent() {
-        return null;
+    ///CLOVER:OFF
+
+    public ConfigurationException() {}
+
+    public ConfigurationException(final String message) {
+        super(message);
     }
 
-    protected final void setParent(final Node parent) {
-        throw new UnsupportedOperationException();
+    public ConfigurationException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    public ConfigurationException(final Throwable cause) {
+        super(cause);
     }
 }

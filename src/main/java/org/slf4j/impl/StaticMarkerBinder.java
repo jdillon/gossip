@@ -29,6 +29,7 @@ import org.slf4j.spi.MarkerFactoryBinder;
 public final class StaticMarkerBinder
     implements MarkerFactoryBinder
 {
+    @SuppressWarnings({"UnusedDeclaration"})
     public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
 
     private final IMarkerFactory factory = new BasicMarkerFactory();

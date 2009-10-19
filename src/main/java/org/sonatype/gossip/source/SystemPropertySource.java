@@ -16,10 +16,8 @@
 
 package org.sonatype.gossip.source;
 
-import org.sonatype.gossip.config.ConfigurationException;
-import org.sonatype.gossip.config.MissingPropertyException;
-import org.sonatype.gossip.model.Configuration;
-import org.sonatype.gossip.model.Source;
+import org.sonatype.gossip.ConfigurationException;
+import org.sonatype.gossip.MissingPropertyException;
 import org.sonatype.gossip.model2.Model;
 
 import java.io.File;
@@ -86,8 +84,9 @@ public class SystemPropertySource
         return load(url);
     }
 
+    @Override
     public String toString() {
-        return "SystemPropertySource{" +
+        return getClass().getSimpleName() + "{" +
                 "name='" + name + '\'' +
                 '}';
     }

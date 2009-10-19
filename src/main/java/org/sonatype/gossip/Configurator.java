@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.config;
+package org.sonatype.gossip;
 
 import org.sonatype.gossip.Log;
-import org.sonatype.gossip.model.Configuration;
-import org.sonatype.gossip.model.EffectiveProfile;
-import org.sonatype.gossip.model.Profile;
-import org.sonatype.gossip.model.Source;
+import org.sonatype.gossip.EffectiveProfile;
 import org.sonatype.gossip.filter.ConsoleWritingFilter;
+import org.sonatype.gossip.model2.FilterNode;
 import org.sonatype.gossip.model2.Model;
+import org.sonatype.gossip.model2.ProfileNode;
+import org.sonatype.gossip.model2.TriggerNode;
 import org.sonatype.gossip.source.URLSource;
 import org.sonatype.gossip.trigger.AlwaysTrigger;
 
 import java.net.URL;
-import java.util.Iterator;
 
 /**
  * Configures Gossip.
@@ -44,19 +43,21 @@ public class Configurator
     public EffectiveProfile configure() {
         log.debug("Configuring");
 
-        Configuration root = new Configuration();
+        Model root = new Model();
 
         EffectiveProfile profile = new EffectiveProfile();
 
         try {
+            // FIXME:
+            
             // Load the bootstrap configuration
-            Model bootstrap = loadBootstrap();
+            // Model bootstrap = loadBootstrap();
 
             // Resolve sources and merge
-            Model config = resolve(bootstrap, root);
+            // Model config = resolve(bootstrap, root);
 
             // Configure the active profiles
-            configureActiveProfiles(profile, config);
+            // configureActiveProfiles(profile, config);
         }
         catch (Throwable t) {
             log.error("Failed to configure; using fall-back provider", t);
@@ -65,35 +66,66 @@ public class Configurator
         if (profile.profiles().isEmpty()) {
             log.debug("No profiles were activated; using fall-back");
 
-            Profile p = createFallbackProfile();
+            ProfileNode p = createFallbackProfile();
             profile.addProfile(p);
         }
 
         return profile;
     }
 
-    private void configureActiveProfiles(final EffectiveProfile profile, final Configuration config) throws Exception {
+    private void configureActiveProfiles(final EffectiveProfile profile, final Model model) throws Exception {
         assert profile != null;
-        assert config != null;
+        assert model != null;
 
         log.debug("Activating profiles");
 
-        for (Iterator iter = config.profiles().iterator(); iter.hasNext();) {
-            Profile p = (Profile) iter.next();
-
-            if (p.isActive()) {
-                log.debug("Active profile: {}", p);
-                profile.addProfile(p);
+        for (ProfileNode node : model.getProfiles()) {
+            if (isProfileActive(node)) {
+                log.debug("Active profile: {}", node);
+                profile.addProfile(node);
             }
         }
     }
 
-    private Profile createFallbackProfile() {
-        Profile p = new Profile("fallback");
+    private boolean isProfileActive(final ProfileNode profile) {
+        assert profile != null;
 
-        p.addTrigger(new AlwaysTrigger());
+        // FIXME: Check if profile is active
 
-        p.addFilter(new ConsoleWritingFilter(ConsoleWritingFilter.SYSOUT));
+        /*
+        // No triggers means its not active
+        if (triggers == null) {
+            log.trace("No triggers found; profile is not active");
+
+            return false;
+        }
+
+        log.trace("Checking for active triggers");
+
+        for (Trigger trigger : triggers()) {
+            // If active, then stop now
+            if (trigger.isActive()) {
+                log.debug("Active trigger: {}", trigger);
+                return true;
+            }
+        }
+
+        return false;
+         */
+
+        return false;
+    }
+
+    private ProfileNode createFallbackProfile() {
+        ProfileNode p = new ProfileNode();
+        p.setName("fallback");
+
+        TriggerNode t = new TriggerNode();
+        t.setType(AlwaysTrigger.class.getName());
+        p.addTrigger(t);
+
+        FilterNode f = new FilterNode();
+        f.setType(ConsoleWritingFilter.class.getName());
 
         return p;
     }
@@ -109,33 +141,5 @@ public class Configurator
         URLSource source = new URLSource(url);
 
         return source.load();
-    }
-
-    private Model resolve(final Configuration config, final Configuration base) throws Exception {
-        assert config != null;
-        assert base != null;
-        
-        for (Iterator iter=config.sources().iterator(); iter.hasNext();) {
-            Source source = (Source) iter.next();
-
-            Configuration loaded = null;
-
-            try {
-                loaded = source.load();
-            }
-            catch (Exception e) {
-                log.error("Failed to load configuration from source: {}", source, e);
-            }
-
-            if (loaded != null) {
-                // Resolve any referenced sources
-                resolve(loaded, base);
-
-                // Merge the configuration
-                base.merge(loaded);
-            }
-        }
-
-        return base;
     }
 }

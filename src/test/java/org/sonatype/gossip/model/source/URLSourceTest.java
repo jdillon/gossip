@@ -17,7 +17,6 @@
 package org.sonatype.gossip.model.source;
 
 import junit.framework.TestCase;
-import org.sonatype.gossip.model.Configuration;
 import org.sonatype.gossip.source.URLSource;
 
 import java.net.URL;

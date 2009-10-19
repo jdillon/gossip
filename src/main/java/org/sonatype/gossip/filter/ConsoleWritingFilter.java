@@ -16,8 +16,8 @@
 
 package org.sonatype.gossip.filter;
 
+import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.config.ConfigurationException;
 import org.sonatype.gossip.filter.render.Renderer;
 import org.sonatype.gossip.filter.render.SimpleRenderer;
 
@@ -49,14 +49,17 @@ public class ConsoleWritingFilter
 
     private transient PrintStream stream;
 
-    public ConsoleWritingFilter() {}
+    public ConsoleWritingFilter() {
+        this(SYSOUT);
+    }
 
     public ConsoleWritingFilter(final String name) {
         setName(name);
     }
 
+    @Override
     public String toString() {
-        return "ConsoleWritingFilter{" +
+        return getClass().getSimpleName() + "{" +
                 "name='" + name + '\'' +
                 '}';
     }

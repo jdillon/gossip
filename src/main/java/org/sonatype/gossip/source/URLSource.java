@@ -16,9 +16,7 @@
 
 package org.sonatype.gossip.source;
 
-import org.sonatype.gossip.config.MissingPropertyException;
-import org.sonatype.gossip.model.Configuration;
-import org.sonatype.gossip.model.Source;
+import org.sonatype.gossip.MissingPropertyException;
 import org.sonatype.gossip.model2.Model;
 
 import java.net.MalformedURLException;
@@ -64,8 +62,9 @@ public class URLSource
         return load(url);
     }
 
+    @Override
     public String toString() {
-        return "URLSource{" +
+        return getClass().getSimpleName() + "{" +
                 "url=" + url +
                 '}';
     }

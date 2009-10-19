@@ -29,6 +29,7 @@ import org.sonatype.gossip.Gossip;
 public final class StaticLoggerBinder
     implements LoggerFactoryBinder
 {
+    @SuppressWarnings({"UnusedDeclaration"})
     public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
     
     private final ILoggerFactory factory;

@@ -18,8 +18,8 @@ package org.sonatype.gossip;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
-import org.sonatype.gossip.config.Configurator;
-import org.sonatype.gossip.model.EffectiveProfile;
+import org.sonatype.gossip.Configurator;
+import org.sonatype.gossip.model2.LoggerNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,11 +53,11 @@ public final class Gossip
         log.trace("Priming");
 
         // Prime the loggers we have configured
-        for (Map.Entry<String,org.sonatype.gossip.model.Logger> entry : profile.loggers().entrySet()) {
+        for (Map.Entry<String, LoggerNode> entry : profile.loggers().entrySet()) {
             String name = entry.getKey();
-            org.sonatype.gossip.model.Logger node = entry.getValue();
+            LoggerNode node = entry.getValue();
             LoggerImpl logger = (LoggerImpl) getLogger(name);
-            logger.level = node.getLevel();
+            logger.level = Level.valueOf(node.getLevel().toUpperCase());
         }
     }
 
@@ -103,7 +103,7 @@ public final class Gossip
     }
 
     private class LoggerImpl
-        extends AbstractLogger
+        extends LoggerSupport
     {
         private Level level;
 
@@ -139,12 +139,14 @@ public final class Gossip
             return cachedLevel;
         }
 
+        @Override
         protected boolean isEnabled(final Level level) {
             assert level != null;
 
             return getEffectiveLevel().id <= level.id;
         }
 
+        @Override
         protected void doLog(final Level level, final String message, final Throwable cause) {
             profile.filter(new Event(this, level, message, cause));
         }

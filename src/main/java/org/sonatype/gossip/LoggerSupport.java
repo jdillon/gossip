@@ -27,30 +27,34 @@ import org.slf4j.helpers.MessageFormatter;
  *
  * @since 1.0
  */
-public abstract class AbstractLogger
+public abstract class LoggerSupport
     extends MarkerIgnoringBase
     implements org.slf4j.Logger
 {
     public final String name;
 
-    protected AbstractLogger(final String name) {
+    protected LoggerSupport(final String name) {
         assert name != null;
 
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public String toString() {
-        return getClass().getName() + "[" + getName() + "]@" + System.identityHashCode(this);
+        return getClass().getSimpleName() + "[" + getName() + "]@" + System.identityHashCode(this);
     }
 
+    @Override
     public int hashCode() {
         return name.hashCode();
     }
 
+    @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
             return true;

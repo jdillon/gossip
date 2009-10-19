@@ -26,7 +26,7 @@ import java.io.PrintStream;
  * @since 1.0
  */
 public final class Log
-    extends AbstractLogger
+    extends LoggerSupport
 {
     private static Level level = Level.WARN;
 

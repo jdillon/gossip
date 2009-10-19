@@ -42,8 +42,9 @@ public final class Event
         this.cause = cause;
     }
 
+    @Override
     public String toString() {
-        return getClass().getName() + "[" +
+        return getClass().getSimpleName() + "[" +
                 logger.getName() +
                 "/" +  level +
                 "/" + message +

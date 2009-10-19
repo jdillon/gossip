@@ -16,10 +16,8 @@
 
 package org.sonatype.gossip.source;
 
-import org.sonatype.gossip.config.ConfigurationException;
-import org.sonatype.gossip.config.MissingPropertyException;
-import org.sonatype.gossip.model.Configuration;
-import org.sonatype.gossip.model.Source;
+import org.sonatype.gossip.ConfigurationException;
+import org.sonatype.gossip.MissingPropertyException;
 import org.sonatype.gossip.model2.Model;
 
 import java.net.URL;
@@ -121,8 +119,9 @@ public class ResourceSource
         return model;
     }
 
+    @Override
     public String toString() {
-        return "ResourceSource{" +
+        return getClass().getSimpleName() + "{" +
                 "name='" + name + '\'' +
                 ", classLoaderType='" + classLoaderType + '\'' +
                 ", classLoader=" + classLoader +
