@@ -48,10 +48,6 @@ public class SimpleRenderer
                 '}';
     }
 
-    public boolean getIncludeName() {
-        return includeName;
-    }
-
     public void setIncludeName(final boolean flag) {
         this.includeName = flag;
     }

@@ -52,20 +52,12 @@ public class ColorRenderer
                 '}';
     }
 
-    public boolean isTruncate() {
-        return truncate;
-    }
-
     public void setTruncate(final boolean flag) {
         this.truncate = flag;
     }
 
     public void setTruncate(final String flag) {
         setTruncate(Boolean.valueOf(flag).booleanValue());
-    }
-
-    public int getMaxLength() {
-        return maxLength;
     }
 
     public void setMaxLength(final int length) {
