@@ -85,6 +85,9 @@ public class ModelMerger
     }
 
     protected void mergeModel_Sources(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
+        /*
+        Sources are not inherited
+        
         List<SourceNode> src = source.getSources();
         if (!src.isEmpty()) {
             List<SourceNode> tgt = target.getSources();
@@ -104,6 +107,7 @@ public class ModelMerger
 
             target.setSources(new ArrayList<SourceNode>(merged.values()));
         }
+        */
     }
 
     protected void mergeModel_Profiles(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
