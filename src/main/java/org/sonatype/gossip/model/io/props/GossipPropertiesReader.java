@@ -62,6 +62,10 @@ public class GossipPropertiesReader
 
     private static final Log log = Log.getLogger(GossipPropertiesReader.class);
 
+    //
+    // TODO: Support XML properties format
+    //
+    
     public Model read(final InputStream in) throws IOException {
         assert in != null;
 
