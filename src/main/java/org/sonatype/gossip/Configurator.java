@@ -130,7 +130,7 @@ public class Configurator
 
     private ProfileNode createFallbackProfile() {
         ProfileNode p = new ProfileNode();
-        p.setName("fallback");
+        p.setName("fall-back");
 
         TriggerNode t = new TriggerNode();
         t.setType(AlwaysTrigger.class);
