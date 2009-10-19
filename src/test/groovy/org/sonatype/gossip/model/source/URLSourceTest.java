@@ -14,28 +14,31 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.render;
+package org.sonatype.gossip.model.source;
 
 import junit.framework.TestCase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonatype.gossip.Event;
-import org.sonatype.gossip.Level;
-import org.sonatype.gossip.filter.render.ColorRenderer;
+import org.sonatype.gossip.model.source.URLSource;
+import org.sonatype.gossip.model.Model;
+
+import java.net.URL;
 
 /**
- * Tests for the {@link org.sonatype.gossip.filter.render.ColorRenderer} class.
+ * Tests for the {@link org.sonatype.gossip.model.source.URLSource} class.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public class ColorRendererTest
+public class URLSourceTest
     extends TestCase
 {
     public void test1() throws Exception {
-        Logger log = LoggerFactory.getLogger("foo");
-        Event e = new Event(log, Level.DEBUG, "foo bar baz", null);
+        URLSource s = new URLSource();
 
-        ColorRenderer r = new ColorRenderer();
-        r.render(e);
+        URL url = getClass().getResource("config1.properties");
+        assertNotNull(url);
+
+        s.setUrl(url);
+
+        Model model = s.load();
+        assertNotNull(model);
     }
 }

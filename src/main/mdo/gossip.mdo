@@ -11,7 +11,7 @@
     <defaults>
         <default>
             <key>package</key>
-            <value>org.sonatype.gossip.model2</value>
+            <value>org.sonatype.gossip.model</value>
         </default>
     </defaults>
 

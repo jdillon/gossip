@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.source;
+package org.sonatype.gossip.model.io.props
 
-import org.sonatype.gossip.model2.Model;
+import org.junit.Test
+import org.sonatype.gossip.model.Model
+import org.sonatype.gossip.model.io.xpp3.GossipXpp3Reader
 
 /**
- * Model source.
+ * Tests for {@link GossipPropertiesReader}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
- * @since 1.0
  */
-public interface Source
+class GossipPropertiesReaderTest
 {
-    Model load() throws Exception;
+    @Test
+    void testLoad() {
+        URL url = getClass().getResource("gossip1.properties")
+        GossipPropertiesReader reader = new GossipPropertiesReader()
+        Model model = reader.read(url.openStream())
+        println(model)
+    }
 }

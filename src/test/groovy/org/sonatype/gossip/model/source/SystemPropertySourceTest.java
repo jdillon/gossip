@@ -18,10 +18,11 @@ package org.sonatype.gossip.model.source;
 
 import junit.framework.TestCase;
 import org.sonatype.gossip.ConfigurationException;
-import org.sonatype.gossip.source.SystemPropertySource;
+import org.sonatype.gossip.model.source.SystemPropertySource;
+import org.sonatype.gossip.model.Model;
 
 /**
- * Tests for the {@link org.sonatype.gossip.source.SystemPropertySource} class.
+ * Tests for the {@link org.sonatype.gossip.model.source.SystemPropertySource} class.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
@@ -49,9 +50,9 @@ public class SystemPropertySourceTest
         s.setName(name);
 
         System.getProperties().remove(name);
-        
-        Configuration c = s.load();
-        assertNull(c);
+
+        Model model = s.load();
+        assertNull(model);
     }
 
     public void test3() throws Exception {

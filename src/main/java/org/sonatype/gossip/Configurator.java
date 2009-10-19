@@ -19,11 +19,11 @@ package org.sonatype.gossip;
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.EffectiveProfile;
 import org.sonatype.gossip.filter.ConsoleWritingFilter;
-import org.sonatype.gossip.model2.FilterNode;
-import org.sonatype.gossip.model2.Model;
-import org.sonatype.gossip.model2.ProfileNode;
-import org.sonatype.gossip.model2.TriggerNode;
-import org.sonatype.gossip.source.URLSource;
+import org.sonatype.gossip.model.FilterNode;
+import org.sonatype.gossip.model.Model;
+import org.sonatype.gossip.model.ProfileNode;
+import org.sonatype.gossip.model.TriggerNode;
+import org.sonatype.gossip.model.source.URLSource;
 import org.sonatype.gossip.trigger.AlwaysTrigger;
 
 import java.net.URL;

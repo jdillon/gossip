@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.source;
+package org.sonatype.gossip.model.source;
 
 import org.sonatype.gossip.MissingPropertyException;
-import org.sonatype.gossip.model2.Model;
+import org.sonatype.gossip.model.Model;
 
 import java.io.File;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model2.io.props;
+package org.sonatype.gossip.model.io.props;
 
 import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.Log;

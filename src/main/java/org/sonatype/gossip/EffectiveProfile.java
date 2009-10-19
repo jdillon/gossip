@@ -17,8 +17,8 @@
 package org.sonatype.gossip;
 
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.model2.LoggerNode;
-import org.sonatype.gossip.model2.ProfileNode;
+import org.sonatype.gossip.model.LoggerNode;
+import org.sonatype.gossip.model.ProfileNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;

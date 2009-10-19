@@ -16,28 +16,16 @@
 
 package org.sonatype.gossip.model.source;
 
-import junit.framework.TestCase;
-import org.sonatype.gossip.source.URLSource;
-
-import java.net.URL;
+import org.sonatype.gossip.model.Model;
 
 /**
- * Tests for the {@link org.sonatype.gossip.source.URLSource} class.
+ * Model source.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
-public class URLSourceTest
-    extends TestCase
+public interface Source
 {
-    public void test1() throws Exception {
-        URLSource s = new URLSource();
-
-        URL url = getClass().getResource("config1.properties");
-        assertNotNull(url);
-
-        s.setUrl(url);
-
-        Configuration c = s.load();
-        assertNotNull(c);
-    }
+    Model load() throws Exception;
 }

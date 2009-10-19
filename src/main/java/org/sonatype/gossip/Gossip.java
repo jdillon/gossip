@@ -19,7 +19,7 @@ package org.sonatype.gossip;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.sonatype.gossip.Configurator;
-import org.sonatype.gossip.model2.LoggerNode;
+import org.sonatype.gossip.model.LoggerNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;

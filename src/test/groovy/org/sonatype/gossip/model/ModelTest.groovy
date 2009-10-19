@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model2
+package org.sonatype.gossip.model
 
-import org.sonatype.gossip.model2.io.xpp3.GossipXpp3Reader
+import org.sonatype.gossip.model.io.xpp3.GossipXpp3Reader
 import org.junit.Test
 
 /**

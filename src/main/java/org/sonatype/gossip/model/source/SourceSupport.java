@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.source;
+package org.sonatype.gossip.model.source;
 
 import org.sonatype.gossip.Log;
-import org.sonatype.gossip.model2.Model;
-import org.sonatype.gossip.model2.io.props.GossipPropertiesReader;
+import org.sonatype.gossip.model.Model;
+import org.sonatype.gossip.model.io.props.GossipPropertiesReader;
 
 import java.io.File;
 import java.net.URL;

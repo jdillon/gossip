@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model2.io.props;
+package org.sonatype.gossip.model.io.props;
 
 import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.Log;
-import org.sonatype.gossip.model2.FilterNode;
-import org.sonatype.gossip.model2.LoggerNode;
-import org.sonatype.gossip.model2.Model;
-import org.sonatype.gossip.model2.ProfileNode;
-import org.sonatype.gossip.model2.SourceNode;
-import org.sonatype.gossip.model2.TriggerNode;
+import org.sonatype.gossip.model.FilterNode;
+import org.sonatype.gossip.model.LoggerNode;
+import org.sonatype.gossip.model.Model;
+import org.sonatype.gossip.model.ProfileNode;
+import org.sonatype.gossip.model.SourceNode;
+import org.sonatype.gossip.model.TriggerNode;
 
 import java.io.IOException;
 import java.io.InputStream;

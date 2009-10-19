@@ -14,58 +14,57 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.source;
+package org.sonatype.gossip.model.source;
 
 import org.sonatype.gossip.MissingPropertyException;
-import org.sonatype.gossip.model2.Model;
+import org.sonatype.gossip.model.Model;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.File;
 
 /**
- * URL configuration source.
+ * Local file configuration source.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
  */
-public class URLSource
+public class FileSource
     extends SourceSupport
 {
-    private URL url;
+    private File file;
 
-    public URLSource() {}
+    public FileSource() {}
 
-    public URLSource(final URL url) {
-        setUrl(url);
+    public FileSource(final File file) {
+        this.file = file;
     }
 
-    public URL getUrl() {
-        return url;
+    public File getFile() {
+        return file;
     }
 
-    public void setUrl(final URL url) {
-        this.url = url;
+    public void setFile(final File file) {
+        this.file = file;
     }
-    
-    public void setUrl(final String location) throws MalformedURLException {
-        assert location != null;
 
-        setUrl(new URL(location));
+    public void setFile(final String fileName) {
+        assert fileName != null;
+        
+        setFile(new File(fileName));
     }
 
     public Model load() throws Exception {
-        if (url == null) {
-            throw new MissingPropertyException("url");
+        if (file == null) {
+            throw new MissingPropertyException("file");
         }
 
-        return load(url);
+        return load(getFile());
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
-                "url=" + url +
+                "file=" + file +
                 '}';
     }
 }

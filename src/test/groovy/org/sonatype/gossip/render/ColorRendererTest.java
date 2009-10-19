@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model2.io.props
+package org.sonatype.gossip.render;
 
-import org.junit.Test
-import org.sonatype.gossip.model2.Model
-import org.sonatype.gossip.model2.io.xpp3.GossipXpp3Reader
+import junit.framework.TestCase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonatype.gossip.Event;
+import org.sonatype.gossip.Level;
+import org.sonatype.gossip.filter.render.ColorRenderer;
 
 /**
- * Tests for {@link GossipPropertiesReader}.
+ * Tests for the {@link org.sonatype.gossip.filter.render.ColorRenderer} class.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-class GossipPropertiesReaderTest
+public class ColorRendererTest
+    extends TestCase
 {
-    @Test
-    void testLoad() {
-        URL url = getClass().getResource("gossip1.properties")
-        GossipPropertiesReader reader = new GossipPropertiesReader()
-        Model model = reader.read(url.openStream())
-        println(model)
+    public void test1() throws Exception {
+        Logger log = LoggerFactory.getLogger("foo");
+        Event e = new Event(log, Level.DEBUG, "foo bar baz", null);
+
+        ColorRenderer r = new ColorRenderer();
+        r.render(e);
     }
 }
