@@ -44,6 +44,8 @@ import java.util.Set;
 public final class ConfigurationContext
     implements Cloneable
 {
+    private static final String NEWLINE = System.getProperty("line.separator");
+
     private final Log log = Log.getLogger(getClass());
 
     private Map<String,Object> store;
@@ -77,11 +79,24 @@ public final class ConfigurationContext
 
     @Override
     public String toString() {
-        if (prefix == null) {
-            return getClass().getSimpleName() + "[]: " + store;
+        StringBuilder buff = new StringBuilder();
+
+        buff.append(getClass().getSimpleName());
+        buff.append("[").append(NEWLINE);
+
+        if (prefix != null) {
+            for (Map.Entry<String,Object> entry : store.entrySet()) {
+                if (entry.getKey().startsWith(prefix)) {
+                    buff.append("  ").
+                        append(entry.getKey()).append("=").append(entry.getValue()).
+                        append(",").append(NEWLINE);
+                }
+            }
         }
 
-        return getClass().getSimpleName() + "[" + prefix + "]: " + store;
+        buff.append("]");
+
+        return buff.toString();
     }
 
     @Override
