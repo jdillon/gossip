@@ -16,9 +16,8 @@
 
 package org.sonatype.gossip.model.io.xpp3
 
-import org.junit.Test
-import org.sonatype.gossip.model.Model
 import org.junit.Ignore
+import org.junit.Test
 
 /**
  * Tests for {@link GossipXpp3Reader}.

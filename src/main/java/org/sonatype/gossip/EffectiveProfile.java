@@ -72,7 +72,7 @@ public class EffectiveProfile
 
     private Filter[] filters;
 
-    public void filter(final Event event) {
+    public void filter(Event event) {
         assert event != null;
 
         if (this.filters == null) {
@@ -102,11 +102,11 @@ public class EffectiveProfile
         for (Filter filter : filters) {
             log.trace("Applying filter[{}]: {}", i, filter);
 
-            Filter.Result r = filter.filter(event);
+            event = filter.filter(event);
 
-            log.trace("Filter[{}] result: ", i, r);
+            log.trace("Filter[{}] result: ", i, event);
 
-            if (r == Filter.Result.STOP) {
+            if (event == Filter.STOP) {
                 break;
             }
 

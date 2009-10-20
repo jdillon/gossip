@@ -17,7 +17,6 @@
 package org.sonatype.gossip.model.io.props;
 
 import org.sonatype.gossip.ConfigurationException;
-import org.sonatype.gossip.Log;
 
 import java.io.File;
 import java.io.IOException;

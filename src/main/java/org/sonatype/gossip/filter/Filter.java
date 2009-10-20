@@ -27,11 +27,7 @@ import org.sonatype.gossip.Event;
  */
 public interface Filter
 {
-    Result filter(Event event);
-
-    enum Result
-    {
-        CONTINUE,
-        STOP
-    }
+    Event STOP = null;
+    
+    Event filter(Event event);
 }

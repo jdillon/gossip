@@ -104,7 +104,7 @@ public class ConsoleFilter
         return stream;
     }
 
-    public Result filter(final Event event) {
+    public Event filter(final Event event) {
         assert event != null;
 
         if (renderer == null) {
@@ -120,6 +120,6 @@ public class ConsoleFilter
             out.flush();
         }
 
-        return Result.STOP;
+        return STOP;
     }
 }

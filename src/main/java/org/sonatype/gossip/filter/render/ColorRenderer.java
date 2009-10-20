@@ -21,7 +21,6 @@ import jline.TerminalFactory;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.Color;
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.Log;
 
 /**
  * Renders events with ANSI colors.
@@ -33,8 +32,10 @@ import org.sonatype.gossip.Log;
 public class ColorRenderer
     implements Renderer
 {
-    private transient Log log = Log.getLogger(getClass());
-
+    //
+    // FIXME: SHould be able o make this into a filter, need to update the filter api to allow for mutation of the values
+    //
+    
     private boolean truncate = false;
 
     private int maxLength;
