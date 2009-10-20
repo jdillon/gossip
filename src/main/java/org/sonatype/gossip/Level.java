@@ -31,8 +31,7 @@ public enum Level
     DEBUG(LocationAwareLogger.DEBUG_INT),
     INFO(LocationAwareLogger.INFO_INT),
     WARN(LocationAwareLogger.WARN_INT),
-    ERROR(LocationAwareLogger.ERROR_INT),
-    ;
+    ERROR(LocationAwareLogger.ERROR_INT);
 
     public final int id;
 

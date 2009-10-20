@@ -34,16 +34,6 @@ public class URLSource
 {
     private URL url;
 
-    public URLSource() {}
-
-    public URLSource(final URL url) {
-        setUrl(url);
-    }
-
-    public URL getUrl() {
-        return url;
-    }
-
     public void setUrl(final URL url) {
         this.url = url;
     }
@@ -52,6 +42,10 @@ public class URLSource
         assert location != null;
 
         setUrl(new URL(location));
+    }
+
+    public URL getUrl() {
+        return url;
     }
 
     public Model load() throws Exception {

@@ -33,24 +33,14 @@ public class FileSource
 {
     private File file;
 
-    public FileSource() {}
-
-    public FileSource(final File file) {
-        this.file = file;
+    public void setFile(final String fileName) {
+        assert fileName != null;
+        
+        file = new File(fileName);
     }
 
     public File getFile() {
         return file;
-    }
-
-    public void setFile(final File file) {
-        this.file = file;
-    }
-
-    public void setFile(final String fileName) {
-        assert fileName != null;
-        
-        setFile(new File(fileName));
     }
 
     public Model load() throws Exception {
@@ -58,7 +48,7 @@ public class FileSource
             throw new MissingPropertyException("file");
         }
 
-        return load(getFile());
+        return load(file);
     }
 
     @Override

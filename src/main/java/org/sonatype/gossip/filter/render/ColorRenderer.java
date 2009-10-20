@@ -60,6 +60,10 @@ public class ColorRenderer
         setTruncate(Boolean.valueOf(flag).booleanValue());
     }
 
+    public boolean isTruncate() {
+        return truncate;
+    }
+
     public void setMaxLength(final int length) {
         this.maxLength = length;
     }
@@ -68,6 +72,10 @@ public class ColorRenderer
         assert length != null;
 
         setMaxLength(Integer.parseInt(length));
+    }
+
+    public int getMaxLength() {
+        return maxLength;
     }
 
     public String render(final Event event) {

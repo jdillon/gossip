@@ -150,8 +150,9 @@ public class Configurator
 
         log.trace("Using bootstrap URL: {}", url);
         
-        URLSource source = new URLSource(url);
-
+        URLSource source = new URLSource();
+        source.setUrl(url);
+        
         return source.load();
     }
 }

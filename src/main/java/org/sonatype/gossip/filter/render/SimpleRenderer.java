@@ -56,12 +56,20 @@ public class SimpleRenderer
         setIncludeName(Boolean.valueOf(flag).booleanValue());
     }
 
+    public boolean isIncludeName() {
+        return includeName;
+    }
+
     public void setShortName(final boolean flag) {
         this.shortName = flag;
     }
 
     public void setShortName(final String flag) {
-        setShortName(Boolean.valueOf(flag).booleanValue());
+        setShortName(Boolean.valueOf(flag));
+    }
+
+    public boolean isShortName() {
+        return shortName;
     }
 
     public void setNameWidth(final int width) {
@@ -70,6 +78,10 @@ public class SimpleRenderer
 
     public void setNameWidth(final String width) {
         setNameWidth(Integer.parseInt(width));
+    }
+
+    public int getNameWidth() {
+        return nameWidth;
     }
 
     public String render(final Event event) {

@@ -38,24 +38,20 @@ public abstract class NameValueTriggerSupport
 
     private boolean ignoreCase;
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(final String name) {
         this.name = name;
     }
 
-    public String getValue() {
-        return value;
+    public String getName() {
+        return name;
     }
 
     public void setValue(final String value) {
         this.value = value;
     }
 
-    public Boolean getTrim() {
-        return trim;
+    public String getValue() {
+        return value;
     }
 
     public void setTrim(final boolean trim) {
@@ -66,8 +62,8 @@ public abstract class NameValueTriggerSupport
         setTrim(Boolean.valueOf(trim));
     }
 
-    public Boolean getIgnoreCase() {
-        return ignoreCase;
+    public boolean isTrim() {
+        return trim;
     }
 
     public void setIgnoreCase(final boolean ignoreCase) {
@@ -76,6 +72,10 @@ public abstract class NameValueTriggerSupport
 
     public void setIgnoreCase(final String ignoreCase) {
         setIgnoreCase(Boolean.valueOf(ignoreCase));
+    }
+
+    public boolean isIgnoreCase() {
+        return ignoreCase;
     }
 
     protected abstract String resolve();

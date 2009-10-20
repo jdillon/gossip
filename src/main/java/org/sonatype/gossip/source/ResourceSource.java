@@ -16,9 +16,9 @@
 
 package org.sonatype.gossip.source;
 
-import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.MissingPropertyException;
 import org.sonatype.gossip.model.Model;
+import static org.sonatype.gossip.source.ResourceSource.ClassLoaderType.TCL;
 
 import java.net.URL;
 
@@ -32,23 +32,15 @@ import java.net.URL;
 public class ResourceSource
     extends SourceSupport
 {
-    private static final String CL_TYPE_TCL = "TCL";
-
-    private static final String CL_TYPE_INTERNAL = "INTERNAL";
-
-    private static final String CL_TYPE_SYSTEM = "SYSTEM";
-
+    public enum ClassLoaderType {
+        TCL, INTERNAL, SYSTEM;
+    }
+    
     private String name;
 
-    private String classLoaderType = CL_TYPE_TCL;
+    private ClassLoaderType classLoaderType = TCL;
 
     private ClassLoader classLoader;
-
-    public ResourceSource() {}
-
-    public ResourceSource(final String name) {
-        this.name = name;
-    }
 
     public String getName() {
         return name;
@@ -58,31 +50,28 @@ public class ResourceSource
         this.name = name;
     }
 
-    public String getClassLoaderType() {
-        return classLoaderType;
-    }
-
     public void setClassLoaderType(final String type) {
         assert type != null;
         
-        this.classLoaderType = type;
+        this.classLoaderType = ClassLoaderType.valueOf(type.toUpperCase());
     }
-    
+
+    public ClassLoaderType getClassLoaderType() {
+        return classLoaderType;
+    }
+
     public ClassLoader getClassLoader() {
         if (classLoader == null) {
-            String type = classLoaderType.toUpperCase();
-
-            if (type.equals(CL_TYPE_TCL)) {
-                classLoader = Thread.currentThread().getContextClassLoader();
-            }
-            else if (type.equals(CL_TYPE_INTERNAL)) {
-                classLoader = getClass().getClassLoader();
-            }
-            else if (type.equals(CL_TYPE_SYSTEM)) {
-                classLoader = ClassLoader.getSystemClassLoader();
-            }
-            else {
-                throw new ConfigurationException("Invalid classLoaderType: " + classLoaderType);
+            switch (classLoaderType) {
+                case TCL:
+                    classLoader = Thread.currentThread().getContextClassLoader();
+                    break;
+                case INTERNAL:
+                    classLoader = getClass().getClassLoader();
+                    break;
+                case SYSTEM:
+                    classLoader = ClassLoader.getSystemClassLoader();
+                    break;
             }
         }
 
@@ -111,6 +100,7 @@ public class ResourceSource
             log.trace("Unable to load; missing resource: {}", name);
         }
         else {
+            log.trace("Loaded resource: {}", url);
             model = load(url);
         }
 

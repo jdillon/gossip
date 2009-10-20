@@ -32,19 +32,13 @@ public class HomeDirectorySource
     extends SourceSupport
 {
     private String path;
-    
-    public HomeDirectorySource() {}
 
-    public HomeDirectorySource(final String path) {
-        setPath(path);
+    public void setPath(final String path) {
+        this.path = path;
     }
 
     public String getPath() {
         return path;
-    }
-
-    public void setPath(final String path) {
-        this.path = path;
     }
 
     public Model load() throws Exception {
@@ -54,7 +48,7 @@ public class HomeDirectorySource
 
         File homeDir = new File(System.getProperty("user.home"));
 
-        File file = new File(homeDir, getPath());
+        File file = new File(homeDir, path);
 
         return load(file);
     }
