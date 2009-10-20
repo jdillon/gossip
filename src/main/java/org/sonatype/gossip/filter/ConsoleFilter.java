@@ -33,13 +33,9 @@ import java.io.PrintStream;
 public class ConsoleFilter
     implements Filter
 {
-    public static final String OUT = "OUT";
-
     public static final String SYSOUT = "SYSOUT";
 
     public static final String SYSTEM_OUT = "SYSTEM.OUT";
-
-    public static final String ERR = "ERR";
 
     public static final String SYSERR = "SYSERR";
 
@@ -89,16 +85,15 @@ public class ConsoleFilter
         if (stream == null) {
             // Parse the stream
             String tmp = name.toUpperCase();
-            if (OUT.equals(tmp) || SYSOUT.equals(tmp) || SYSTEM_OUT.equals(tmp)) {
+            if (SYSOUT.equals(tmp) || SYSTEM_OUT.equals(tmp)) {
                 stream = System.out;
             }
-            else if (ERR.equals(tmp) || SYSERR.equals(tmp) || SYSTEM_ERR.equals(tmp)) {
+            else if (SYSERR.equals(tmp) || SYSTEM_ERR.equals(tmp)) {
                 stream = System.err;
             }
             else {
                 throw new ConfigurationException("Unknown stream name: " + name);
             }
-
         }
 
         return stream;

@@ -28,9 +28,13 @@ import org.slf4j.spi.LocationAwareLogger;
 public enum Level
 {
     TRACE(LocationAwareLogger.TRACE_INT),
+
     DEBUG(LocationAwareLogger.DEBUG_INT),
+
     INFO(LocationAwareLogger.INFO_INT),
+
     WARN(LocationAwareLogger.WARN_INT),
+
     ERROR(LocationAwareLogger.ERROR_INT);
 
     public final int id;

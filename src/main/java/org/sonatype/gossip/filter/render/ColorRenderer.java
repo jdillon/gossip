@@ -16,10 +16,11 @@
 
 package org.sonatype.gossip.filter.render;
 
-import org.fusesource.jansi.Ansi;
+import static org.fusesource.jansi.Ansi.Attribute.INTENSITY_BOLD;
+import static org.fusesource.jansi.Ansi.Color.GREEN;
+import static org.fusesource.jansi.Ansi.Color.RED;
+import static org.fusesource.jansi.Ansi.Color.YELLOW;
 import static org.fusesource.jansi.Ansi.ansi;
-import static org.fusesource.jansi.Ansi.Color.*;
-import static org.fusesource.jansi.Ansi.Attribute.*;
 import org.sonatype.gossip.Event;
 
 /**
@@ -36,29 +37,25 @@ public class ColorRenderer
     protected void appendLevel(final Event event, final StringBuilder buff) {
         assert event != null;
         assert buff != null;
-        
-        Ansi ansi = ansi();
 
         switch (event.level) {
             case TRACE:
             case DEBUG:
-                ansi = ansi.a(INTENSITY_BOLD).fg(YELLOW).a(event.level.name()).reset();
+                buff.append(ansi().a(INTENSITY_BOLD).fg(YELLOW).a(event.level.name()).reset());
                 break;
 
             case INFO:
-                ansi = ansi.a(INTENSITY_BOLD).fg(GREEN).a(event.level.name()).reset();
+                buff.append(ansi().a(INTENSITY_BOLD).fg(GREEN).a(event.level.name()).reset());
                 break;
 
             case WARN:
             case ERROR:
-                ansi = ansi.a(INTENSITY_BOLD).fg(RED).a(event.level.name()).reset();
+                buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(event.level.name()).reset());
                 break;
 
             default:
                 throw new InternalError();
         }
-        
-        buff.append(ansi);
     }
     
     @Override
@@ -76,9 +73,8 @@ public class ColorRenderer
         while (cause != null) {
             for (StackTraceElement e : cause.getStackTrace()) {
                 buff.append("    ");
-                buff.append(ansi().a(INTENSITY_BOLD).a("at").reset().a(" ").
-                    a(e.getClassName()).a(".").a(e.getMethodName()).
-                    a(" (").a(INTENSITY_BOLD).a(getLocation(e)).reset().a(")"));
+                buff.append(ansi().a(INTENSITY_BOLD).a("at").reset().a(" ").a(e.getClassName()).a(".").a(e.getMethodName()));
+                buff.append(ansi().a(" (").a(INTENSITY_BOLD).a(getLocation(e)).reset().a(")"));
                 buff.append(NEWLINE);
             }
 
