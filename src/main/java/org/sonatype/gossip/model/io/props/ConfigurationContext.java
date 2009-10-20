@@ -46,8 +46,6 @@ public final class ConfigurationContext
 {
     private static final String NEWLINE = System.getProperty("line.separator");
 
-    private final Log log = Log.getLogger(getClass());
-
     private Map<String,Object> store;
 
     private String prefix;
@@ -106,18 +104,6 @@ public final class ConfigurationContext
         }
         catch (CloneNotSupportedException e) {
             throw new InternalError();
-        }
-    }
-
-    void dump() {
-        dump("    ");
-    }
-
-    void dump(final String pad) {
-        assert pad != null;
-
-        for (Map.Entry<String,Object> entry : store.entrySet()) {
-            log.debug("{}{}={}", pad, entry.getKey(), entry.getValue());
         }
     }
 
@@ -372,7 +358,15 @@ public final class ConfigurationContext
         return asProperties(this);
     }
 
-    public String[] split(final String name) {
-        return this.get(name, "").split(",");
+    public String[] split(final String name, boolean trim) {
+        String[] strings = this.get(name, "").split(",");
+
+        if (trim) {
+            for (int i=0; i<strings.length; i++) {
+                strings[i] = strings[i].trim();
+            }
+        }
+
+        return strings;
     }
 }

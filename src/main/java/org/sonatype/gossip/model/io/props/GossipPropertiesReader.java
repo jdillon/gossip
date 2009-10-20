@@ -107,8 +107,7 @@ public class GossipPropertiesReader
             return;
         }
 
-        for (String name : ctx.split(SOURCES)) {
-            name = name.trim();
+        for (String name : ctx.split(SOURCES, true)) {
             if (name.length() == 0) {
                 throw new ConfigurationException("Source name must not be blank");
             }
@@ -143,8 +142,7 @@ public class GossipPropertiesReader
             return;
         }
 
-        for (String name : ctx.split(PROFILES)) {
-            name = name.trim();
+        for (String name : ctx.split(PROFILES, true)) {
             if (name.length() == 0) {
                 throw new ConfigurationException("Profile name must not be blank");
             }
@@ -165,9 +163,7 @@ public class GossipPropertiesReader
         profile.setProperties(ctx.child(PROPERTIES).toProperties());
 
         configureLoggerNodes(profile, ctx.child(LOGGER));
-
         configureTriggerNodes(profile, ctx);
-
         configureFilterNodes(profile, ctx);
 
         log.trace("Created: {}", profile);
@@ -201,8 +197,7 @@ public class GossipPropertiesReader
             return;
         }
 
-        for (String name : ctx.split(TRIGGERS)) {
-            name = name.trim();
+        for (String name : ctx.split(TRIGGERS, true)) {
             if (name.length() == 0) {
                 throw new ConfigurationException("Trigger name must not be blank");
             }
@@ -235,8 +230,7 @@ public class GossipPropertiesReader
             return;
         }
 
-        for (String name : ctx.split(FILTERS)) {
-            name = name.trim();
+        for (String name : ctx.split(FILTERS, true)) {
             if (name.length() == 0) {
                 throw new ConfigurationException("Filter name must not be blank");
             }
