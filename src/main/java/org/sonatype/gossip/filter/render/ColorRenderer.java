@@ -16,10 +16,10 @@
 
 package org.sonatype.gossip.filter.render;
 
-import jline.Terminal;
-import jline.TerminalFactory;
 import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.Ansi.Color;
+import static org.fusesource.jansi.Ansi.ansi;
+import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.Attribute.*;
 import org.sonatype.gossip.Event;
 
 /**
@@ -30,109 +30,64 @@ import org.sonatype.gossip.Event;
  * @since 1.0
  */
 public class ColorRenderer
-    implements Renderer
+    extends SimpleRenderer
 {
-    //
-    // FIXME: SHould be able o make this into a filter, need to update the filter api to allow for mutation of the values
-    //
-    
-    private boolean truncate = false;
-
-    private int maxLength;
-
-    public ColorRenderer() {
-        Terminal term = TerminalFactory.get();
-        int w = term.getWidth() - 1;
-    }
-
     @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "truncate=" + truncate +
-                ", maxLength=" + maxLength +
-                '}';
-    }
-
-    public void setTruncate(final boolean flag) {
-        this.truncate = flag;
-    }
-
-    public void setTruncate(final String flag) {
-        setTruncate(Boolean.valueOf(flag).booleanValue());
-    }
-
-    public boolean isTruncate() {
-        return truncate;
-    }
-
-    public void setMaxLength(final int length) {
-        this.maxLength = length;
-    }
-
-    public void setMaxLength(final String length) {
-        assert length != null;
-
-        setMaxLength(Integer.parseInt(length));
-    }
-
-    public int getMaxLength() {
-        return maxLength;
-    }
-
-    public String render(final Event event) {
+    protected void appendLevel(final Event event, final StringBuilder buff) {
         assert event != null;
-
-        Ansi ansi = Ansi.ansi();
-
-        ansi = ansi.a("[");
+        assert buff != null;
+        
+        Ansi ansi = ansi();
 
         switch (event.level) {
             case TRACE:
             case DEBUG:
-                ansi = ansi.fg(Color.YELLOW).a(event.level.name()).reset();
+                ansi = ansi.a(INTENSITY_BOLD).fg(YELLOW).a(event.level.name()).reset();
                 break;
 
             case INFO:
-                ansi = ansi.fg(Color.GREEN).a(event.level.name()).reset();
+                ansi = ansi.a(INTENSITY_BOLD).fg(GREEN).a(event.level.name()).reset();
                 break;
 
             case WARN:
             case ERROR:
-                ansi = ansi.fg(Color.RED).a(event.level.name()).reset();
+                ansi = ansi.a(INTENSITY_BOLD).fg(RED).a(event.level.name()).reset();
                 break;
 
             default:
                 throw new InternalError();
         }
+        
+        buff.append(ansi);
+    }
+    
+    @Override
+    protected void appendCause(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
 
-        ansi = ansi.a("]");
+        Throwable cause = event.cause;
 
-        switch (event.level) {
-            case INFO:
-            case WARN:
-                ansi = ansi.a(" ");
-        }
+        buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getClass().getName()).reset());
+        buff.append(": ");
+        buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
+        buff.append(NEWLINE);
 
-        ansi = ansi.a(" ").a(event.logger.getName()).a(" - ").a(event.message).a(NEWLINE);
+        while (cause != null) {
+            for (StackTraceElement e : cause.getStackTrace()) {
+                buff.append("    ");
+                buff.append(ansi().a(INTENSITY_BOLD).a("at").reset().a(" ").
+                    a(e.getClassName()).a(".").a(e.getMethodName()).
+                    a(" (").a(INTENSITY_BOLD).a(getLocation(e)).reset().a(")"));
+                buff.append(NEWLINE);
+            }
 
-        if (event.cause != null) {
-            ansi = ansi.a(event.toString());
-
-            StackTraceElement[] trace = event.cause.getStackTrace();
-            for (int i=0; i<trace.length; i++ ) {
-                ansi = ansi.a(trace[i].toString());
+            cause = cause.getCause();
+            if (cause != null) {
+                buff.append(ansi().a(INTENSITY_BOLD).a("Caused by").reset().a(" ").a(cause.getClass().getName()).a(": "));
+                buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
+                buff.append(NEWLINE);
             }
         }
-
-        //
-        // FIXME: Neeed a better solution for this which handles exceptions, multi-line messages
-        //        and color escaping properly...
-        //
-
-        // if (truncate && buff.getPlainBuffer().length() > maxLength) {
-        //     return buff.toString().substring(0, maxLength - 4) + " ..." + NEWLINE;
-        // }
-
-        return ansi.toString();
     }
 }

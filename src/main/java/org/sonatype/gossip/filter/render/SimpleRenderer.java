@@ -87,7 +87,7 @@ public class SimpleRenderer
         StringBuilder buff = new StringBuilder();
 
         buff.append("[");
-        buff.append(event.level.name());
+        appendLevel(event, buff);
         buff.append("]");
 
         switch (event.level) {
@@ -98,50 +98,87 @@ public class SimpleRenderer
 
         buff.append(" ");
 
-        if (includeName) {
-            String name = event.logger.getName();
-
-            if (shortName) {
-                int i = name.lastIndexOf(".");
-                
-                if (i != -1) {
-                    name = name.substring(i + 1, name.length());
-                }
-            }
-
-            if (nameWidth > 0) {
-                name = rightPad(name, nameWidth, " ");
-            }
-
-            buff.append(name);
-            
+        if (isIncludeName()) {
+            appendLogger(event, buff);
             buff.append("- ");
         }
-        
-        buff.append(event.message);
-        
+
+        appendMessage(event, buff);
+
         buff.append(NEWLINE);
 
         if (event.cause != null) {
-            buff.append(event.cause);
-            buff.append(NEWLINE);
-
-            StackTraceElement[] trace = event.cause.getStackTrace();
-            for (int i=0; i<trace.length; i++ ) {
-                buff.append("    ");
-                buff.append(trace[i]);
-                buff.append(NEWLINE);
-            }
+            appendCause(event, buff);
         }
 
         return buff.toString();
+    }
+
+    protected void appendLevel(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
+
+        buff.append(event.level.name());
+    }
+
+    protected void appendLogger(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
+
+        String name = event.logger.getName();
+
+        if (isShortName()) {
+            int i = name.lastIndexOf(".");
+
+            if (i != -1) {
+                name = name.substring(i + 1, name.length());
+            }
+        }
+
+        if (nameWidth > 0) {
+            name = rightPad(name, nameWidth, " ");
+        }
+
+        buff.append(name);
+    }
+
+    protected void appendMessage(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
+
+        buff.append(event.message);
+    }
+
+    protected void appendCause(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
+
+        Throwable cause = event.cause;
+
+        buff.append(cause);
+        buff.append(NEWLINE);
+
+        while (cause != null) {
+            for (StackTraceElement e : cause.getStackTrace()) {
+                buff.append("    at ").append(e.getClassName()).append(".").append(e.getMethodName());
+                buff.append(" (").append(getLocation(e)).append(")");
+                buff.append(NEWLINE);
+            }
+
+            cause = cause.getCause();
+            if (cause != null) {
+                buff.append("Caused by ").append(cause.getClass().getName()).append(": ");
+                buff.append(cause.getMessage());
+                buff.append(NEWLINE);
+            }
+        }
     }
 
     //
     // Helpers
     //
 
-    public static String repeat(final String str, final int repeat) {
+    protected static String repeat(final String str, final int repeat) {
         StringBuilder buff = new StringBuilder(repeat * str.length());
 
         for (int i = 0; i < repeat; i++) {
@@ -151,7 +188,7 @@ public class SimpleRenderer
         return buff.toString();
     }
 
-    public static String rightPad(String str, int size, final String delim) {
+    protected static String rightPad(String str, int size, final String delim) {
         size = (size - str.length()) / delim.length();
 
         if (size > 0) {
@@ -159,5 +196,22 @@ public class SimpleRenderer
         }
 
         return str;
+    }
+
+    protected static String getLocation(final StackTraceElement e) {
+        assert e != null;
+
+        if (e.isNativeMethod()) {
+            return "Native Method";
+        }
+        else if (e.getFileName() == null) {
+            return "Unknown Source";
+        }
+        else if (e.getLineNumber() >= 0) {
+            return String.format("%s:%s", e.getFileName(), e.getLineNumber());
+        }
+        else {
+            return e.getFileName();
+        }
     }
 }
