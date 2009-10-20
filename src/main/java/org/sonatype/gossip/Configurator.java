@@ -16,7 +16,7 @@
 
 package org.sonatype.gossip;
 
-import org.sonatype.gossip.filter.ConsoleWritingFilter;
+import org.sonatype.gossip.filter.ConsoleFilter;
 import org.sonatype.gossip.model.FilterNode;
 import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.ProfileNode;
@@ -137,7 +137,7 @@ public class Configurator
         p.addTrigger(t);
 
         FilterNode f = new FilterNode();
-        f.setType(ConsoleWritingFilter.class);
+        f.setType(ConsoleFilter.class);
 
         return p;
     }

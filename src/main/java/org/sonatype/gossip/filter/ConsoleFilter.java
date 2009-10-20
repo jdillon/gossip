@@ -30,7 +30,7 @@ import java.io.PrintStream;
  *
  * @since 1.0
  */
-public class ConsoleWritingFilter
+public class ConsoleFilter
     implements Filter
 {
     public static final String OUT = "OUT";
@@ -51,11 +51,11 @@ public class ConsoleWritingFilter
 
     private Renderer renderer;
 
-    public ConsoleWritingFilter() {
+    public ConsoleFilter() {
         this(SYSOUT);
     }
 
-    public ConsoleWritingFilter(final String name) {
+    public ConsoleFilter(final String name) {
         setName(name);
     }
 
@@ -113,7 +113,8 @@ public class ConsoleWritingFilter
         
         String text = renderer.render(event);
 
-        PrintStream out = getStream();
+        final PrintStream out = getStream();
+        
         synchronized (out) {
             out.print(text);
             out.flush();

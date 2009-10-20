@@ -32,7 +32,7 @@ import java.net.URL;
 public class ResourceSource
     extends SourceSupport
 {
-    public enum ClassLoaderType {
+    public static enum ClassLoaderType {
         TCL, INTERNAL, SYSTEM;
     }
     
