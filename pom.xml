@@ -328,50 +328,68 @@
                                         <property refid="maven.compile.classpath" name="mvn.classpath"/>
                                         <taskdef resource="proguard/ant/task.properties"/>
                                         
-                                        <proguard target="1.5" forceprocessing="true" shrink="true" obfuscate="true" warn="true" printconfiguration="true" optimizationpasses="2" printusage="true">
-                                            <injar file="${project.build.directory}/${project.build.finalName}.${project.packaging}"/>
-                                            <outjar file="${project.build.directory}/${project.build.finalName}-shrunk.${project.packaging}"/>
+                                        <proguard><![CDATA[
+                                            -injars ${project.build.directory}/${project.build.finalName}.${project.packaging}
+                                            -outjars ${project.build.directory}/${project.build.finalName}-shrunk.${project.packaging}
 
-                                            <!-- FIXME: Sucky platform muck -->
-                                            <libraryjar file="/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar"/>
-                                            <libraryjar file="/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/alt-rt.jar"/>
+                                            -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar
+                                            -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/alt-rt.jar
 
-                                            <libraryjar file="${project.build.directory}/dependency/jansi-1.0.jar"/>
-                                            <libraryjar file="${project.build.directory}/dependency/jline-2.0-SNAPSHOT.jar"/>
-                                            <libraryjar file="${project.build.directory}/dependency/plexus-utils-2.0.0.jar"/>
-                                            <libraryjar file="${project.build.directory}/dependency/slf4j-api-1.5.8.jar"/>
+                                            -libraryjars ${project.build.directory}/dependency/jansi-1.0.jar
+                                            -libraryjars ${project.build.directory}/dependency/jline-2.0-SNAPSHOT.jar
+                                            -libraryjars ${project.build.directory}/dependency/plexus-utils-2.0.0.jar
+                                            -libraryjars ${project.build.directory}/dependency/slf4j-api-1.5.8.jar
 
-                                            <keepattribute name="InnerClasses"/>
-                                            <keepattribute name="SourceFile"/>
-                                            <keepattribute name="LineNumberTable"/>
-                                            <keepattribute name="Deprecated"/>
+                                            -target 1.5
+                                            -forceprocessing
+                                            -printusage
+                                            -optimizationpasses 2
+                                            -printmapping ${project.build.directory}/proguard.map
+
+                                            -renamesourcefileattribute SourceFile
+                                            -keepattributes InnerClasses,SourceFile,LineNumberTable,Deprecated
                                             
-                                            <keep access="public" type="class" name="org.slf4j.impl.*">
-                                                <field access="public"/>
-                                                <method access="public"/>
-                                            </keep>
+                                            -keepclassmembers enum * {
+                                                public static **[] values();
+                                                public static ** valueOf(java.lang.String);
+                                            }
 
-                                            <keep access="public" type="class" name="org.sonatype.gossip.Log,org.sonatype.gossip.Event,org.sonatype.gossip.Level">
-                                                <field access="public"/>
-                                                <method access="public"/>
-                                            </keep>
+                                            -keepclassmembers class * extends java.lang.Enum {
+                                                public static **[] values();
+                                                public static ** valueOf(java.lang.String);
+                                            }
+                                            
+                                            -keepclassmembernames class * {
+                                                java.lang.Class class$(java.lang.String);
+                                                java.lang.Class class$(java.lang.String, boolean);
+                                            }
 
-                                            <keep access="public" type="class" name="org.sonatype.gossip.source.*">
-                                                <method access="public protected"/>
-                                            </keep>
+                                            -keep public class org.slf4j.impl.* {
+                                                public <fields>;
+                                                public <methods>;
+                                            }
 
-                                            <keep access="public" type="class" name="org.sonatype.gossip.trigger.*">
-                                                <method access="public protected"/>
-                                            </keep>
+                                            -keep public class org.sonatype.gossip.Log,org.sonatype.gossip.Level,org.sonatype.gossip.Event {
+                                                public <fields>;
+                                                public <methods>;
+                                            }
 
-                                            <keep access="public" type="class" name="org.sonatype.gossip.filter.*">
-                                                <method access="public protected"/>
-                                            </keep>
+                                            -keep public class org.sonatype.gossip.source.* {
+                                                public protected <methods>;
+                                            }
 
-                                            <keep access="public" type="class" name="org.sonatype.gossip.filter.render.*">
-                                                <method access="public protected"/>
-                                            </keep>
-                                        </proguard>
+                                            -keep public class org.sonatype.gossip.trigger.* {
+                                                public protected <methods>;
+                                            }
+
+                                            -keep public class org.sonatype.gossip.filter.* {
+                                                public protected <methods>;
+                                            }
+
+                                            -keep public class org.sonatype.gossip.filter.render.* {
+                                                public protected <methods>;
+                                            }                                            
+                                        ]]></proguard>
                                     </tasks>
                                 </configuration>
                             </execution>
