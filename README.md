@@ -6,7 +6,7 @@ Description
 Features
 --------
 
-* Small footprint
+* Small footprint (~60k, or ~45k shrunk)
 * Profile-based configuration
 * Profile activation triggers
 * Multiple source inputs
