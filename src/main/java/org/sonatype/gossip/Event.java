@@ -35,6 +35,14 @@ public final class Event
 
     public final Throwable cause;
 
+    //
+    // TODO: Add more details, like timestamp, threadname
+    //
+
+    //
+    // TODO: Convert to interface?  or expose methods to access data, make fileds private?
+    //
+
     public Event(final Logger logger, final Level level, final String message, final Throwable cause) {
         this.logger = logger;
         this.level = level;
