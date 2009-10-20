@@ -135,8 +135,9 @@ public class SimpleRenderer
             }
         }
 
-        if (nameWidth > 0) {
-            name = rightPad(name, nameWidth, " ");
+        int w = getNameWidth();
+        if (w > 0) {
+            name = String.format("%-" + w + "s", name);
         }
 
         buff.append(name);
@@ -174,31 +175,7 @@ public class SimpleRenderer
         }
     }
 
-    //
-    // Helpers
-    //
-
-    protected static String repeat(final String str, final int repeat) {
-        StringBuilder buff = new StringBuilder(repeat * str.length());
-
-        for (int i = 0; i < repeat; i++) {
-            buff.append(str);
-        }
-
-        return buff.toString();
-    }
-
-    protected static String rightPad(String str, int size, final String delim) {
-        size = (size - str.length()) / delim.length();
-
-        if (size > 0) {
-            str += repeat(delim, size);
-        }
-
-        return str;
-    }
-
-    protected static String getLocation(final StackTraceElement e) {
+    protected String getLocation(final StackTraceElement e) {
         assert e != null;
 
         if (e.isNativeMethod()) {
