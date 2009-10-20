@@ -16,6 +16,8 @@
 
 package org.sonatype.gossip;
 
+import org.sonatype.gossip.filter.render.SimpleRenderer;
+
 import java.io.PrintStream;
 
 /**
@@ -30,33 +32,18 @@ public final class Log
 {
     private static Level level = Level.WARN;
 
-    private static int nameWidth = -1;
+    private static SimpleRenderer renderer;
 
-    //
-    // TODO: Should probably just re-use the SimpleRenderer to get basic formatting muck
-    //
-    
     static {
-        String tmp;
-
-        tmp = System.getProperty(Log.class.getName() + ".level");
-
+        String tmp = System.getProperty(Log.class.getName() + ".level");
         if (tmp != null) {
             level = Level.valueOf(tmp.toUpperCase());
         }
 
-        tmp = System.getProperty(Log.class.getName() + ".nameWidth");
-
-        if (tmp != null) {
-            try {
-                nameWidth = Integer.parseInt(tmp);
-            }
-            catch (NumberFormatException e) {
-                throw new Error("Invalid Log.nameWidth value: " + tmp, e);
-            }
-        }
+        renderer = new SimpleRenderer();
+        renderer.setIncludeName(true);
     }
-    
+
     public Log(final String name) {
         super(name);
     }
@@ -87,43 +74,8 @@ public final class Log
         final PrintStream out = System.out;
 
         synchronized (out) {
-            out.print("[");
-            out.print(level.name());
-            out.print("] ");
-
-            switch (level) {
-                case INFO:
-                case WARN:
-                    out.print(" ");
-            }
-
-            if (nameWidth > 0) {
-                out.print(right(getName(), nameWidth));
-            }
-            else {
-                out.print(getName());
-            }
-            out.print(" - ");
-
-            out.println(message);
-
-            if (cause != null) {
-                cause.printStackTrace(out);
-            }
-
+            out.print(renderer.render(new Event(this, level, message, cause)));
             out.flush();
-        }
-    }
-
-    private static String right(final String str, final int len) {
-        if (len < 0) {
-            throw new IllegalArgumentException("Requested String length " + len + " is less than zero");
-        }
-        if (str == null || str.length() <= len) {
-            return str;
-        }
-        else {
-            return str.substring(str.length() - len);
         }
     }
 }

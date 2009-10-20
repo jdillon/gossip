@@ -17,7 +17,6 @@
 package org.sonatype.gossip.filter.render;
 
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.Log;
 
 /**
  * A simple event renderer.
@@ -29,8 +28,6 @@ import org.sonatype.gossip.Log;
 public class SimpleRenderer
     implements Renderer
 {
-    private transient Log log = Log.getLogger(getClass());
-
     private boolean includeName = false;
 
     private boolean shortName = false;
@@ -87,8 +84,6 @@ public class SimpleRenderer
     public String render(final Event event) {
         assert event != null;
 
-        log.trace("Rendering: {}", event);
-        
         StringBuilder buff = new StringBuilder();
 
         buff.append("[");
