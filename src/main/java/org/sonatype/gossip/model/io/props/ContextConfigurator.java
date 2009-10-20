@@ -22,17 +22,17 @@ import org.sonatype.gossip.model.ComponentFactory;
 import java.lang.reflect.Method;
 
 /**
- * Configures components from {@link ConfigurationContext}
+ * Configures components from {@link Context}
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
  */
-public class ConfigurationContextConfigurator
+public class ContextConfigurator
 {
-    private static Log log = Log.getLogger(ConfigurationContextConfigurator.class);
+    private static Log log = Log.getLogger(ContextConfigurator.class);
 
-    public void configure(final Object target, final ConfigurationContext config) throws Exception {
+    public void configure(final Object target, final Context config) throws Exception {
         assert target != null;
         assert config != null;
 
@@ -43,14 +43,14 @@ public class ConfigurationContextConfigurator
                 name = name.substring(0, i);
             }
 
-            String value = config.get(name, (String)null);
+            String value = config.get(name);
 
             // Attempt to set the simple value
             if (!maybeSet(target, name, value)) {
                 // otherwise assume the value is class to build and inject
                 Object obj = ComponentFactory.build(value, config.child(name));
                 Class type = obj.getClass();
-                name = "set" + capitalise(name);
+                name = getSetterName(name);
 
                 // find a method suitable to call
                 for (Method method : target.getClass().getMethods()) {
@@ -75,7 +75,7 @@ public class ConfigurationContextConfigurator
         assert name != null;
         assert value != null;
 
-        String tmp = "set" + capitalise(name);
+        String tmp = getSetterName(name);
         Class type = target.getClass();
 
         try {
@@ -88,7 +88,7 @@ public class ConfigurationContextConfigurator
             }
         }
         catch (NoSuchMethodException e) {
-            // ignore
+            log.trace("Missing setter for: {}", value);
         }
         catch (Exception e) {
             log.error("Failed to set '{}={}'", name, value, e);
@@ -97,12 +97,13 @@ public class ConfigurationContextConfigurator
         return false;
     }
 
-    private static String capitalise(final String str) {
-        assert str != null && str.length() != 0;
+    private String getSetterName(final String name) {
+        assert name != null && name.length() != 0;
 
-        return new StringBuilder(str.length())
-            .append(Character.toTitleCase(str.charAt(0)))
-            .append(str.substring(1))
+        return new StringBuilder(name.length() + 3)
+            .append("set")
+            .append(Character.toTitleCase(name.charAt(0)))
+            .append(name.substring(1))
             .toString();
     }
 }

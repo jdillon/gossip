@@ -16,17 +16,9 @@
 
 package org.sonatype.gossip.model.io.props;
 
-import org.sonatype.gossip.ConfigurationException;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -40,38 +32,21 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public final class ConfigurationContext
+public final class Context
     implements Cloneable
 {
     private static final String NEWLINE = System.getProperty("line.separator");
 
-    private Map<String,Object> store;
+    private Map<String,String> store;
 
     private String prefix;
 
-    private ConfigurationContext parent;
+    private Context parent;
 
-    public ConfigurationContext(final Map<String,Object> store, final String prefix) {
+    private Context(final Map<String,String> store, final String prefix) {
         assert store != null;
         this.store = store;
         this.prefix = prefix;
-    }
-
-    public ConfigurationContext(final Map<String,Object> store) {
-        this(store, null);
-    }
-
-    @SuppressWarnings({"unchecked"})
-    public ConfigurationContext(final Properties store) {
-        this((Map)store, null);
-    }
-
-    public ConfigurationContext() {
-        this(new HashMap<String,Object>(), null);
-    }
-
-    public ConfigurationContext(final ConfigurationContext config) {
-        this(config.store, config.prefix);
     }
 
     @Override
@@ -82,7 +57,7 @@ public final class ConfigurationContext
         buff.append("[").append(NEWLINE);
 
         if (prefix != null) {
-            for (Map.Entry<String,Object> entry : store.entrySet()) {
+            for (Map.Entry<String,String> entry : store.entrySet()) {
                 if (entry.getKey().startsWith(prefix)) {
                     buff.append("  ").
                         append(entry.getKey()).append("=").append(entry.getValue()).
@@ -106,10 +81,6 @@ public final class ConfigurationContext
         }
     }
 
-    public String getPrefix() {
-        return prefix;
-    }
-
     public String key(final String name) {
         assert name != null;
 
@@ -126,18 +97,18 @@ public final class ConfigurationContext
         return store.containsKey(key(name));
     }
 
-    public Object set(final String name, final Object value) {
+    public String set(final String name, final String value) {
         assert name != null;
         assert value != null;
 
         return store.put(key(name), value);
     }
 
-    public Object get(final String name, final Object defaultValue) {
+    public String get(final String name, final String defaultValue) {
         assert name != null;
         // defaultValue can be null
 
-        Object value = store.get(key(name));
+        String value = store.get(key(name));
 
         if (value == null) {
             value =  defaultValue;
@@ -146,8 +117,8 @@ public final class ConfigurationContext
         return value;
     }
 
-    public Object get(final String name) {
-        return get(name, (Object)null);
+    public String get(final String name) {
+        return get(name, null);
     }
 
     public int size() {
@@ -164,10 +135,6 @@ public final class ConfigurationContext
         }
 
         return c;
-    }
-
-    public boolean isEmpty() {
-        return size() == 0;
     }
 
     public Set<String> names() {
@@ -193,7 +160,7 @@ public final class ConfigurationContext
     // Children
     //
 
-    public ConfigurationContext parent() {
+    public Context parent() {
         if (parent == null) {
             throw new IllegalStateException("Parent is not bound");
         }
@@ -201,10 +168,10 @@ public final class ConfigurationContext
         return parent;
     }
 
-    public ConfigurationContext child(final String prefix) {
+    public Context child(final String prefix) {
         assert prefix != null;
 
-        ConfigurationContext child = (ConfigurationContext) clone();
+        Context child = (Context) clone();
 
         child.parent = this;
 
@@ -219,134 +186,28 @@ public final class ConfigurationContext
     }
 
     //
-    // Typed Access
-    //
-
-    public Object set(final String name, final boolean value) {
-        return set(name, Boolean.valueOf(value));
-    }
-
-    public boolean get(final String name, final boolean defaultValue) {
-        Object value = get(name);
-
-        if (value == null) {
-            return defaultValue;
-        }
-
-        if (value instanceof Boolean) {
-            return (Boolean)value;
-        }
-
-        return Boolean.valueOf(String.valueOf(value));
-    }
-
-    public Object set(final String name, final int value) {
-        return set(name, new Integer(value));
-    }
-
-    public int get(final String name, final int defaultValue) {
-        Object value = get(name);
-
-        if (value == null) {
-            return defaultValue;
-        }
-
-        if (value instanceof Number) {
-            return ((Number)value).intValue();
-        }
-
-        return Integer.valueOf(String.valueOf(value));
-    }
-
-    public String get(final String name, final String defaultValue) {
-        Object value = get(name);
-
-        if (value == null) {
-            return defaultValue;
-        }
-
-        if (value instanceof String) {
-            return (String)value;
-        }
-
-        return String.valueOf(value);
-    }
-
-    public File get(final String name, final File defaultValue) {
-        Object value = get(name);
-
-        if (value == null) {
-            return defaultValue;
-        }
-
-        if (value instanceof File) {
-            return (File)value;
-        }
-
-        return new File(String.valueOf(value));
-    }
-
-    public URL get(final String name, final URL defaultValue) {
-        Object value = get(name);
-
-        if (value == null) {
-            return defaultValue;
-        }
-
-        if (value instanceof URL) {
-            return (URL)value;
-        }
-
-        try {
-            return new URL(String.valueOf(value));
-        }
-        catch (MalformedURLException e) {
-            throw new ConfigurationException("Unable to decode URL; name=" + name + ", value=" + value, e);
-        }
-    }
-
-    public URI get(final String name, final URI defaultValue) {
-        Object value = get(name);
-
-        if (value == null) {
-            return defaultValue;
-        }
-
-        if (value instanceof URI) {
-            return (URI)value;
-        }
-
-        try {
-            return new URI(String.valueOf(value));
-        }
-        catch (URISyntaxException e) {
-            throw new ConfigurationException("Unable to decode URI; name=" + name + ", value=" + value, e);
-        }
-    }
-
-    //
     // Helpers
     //
 
-    public static ConfigurationContext create(final InputStream input) throws IOException {
+    @SuppressWarnings({"unchecked"})
+    public static Context create(final InputStream input) throws IOException {
         assert input != null;
 
         Properties props = new Properties();
         props.load(input);
-        ConfigurationContext ctx = new ConfigurationContext(props);
+        Context ctx = new Context((Map)props, null);
 
         return ctx;
     }
 
-    public static Properties asProperties(final ConfigurationContext ctx) {
+    public static Properties asProperties(final Context ctx) {
         assert ctx != null;
 
         Properties props = new Properties();
 
         for (Iterator iter = ctx.names().iterator(); iter.hasNext();) {
             String key = (String)iter.next();
-            String value = ctx.get(key, (String)null);
-
+            String value = ctx.get(key);
             props.setProperty(key, value);
         }
 

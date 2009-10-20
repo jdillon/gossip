@@ -71,10 +71,10 @@ public class GossipPropertiesReader
 
         Model model = new Model();
 
-        ConfigurationContext ctx = ConfigurationContext.create(in);
+        Context ctx = Context.create(in);
 
         // Validate the version
-        String tmp = ctx.get("version", (String)null);
+        String tmp = ctx.get("version");
         if (!EXPECTED_VERSION.equals(tmp)) {
             throw new ConfigurationException("Invalid configuration version: " + tmp + ", expected: " + EXPECTED_VERSION);
         }
@@ -99,7 +99,7 @@ public class GossipPropertiesReader
         }
     }
 
-    private void configureSourceNodes(final Model model, final ConfigurationContext ctx) {
+    private void configureSourceNodes(final Model model, final Context ctx) {
         assert model != null;
         assert ctx != null;
 
@@ -114,12 +114,12 @@ public class GossipPropertiesReader
 
             log.trace("Configuring source: {}", name);
 
-            SourceNode source = createSourceNode(ctx.get(SOURCE_DOT + name, (String)null), ctx.child(SOURCE_DOT + name));
+            SourceNode source = createSourceNode(ctx.get(SOURCE_DOT + name), ctx.child(SOURCE_DOT + name));
             model.addSource(source);
         }
     }
 
-    private SourceNode createSourceNode(final String type, final ConfigurationContext ctx) {
+    private SourceNode createSourceNode(final String type, final Context ctx) {
         assert type != null;
         assert ctx != null;
 
@@ -134,7 +134,7 @@ public class GossipPropertiesReader
         return source;
     }
 
-    private void configureProfileNodes(final Model model, final ConfigurationContext ctx) {
+    private void configureProfileNodes(final Model model, final Context ctx) {
         assert model != null;
         assert ctx != null;
 
@@ -152,7 +152,7 @@ public class GossipPropertiesReader
         }
     }
 
-    private ProfileNode createProfileNode(final String name, final ConfigurationContext ctx) {
+    private ProfileNode createProfileNode(final String name, final Context ctx) {
         assert name != null;
         assert ctx != null;
 
@@ -171,13 +171,13 @@ public class GossipPropertiesReader
         return profile;
     }
 
-    private void configureLoggerNodes(final ProfileNode profile, final ConfigurationContext ctx) {
+    private void configureLoggerNodes(final ProfileNode profile, final Context ctx) {
         assert profile != null;
         assert ctx != null;
 
         for (String name : ctx.names()) {
             name = name.trim();
-            String value = ctx.get(name, (String)null);
+            String value = ctx.get(name);
 
             LoggerNode logger = new LoggerNode();
             logger.setName(name);
@@ -189,7 +189,7 @@ public class GossipPropertiesReader
         }
     }
 
-    private void configureTriggerNodes(final ProfileNode profile, final ConfigurationContext ctx) {
+    private void configureTriggerNodes(final ProfileNode profile, final Context ctx) {
         assert profile != null;
         assert ctx != null;
 
@@ -202,12 +202,12 @@ public class GossipPropertiesReader
                 throw new ConfigurationException("Trigger name must not be blank");
             }
 
-            TriggerNode trigger = createTriggerNode(ctx.get(TRIGGER_DOT + name, (String)null), ctx.child(TRIGGER_DOT + name));
+            TriggerNode trigger = createTriggerNode(ctx.get(TRIGGER_DOT + name), ctx.child(TRIGGER_DOT + name));
             profile.addTrigger(trigger);
         }
     }
 
-    private TriggerNode createTriggerNode(final String type, final ConfigurationContext ctx) {
+    private TriggerNode createTriggerNode(final String type, final Context ctx) {
         assert type != null;
         assert ctx != null;
 
@@ -222,7 +222,7 @@ public class GossipPropertiesReader
         return trigger;
     }
 
-    private void configureFilterNodes(final ProfileNode profile, final ConfigurationContext ctx) {
+    private void configureFilterNodes(final ProfileNode profile, final Context ctx) {
         assert profile != null;
         assert ctx != null;
 
@@ -235,12 +235,12 @@ public class GossipPropertiesReader
                 throw new ConfigurationException("Filter name must not be blank");
             }
 
-            FilterNode filter = createFilterNode(ctx.get(FILTER_DOT + name, (String)null), ctx.child(FILTER_DOT + name));
+            FilterNode filter = createFilterNode(ctx.get(FILTER_DOT + name), ctx.child(FILTER_DOT + name));
             profile.addFilter(filter);
         }
     }
 
-    private FilterNode createFilterNode(final String type, final ConfigurationContext ctx) {
+    private FilterNode createFilterNode(final String type, final Context ctx) {
         assert type != null;
         assert ctx != null;
 

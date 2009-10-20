@@ -18,8 +18,8 @@ package org.sonatype.gossip.model;
 
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.filter.Filter;
-import org.sonatype.gossip.model.io.props.ConfigurationContext;
-import org.sonatype.gossip.model.io.props.ConfigurationContextConfigurator;
+import org.sonatype.gossip.model.io.props.Context;
+import org.sonatype.gossip.model.io.props.ContextConfigurator;
 import org.sonatype.gossip.source.Source;
 import org.sonatype.gossip.trigger.Trigger;
 
@@ -77,8 +77,8 @@ public class ComponentFactory
             // TODO: Support the Xpp3 configuration... w/o requiring it on the classpath for this class to function
             //
 
-            if (config instanceof ConfigurationContext) {
-                new ConfigurationContextConfigurator().configure(obj, (ConfigurationContext)config);
+            if (config instanceof Context) {
+                new ContextConfigurator().configure(obj, (Context)config);
             }
             else {
                 log.error("Unsupported configuration type: " + config.getClass().getName());
