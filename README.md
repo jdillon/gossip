@@ -14,7 +14,9 @@ Features
 Synopsis
 --------
 
-Need a small fast logging provider for [SLF4j][1]?  Don't want to pull in the kitchen sink with [Log4j][2]?  Hate [JUL][3]?
+Need a small fast logging provider for [SLF4j][1]?
+Don't want to pull in the kitchen sink with [Log4j][2]?
+Hate [JUL][3]?
 
 If you answered yes to any (or all) of the questions above, then Gossip might be the logging provider for you!
 
@@ -26,7 +28,7 @@ License
 Optional Dependencies
 ---------------------
 
-* [jansi][4] - For ANSI color output
+* [jANSI][4] - For ANSI colored output
 
 Building
 --------
