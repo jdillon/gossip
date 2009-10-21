@@ -44,6 +44,14 @@ Check out and build:
     cd gossip
     mvn install
 
+To build the jdk14 jar:
+
+    mvn install -Dretro
+
+To build the shrunk jar:
+
+    mvn install -Dshrink
+
 [1]: http://slf4j.org
 [2]: http://logging.apache.org/log4j
 [3]: http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/package-summary.html
