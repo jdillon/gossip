@@ -36,11 +36,11 @@ public final class Event
     public final Throwable cause;
 
     //
-    // TODO: Add more details, like timestamp, threadname
+    // TODO: Add more details, like timestamp, thread-name
     //
 
     //
-    // TODO: Convert to interface?  or expose methods to access data, make fileds private?
+    // TODO: Convert to interface?  or expose methods to access data, make fields private?
     //
 
     public Event(final Logger logger, final Level level, final String message, final Throwable cause) {
@@ -59,8 +59,4 @@ public final class Event
                 (cause != null ? ("/" + cause) : "")
                 + "]@" + System.identityHashCode(this);
     }
-
-    //
-    // TODO: Add some kinda render context?  To allow color filters to attach something so stream filters can render
-    //
 }

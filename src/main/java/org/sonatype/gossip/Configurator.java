@@ -150,7 +150,7 @@ public class Configurator
     private Model loadBootstrap() throws Exception {
         URL url = getClass().getResource(BOOTSTRAP_RESOURCE);
 
-        // This should really never happen unless something is messed up, but don't toss an exception, let the fallback provider kickin
+        // This should really never happen unless something is messed up, but don't toss an exception, let the fallback provider kick-in
         assert url != null : "Unable to load bootstrap resource: " + BOOTSTRAP_RESOURCE;
 
         log.trace("Using bootstrap URL: {}", url);
