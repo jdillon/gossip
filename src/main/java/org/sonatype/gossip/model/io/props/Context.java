@@ -222,9 +222,15 @@ public final class Context
         String[] strings = this.get(name, "").split(",");
 
         if (trim) {
-            for (int i=0; i<strings.length; i++) {
-                strings[i] = strings[i].trim();
-            }
+            strings = trim(strings);
+        }
+
+        return strings;
+    }
+
+    public static String[] trim(final String[] strings) {
+        for (int i=0; i<strings.length; i++) {
+            strings[i] = strings[i].trim();
         }
 
         return strings;

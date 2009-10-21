@@ -28,6 +28,7 @@ import org.sonatype.gossip.model.TriggerNode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 
 /**
  * Reads a Gossip {@link Model} from a properties file.
@@ -47,6 +48,8 @@ public class GossipPropertiesReader
     private static final String PROFILES = "profiles";
 
     private static final String PROFILE_DOT = "profile.";
+
+    private static final String INCLUDES = "includes";
 
     private static final String PROPERTIES = "properties";
 
@@ -165,6 +168,12 @@ public class GossipPropertiesReader
         configureLoggerNodes(profile, ctx.child(LOGGER));
         configureTriggerNodes(profile, ctx);
         configureListenerNodes(profile, ctx);
+
+        String includes = ctx.get(INCLUDES);
+        if (includes != null) {
+            String[] profiles = Context.trim(includes.split(","));
+            profile.setIncludes(Arrays.asList(profiles));
+        }
 
         log.trace("Created: {}", profile);
 

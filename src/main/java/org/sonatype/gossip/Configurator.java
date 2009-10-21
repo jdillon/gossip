@@ -80,6 +80,10 @@ public class Configurator
         ModelMerger merger = new ModelMerger();
         Map<Object,Object> hints = new HashMap<Object,Object>();
 
+        //
+        // TODO: Handle ProfileNode.getIncludes()
+        //
+        
         for (SourceNode source : bootstrap.getSources()) {
             try {
                 Source loader = source.create();

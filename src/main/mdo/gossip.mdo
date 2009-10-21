@@ -80,6 +80,15 @@
                 </field>
 
                 <field>
+                    <name>includes</name>
+                    <version>1.0.0+</version>
+                    <association>
+                        <type>String</type>
+                        <multiplicity>*</multiplicity>
+                    </association>
+                </field>
+
+                <field>
                     <name>loggers</name>
                     <version>1.0.0+</version>
                     <association>
@@ -120,7 +129,7 @@
                 </codeSegment>
             </codeSegments>
         </class>
-
+        
         <class xml.tagName="logger">
             <name>LoggerNode</name>
             <version>1.0.0+</version>
