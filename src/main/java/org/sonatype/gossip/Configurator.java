@@ -142,6 +142,7 @@ public class Configurator
 
         ListenerNode l = new ListenerNode();
         l.setType(ConsoleListener.class);
+        p.addListener(l);
 
         return p;
     }
