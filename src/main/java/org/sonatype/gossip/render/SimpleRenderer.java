@@ -100,7 +100,7 @@ public class SimpleRenderer
 
         if (isIncludeName()) {
             appendLogger(event, buff);
-            buff.append("- ");
+            buff.append(" - ");
         }
 
         appendMessage(event, buff);
