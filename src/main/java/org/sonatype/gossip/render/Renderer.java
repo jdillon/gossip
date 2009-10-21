@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.filter;
+package org.sonatype.gossip.render;
 
 import org.sonatype.gossip.Event;
 
 /**
- * Event Filter.
+ * Log event renderer.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
  */
-public interface Filter
+public interface Renderer
 {
-    Event STOP = null;
-    
-    Event filter(Event event);
+    String NEWLINE = System.getProperty("line.separator");
+
+    String render(Event event);
 }

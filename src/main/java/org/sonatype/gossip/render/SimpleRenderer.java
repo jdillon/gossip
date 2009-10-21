@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.filter.render;
+package org.sonatype.gossip.render;
 
 import org.sonatype.gossip.Event;
 

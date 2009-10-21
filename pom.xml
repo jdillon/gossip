@@ -331,7 +331,7 @@
                                 <artifactId>proguard</artifactId>
                                 <version>4.4</version>
                                 <scope>system</scope>
-                                <systemPath>lib/proguard-4.4.jar</systemPath>
+                                <systemPath>${project.basedir}/lib/proguard-4.4.jar</systemPath>
                             </dependency>
                         </dependencies>
                         <executions>
@@ -387,7 +387,11 @@
                                                 public void set*(***);
                                             }
 
-                                            -keep public class org.sonatype.gossip.filter.** {
+                                            -keep public class org.sonatype.gossip.listener.* {
+                                                public void set*(***);
+                                            }
+
+                                            -keep public class org.sonatype.gossip.render.* {
                                                 public void set*(***);
                                             }
                                         ]]></proguard>

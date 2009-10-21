@@ -36,13 +36,20 @@ public final class Gossip
 {
     private static final String ROOT = "<ROOT>";
 
-    private final Log log = Log.getLogger(getClass());
-
+    private static final Log log = Log.getLogger(Gossip.class);
+    
+    /**
+     * Map of {@link LoggerImpl} or {@link ProvisionNode} to logger names.
+     */
     private final Map<String,Loggerish> loggers = new HashMap<String,Loggerish>();
 
     private EffectiveProfile profile;
 
     private LoggerImpl root = new LoggerImpl(ROOT, Level.INFO);
+
+    //
+    // TODO: Add LoggerMXBean support
+    //
 
     public Gossip() {
         profile = new Configurator().configure();
@@ -148,7 +155,7 @@ public final class Gossip
 
         @Override
         protected void doLog(final Level level, final String message, final Throwable cause) {
-            profile.filter(new Event(this, level, message, cause));
+            profile.dispatch(new Event(this, level, message, cause));
         }
         
         @Override
@@ -167,7 +174,6 @@ public final class Gossip
     {
         private ProvisionNode(final LoggerImpl logger) {
             assert logger != null;
-            
             add(logger);
         }
     }

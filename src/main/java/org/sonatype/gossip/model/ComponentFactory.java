@@ -17,7 +17,7 @@
 package org.sonatype.gossip.model;
 
 import org.sonatype.gossip.Log;
-import org.sonatype.gossip.filter.Filter;
+import org.sonatype.gossip.listener.Listener;
 import org.sonatype.gossip.model.io.props.Context;
 import org.sonatype.gossip.model.io.props.ContextConfigurator;
 import org.sonatype.gossip.source.Source;
@@ -42,8 +42,8 @@ public class ComponentFactory
         return (Trigger) build(node);
     }
 
-    public static Filter create(final FilterNode node) throws Exception {
-        return (Filter) build(node);
+    public static Listener create(final ListenerNode node) throws Exception {
+        return (Listener) build(node);
     }
 
     //

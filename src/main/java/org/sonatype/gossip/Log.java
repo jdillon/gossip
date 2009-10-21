@@ -16,7 +16,7 @@
 
 package org.sonatype.gossip;
 
-import org.sonatype.gossip.filter.render.SimpleRenderer;
+import org.sonatype.gossip.render.SimpleRenderer;
 
 import java.io.PrintStream;
 

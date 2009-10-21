@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.filter.render;
+package org.sonatype.gossip.render;
 
 import static org.fusesource.jansi.Ansi.Attribute.INTENSITY_BOLD;
 import static org.fusesource.jansi.Ansi.Color.GREEN;

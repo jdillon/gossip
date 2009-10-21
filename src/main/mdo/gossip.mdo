@@ -98,10 +98,10 @@
                 </field>
 
                 <field>
-                    <name>filters</name>
+                    <name>listeners</name>
                     <version>1.0.0+</version>
                     <association>
-                        <type>FilterNode</type>
+                        <type>ListenerNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
                 </field>
@@ -241,8 +241,8 @@
             </codeSegments>
         </class>
 
-        <class xml.tagName="filter">
-            <name>FilterNode</name>
+        <class xml.tagName="listener">
+            <name>ListenerNode</name>
             <version>1.0.0+</version>
             <superClass>FactoryNode</superClass>
 
@@ -250,7 +250,7 @@
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[
-                        public org.sonatype.gossip.filter.Filter create() throws Exception {
+                        public org.sonatype.gossip.listener.Listener create() throws Exception {
                             return ComponentFactory.create(this);
                         }
                     ]]></code>

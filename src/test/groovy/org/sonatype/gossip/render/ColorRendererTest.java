@@ -21,10 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.gossip.Event;
 import org.sonatype.gossip.Level;
-import org.sonatype.gossip.filter.render.ColorRenderer;
+import org.sonatype.gossip.render.ColorRenderer;
 
 /**
- * Tests for the {@link org.sonatype.gossip.filter.render.ColorRenderer} class.
+ * Tests for the {@link org.sonatype.gossip.render.ColorRenderer} class.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */

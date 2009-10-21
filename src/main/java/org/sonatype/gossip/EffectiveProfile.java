@@ -16,8 +16,8 @@
 
 package org.sonatype.gossip;
 
-import org.sonatype.gossip.filter.Filter;
-import org.sonatype.gossip.model.FilterNode;
+import org.sonatype.gossip.listener.Listener;
+import org.sonatype.gossip.model.ListenerNode;
 import org.sonatype.gossip.model.LoggerNode;
 import org.sonatype.gossip.model.ProfileNode;
 
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Effective profile.  This handles what is currently configured/activated.  The meat of filtering is done here.
+ * Effective profile.  This handles what is currently configured/activated.  The meat of event dispatching is done here.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
@@ -49,7 +49,6 @@ public class EffectiveProfile
 
     public void addProfile(final ProfileNode node) {
         assert node != null;
-
         profiles().add(node);
     }
 
@@ -70,46 +69,41 @@ public class EffectiveProfile
         return loggers;
     }
 
-    private Filter[] filters;
+    private Listener[] listeners;
 
-    public void filter(Event event) {
+    public void dispatch(Event event) {
         assert event != null;
 
-        if (this.filters == null) {
-            log.trace("Building filter chain");
+        if (this.listeners == null) {
+            log.trace("Building listener dispatch table");
 
-            List<Filter> filters = new ArrayList<Filter>();
+            List<Listener> listeners = new ArrayList<Listener>();
             for (ProfileNode profile : profiles()) {
-                for (FilterNode filter : profile.getFilters()) {
+                for (ListenerNode listener : profile.getListeners()) {
                     try {
-                        log.trace("Adding filter: {}", filter);
-                        filters.add(filter.create());
+                        log.trace("Adding listener: {}", listener);
+                        listeners.add(listener.create());
                     }
                     catch (Exception e) {
-                        log.error("Failed to create filter: " + filter, e);
+                        log.error("Failed to create listener: " + listener, e);
                     }
                 }
             }
 
-            this.filters = filters.toArray(new Filter[filters.size()]);
+            this.listeners = listeners.toArray(new Listener[listeners.size()]);
         }
 
-        // log.trace("Filtering event: {}", event);
-
-        log.trace("Applying {} filters to event: {}", filters.length, event);
+        log.trace("Dispatching event to {} listener(s): {}", listeners.length, event);
 
         int i=0;
-        for (Filter filter : filters) {
-            log.trace("Applying filter[{}]: {}", i, filter);
-
-            event = filter.filter(event);
-
-            log.trace("Filter[{}] result: ", i, event);
-
-            if (event == Filter.STOP) {
-                break;
+        for (Listener listener : listeners) {
+            log.trace("Dispatching to listener[{}]: {}", i, listener);
+            try {
+                listener.onEvent(event);
             }
-
+            catch (Throwable t) {
+                log.error("Listener execution failed; ignoring", t);
+            }
             i++;
         }
     }

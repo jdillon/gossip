@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
  */
 public class ContextConfigurator
 {
-    private static Log log = Log.getLogger(ContextConfigurator.class);
+    private static final Log log = Log.getLogger(ContextConfigurator.class);
 
     public void configure(final Object target, final Context config) throws Exception {
         assert target != null;

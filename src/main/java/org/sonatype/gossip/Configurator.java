@@ -16,8 +16,8 @@
 
 package org.sonatype.gossip;
 
-import org.sonatype.gossip.filter.ConsoleFilter;
-import org.sonatype.gossip.model.FilterNode;
+import org.sonatype.gossip.listener.ConsoleListener;
+import org.sonatype.gossip.model.ListenerNode;
 import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.ProfileNode;
 import org.sonatype.gossip.model.SourceNode;
@@ -136,8 +136,8 @@ public class Configurator
         t.setType(AlwaysTrigger.class);
         p.addTrigger(t);
 
-        FilterNode f = new FilterNode();
-        f.setType(ConsoleFilter.class);
+        ListenerNode l = new ListenerNode();
+        l.setType(ConsoleListener.class);
 
         return p;
     }

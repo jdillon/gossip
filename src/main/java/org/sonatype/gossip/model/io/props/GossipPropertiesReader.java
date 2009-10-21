@@ -18,7 +18,7 @@ package org.sonatype.gossip.model.io.props;
 
 import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.Log;
-import org.sonatype.gossip.model.FilterNode;
+import org.sonatype.gossip.model.ListenerNode;
 import org.sonatype.gossip.model.LoggerNode;
 import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.ProfileNode;
@@ -56,9 +56,9 @@ public class GossipPropertiesReader
 
     private static final String TRIGGER_DOT = "trigger.";
 
-    private static final String FILTERS = "filters";
+    private static final String LISTENERS = "listeners";
 
-    private static final String FILTER_DOT = "filter.";
+    private static final String LISTENER_DOT = "listener.";
 
     private static final Log log = Log.getLogger(GossipPropertiesReader.class);
 
@@ -109,7 +109,7 @@ public class GossipPropertiesReader
 
         for (String name : ctx.split(SOURCES, true)) {
             if (name.length() == 0) {
-                throw new ConfigurationException("Source name must not be blank");
+                throw new ConfigurationException("Source name is blank");
             }
 
             log.trace("Configuring source: {}", name);
@@ -144,7 +144,7 @@ public class GossipPropertiesReader
 
         for (String name : ctx.split(PROFILES, true)) {
             if (name.length() == 0) {
-                throw new ConfigurationException("Profile name must not be blank");
+                throw new ConfigurationException("Profile name is blank");
             }
 
             ProfileNode profile = createProfileNode(name, ctx.child(PROFILE_DOT + name));
@@ -164,7 +164,7 @@ public class GossipPropertiesReader
 
         configureLoggerNodes(profile, ctx.child(LOGGER));
         configureTriggerNodes(profile, ctx);
-        configureFilterNodes(profile, ctx);
+        configureListenerNodes(profile, ctx);
 
         log.trace("Created: {}", profile);
 
@@ -199,7 +199,7 @@ public class GossipPropertiesReader
 
         for (String name : ctx.split(TRIGGERS, true)) {
             if (name.length() == 0) {
-                throw new ConfigurationException("Trigger name must not be blank");
+                throw new ConfigurationException("Trigger name is blank");
             }
 
             TriggerNode trigger = createTriggerNode(ctx.get(TRIGGER_DOT + name), ctx.child(TRIGGER_DOT + name));
@@ -222,36 +222,36 @@ public class GossipPropertiesReader
         return trigger;
     }
 
-    private void configureFilterNodes(final ProfileNode profile, final Context ctx) {
+    private void configureListenerNodes(final ProfileNode profile, final Context ctx) {
         assert profile != null;
         assert ctx != null;
 
-        if (!ctx.contains(FILTERS)) {
+        if (!ctx.contains(LISTENERS)) {
             return;
         }
 
-        for (String name : ctx.split(FILTERS, true)) {
+        for (String name : ctx.split(LISTENERS, true)) {
             if (name.length() == 0) {
-                throw new ConfigurationException("Filter name must not be blank");
+                throw new ConfigurationException("Listener name is blank");
             }
 
-            FilterNode filter = createFilterNode(ctx.get(FILTER_DOT + name), ctx.child(FILTER_DOT + name));
-            profile.addFilter(filter);
+            ListenerNode listener = createListenerNode(ctx.get(LISTENER_DOT + name), ctx.child(LISTENER_DOT + name));
+            profile.addListener(listener);
         }
     }
 
-    private FilterNode createFilterNode(final String type, final Context ctx) {
+    private ListenerNode createListenerNode(final String type, final Context ctx) {
         assert type != null;
         assert ctx != null;
 
-        log.trace("Configuring filter: {} -> {}", type, ctx);
+        log.trace("Configuring listener: {} -> {}", type, ctx);
 
-        FilterNode filter = new FilterNode();
-        filter.setType(type);
-        filter.setConfiguration(ctx);
+        ListenerNode listener = new ListenerNode();
+        listener.setType(type);
+        listener.setConfiguration(ctx);
 
-        log.trace("Created: {}", filter);
+        log.trace("Created: {}", listener);
 
-        return filter;
+        return listener;
     }
 }
