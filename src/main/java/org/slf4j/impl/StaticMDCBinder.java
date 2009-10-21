@@ -36,7 +36,7 @@ public final class StaticMDCBinder
         return new NOPMakerAdapter();
     }
 
-    public String  getMDCAdapterClassStr() {
+    public String getMDCAdapterClassStr() {
         return NOPMakerAdapter.class.getName();
     }
 }
