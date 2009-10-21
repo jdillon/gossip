@@ -150,6 +150,11 @@ public final class Gossip
         protected void doLog(final Level level, final String message, final Throwable cause) {
             profile.filter(new Event(this, level, message, cause));
         }
+        
+        @Override
+        public String toString() {
+            return "Logger[" + getName() + "]@" + System.identityHashCode(this);
+        }
     }
 
     //
