@@ -34,8 +34,6 @@ public class SimpleRenderer
 
     private int nameWidth = -1;
 
-    public SimpleRenderer() {}
-    
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
@@ -90,7 +88,7 @@ public class SimpleRenderer
         appendLevel(event, buff);
         buff.append("]");
 
-        switch (event.level) {
+        switch (event.getLevel()) {
             case INFO:
             case WARN:
                 buff.append(" ");
@@ -107,7 +105,7 @@ public class SimpleRenderer
 
         buff.append(NEWLINE);
 
-        if (event.cause != null) {
+        if (event.getCause() != null) {
             appendCause(event, buff);
         }
 
@@ -118,14 +116,14 @@ public class SimpleRenderer
         assert event != null;
         assert buff != null;
 
-        buff.append(event.level.name());
+        buff.append(event.getLevel().name());
     }
 
     protected void appendLogger(final Event event, final StringBuilder buff) {
         assert event != null;
         assert buff != null;
 
-        String name = event.logger.getName();
+        String name = event.getName();
 
         if (isShortName()) {
             int i = name.lastIndexOf(".");
@@ -147,14 +145,14 @@ public class SimpleRenderer
         assert event != null;
         assert buff != null;
 
-        buff.append(event.message);
+        buff.append(event.getMessage());
     }
 
     protected void appendCause(final Event event, final StringBuilder buff) {
         assert event != null;
         assert buff != null;
 
-        Throwable cause = event.cause;
+        Throwable cause = event.getCause();
 
         buff.append(cause);
         buff.append(NEWLINE);

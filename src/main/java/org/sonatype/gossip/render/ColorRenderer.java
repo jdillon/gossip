@@ -38,19 +38,19 @@ public class ColorRenderer
         assert event != null;
         assert buff != null;
 
-        switch (event.level) {
+        switch (event.getLevel()) {
             case TRACE:
             case DEBUG:
-                buff.append(ansi().a(INTENSITY_BOLD).fg(YELLOW).a(event.level.name()).reset());
+                buff.append(ansi().a(INTENSITY_BOLD).fg(YELLOW).a(event.getLevel().name()).reset());
                 break;
 
             case INFO:
-                buff.append(ansi().a(INTENSITY_BOLD).fg(GREEN).a(event.level.name()).reset());
+                buff.append(ansi().a(INTENSITY_BOLD).fg(GREEN).a(event.getLevel().name()).reset());
                 break;
 
             case WARN:
             case ERROR:
-                buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(event.level.name()).reset());
+                buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(event.getLevel().name()).reset());
                 break;
 
             default:
@@ -63,7 +63,7 @@ public class ColorRenderer
         assert event != null;
         assert buff != null;
 
-        Throwable cause = event.cause;
+        Throwable cause = event.getCause();
 
         buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getClass().getName()).reset());
         buff.append(": ");

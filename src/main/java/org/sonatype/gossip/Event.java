@@ -27,36 +27,60 @@ import org.slf4j.Logger;
  */
 public final class Event
 {
-    public final Logger logger;
+    private final Logger logger;
 
-    public final Level level;
+    private final Level level;
 
-    public final String message;
+    private final String message;
 
-    public final Throwable cause;
+    private final Throwable cause;
 
-    //
-    // TODO: Add more details, like timestamp, thread-name
-    //
+    private final long timeStamp;
 
-    //
-    // TODO: Convert to interface?  or expose methods to access data, make fields private?
-    //
+    private final String threadName;
 
     public Event(final Logger logger, final Level level, final String message, final Throwable cause) {
         this.logger = logger;
         this.level = level;
         this.message = message;
         this.cause = cause;
+        this.timeStamp = System.currentTimeMillis();
+        this.threadName = Thread.currentThread().getName();
+    }
+
+    public String getName() {
+        return logger.getName();
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Throwable getCause() {
+        return cause;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public String getThreadName() {
+        return threadName;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[" +
-                logger.getName() +
-                "/" +  level +
-                "/" + message +
-                (cause != null ? ("/" + cause) : "")
-                + "]@" + System.identityHashCode(this);
+        return "Event{" +
+            "logger=" + logger +
+            ", level=" + level +
+            ", message='" + message + '\'' +
+            ", cause=" + cause +
+            ", timeStamp=" + timeStamp +
+            ", threadName='" + threadName + '\'' +
+            '}';
     }
 }

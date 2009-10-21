@@ -30,6 +30,9 @@ public class PatternRenderer
 {
     public String render(final Event event) {
         assert event != null;
+
+        // TODO:
+
         return null;
     }
 }
