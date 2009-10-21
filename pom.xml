@@ -54,20 +54,6 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.5.8</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>2.0.0</version>
-            <optional>true</optional>
-        </dependency>
-        
-        <dependency>
-            <groupId>jline</groupId>
-            <artifactId>jline</artifactId>
-            <version>2.0-SNAPSHOT</version>
-            <optional>true</optional>
-        </dependency>
         
         <dependency>
             <groupId>org.fusesource.jansi</groupId>
@@ -147,7 +133,20 @@
                 </includes>
             </testResource>
         </testResources>
-
+        
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.groovy.maven</groupId>
+                    <artifactId>gmaven-plugin</artifactId>
+                    <version>1.0</version>
+                    <configuration>
+                        <providerSelection>1.6</providerSelection>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -190,10 +189,6 @@
             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
-                <version>1.0</version>
-                <configuration>
-                    <providerSelection>1.6</providerSelection>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -222,27 +217,7 @@
                         <goals>
                             <goal>java</goal>
                             <goal>xsd</goal>
-                            <!--
-                            <goal>xpp3-reader</goal>
-                            -->
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>retrotranslator-maven-plugin</artifactId>
-                <version>1.0-alpha-4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>translate-project</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>jdk14</classifier>
-                            <attach>true</attach>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -251,17 +226,45 @@
 
     <profiles>
         <profile>
-            <id>smaller</id>
+            <id>retro</id>
             <activation>
                 <property>
-                    <name>smaller</name>
+                    <name>retro</name>
+                    <value>true</value>
                 </property>
             </activation>
             <build>
                 <plugins>
-                    <!--
-                    NOTE: Remove legal and descriptors for better size.
-                    -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>retrotranslator-maven-plugin</artifactId>
+                        <version>1.0-alpha-4</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>translate-project</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>jdk14</classifier>
+                                    <attach>true</attach>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>shrink</id>
+            <activation>
+                <property>
+                    <name>shrink</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
@@ -276,20 +279,7 @@
                             </excludes>
                         </configuration>
                     </plugin>
-                </plugins>
-            </build>
-        </profile>
-        
-        <profile>
-            <id>shrink-proguard</id>
-            <activation>
-                <property>
-                    <name>shrink</name>
-                    <value>proguard</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
+                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
@@ -300,6 +290,33 @@
                                 <goals>
                                     <goal>copy-dependencies</goal>
                                 </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
+                    <plugin>
+                        <groupId>org.codehaus.groovy.maven</groupId>
+                        <artifactId>gmaven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <source>
+                                        // Build the correct classpath for the valid bootstrap jars for ProGuard
+                                        def path = System.getProperty('sun.boot.class.path')
+                                        def files = []
+                                        path.split(File.pathSeparator).each {
+                                            def file = new File(it)
+                                            if (file.exists()) {
+                                                files.add(file)
+                                            }
+                                        }
+                                        project.properties.setProperty('proguard.java.classpath', files.join(File.pathSeparator))
+                                    </source>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -325,36 +342,27 @@
                                 </goals>
                                 <configuration>
                                     <tasks>
-                                        <property refid="maven.compile.classpath" name="mvn.classpath"/>
                                         <taskdef resource="proguard/ant/task.properties"/>
                                         
                                         <proguard><![CDATA[
-                                            -injars ${project.build.directory}/${project.build.finalName}.${project.packaging}
-                                            -outjars ${project.build.directory}/${project.build.finalName}-shrunk.${project.packaging}
+                                            -basedirectory ${project.build.directory}
+                                            -injars ${project.build.finalName}.${project.packaging}
+                                            -outjars ${project.build.finalName}-shrunk.${project.packaging}
 
-                                            -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar
-                                            -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/alt-rt.jar
-
-                                            -libraryjars ${project.build.directory}/dependency/jansi-1.0.jar
-                                            -libraryjars ${project.build.directory}/dependency/jline-2.0-SNAPSHOT.jar
-                                            -libraryjars ${project.build.directory}/dependency/plexus-utils-2.0.0.jar
-                                            -libraryjars ${project.build.directory}/dependency/slf4j-api-1.5.8.jar
+                                            -libraryjars ${proguard.java.classpath}
+                                            -libraryjars dependency
 
                                             -target 1.5
+                                            -printmapping proguard.map
                                             -forceprocessing
-                                            -printusage
-                                            -optimizationpasses 2
-                                            -printmapping ${project.build.directory}/proguard.map
-
+                                            -optimizationpasses 3
+                                            
+                                            -dontnote
+                                            
                                             -renamesourcefileattribute SourceFile
-                                            -keepattributes InnerClasses,SourceFile,LineNumberTable,Deprecated
+                                            -keepattributes InnerClasses,SourceFile,LineNumberTable
                                             
                                             -keepclassmembers enum * {
-                                                public static **[] values();
-                                                public static ** valueOf(java.lang.String);
-                                            }
-
-                                            -keepclassmembers class * extends java.lang.Enum {
                                                 public static **[] values();
                                                 public static ** valueOf(java.lang.String);
                                             }
@@ -365,117 +373,24 @@
                                             }
 
                                             -keep public class org.slf4j.impl.* {
-                                                public <fields>;
+                                                public static <fields>;
                                                 public <methods>;
                                             }
 
-                                            -keep public class org.sonatype.gossip.Log,org.sonatype.gossip.Level,org.sonatype.gossip.Event {
-                                                public <fields>;
-                                                public <methods>;
-                                            }
+                                            -keep public class org.sonatype.gossip.**
 
                                             -keep public class org.sonatype.gossip.source.* {
-                                                public protected <methods>;
+                                                public void set*(***);
                                             }
 
                                             -keep public class org.sonatype.gossip.trigger.* {
-                                                public protected <methods>;
+                                                public void set*(***);
                                             }
 
-                                            -keep public class org.sonatype.gossip.filter.* {
-                                                public protected <methods>;
+                                            -keep public class org.sonatype.gossip.filter.** {
+                                                public void set*(***);
                                             }
-
-                                            -keep public class org.sonatype.gossip.filter.render.* {
-                                                public protected <methods>;
-                                            }                                            
                                         ]]></proguard>
-                                    </tasks>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        
-        <profile>
-            <id>shrink-yguard</id>
-            <activation>
-                <property>
-                    <name>shrink</name>
-                    <value>yguard</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.3</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>yguard</groupId>
-                                <artifactId>yguard</artifactId>
-                                <version>2.3.0.1</version>
-                                <scope>system</scope>
-                                <systemPath>lib/yguard-2.3.0.1.jar</systemPath>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <tasks>
-                                        <property refid="maven.compile.classpath" name="mvn.classpath"/>
-                                        <echo>${mvn.classpath}</echo>
-                                        <taskdef name="yguard" classname="com.yworks.yguard.YGuardTask"/>
-                                        <yguard>
-                                            <inoutpair
-                                                    in="${project.build.directory}/${project.build.finalName}.${project.packaging}"
-                                                    out="${project.build.directory}/${project.build.finalName}-shrunk.${project.packaging}"/>
-
-                                            <attribute name="SourceFile, LineNumberTable, LocalVariableTable">
-                                                <patternset>
-                                                    <include name="org.sonatype.gossip.**"/>
-                                                    <include name="org.slf4j.impl.**"/>
-                                                </patternset>
-                                            </attribute>
-                                            
-                                            <rename logfile="${project.build.directory}/yguard-rename.log.xml">
-                                                <keep>
-                                                    <class classes="public" methods="public">
-                                                        <patternset>
-                                                            <include name="org.sonatype.gossip.Log"/>
-                                                            <include name="org.sonatype.gossip.source.*"/>
-                                                            <include name="org.sonatype.gossip.trigger.*"/>
-                                                            <include name="org.sonatype.gossip.filter.*"/>
-                                                            <include name="org.sonatype.gossip.filter.render.*"/>
-                                                        </patternset>
-                                                    </class>
-
-                                                    <class classes="public" methods="public" fields="public">
-                                                        <patternset>
-                                                            <include name="org.slf4j.impl.*"/>
-                                                        </patternset>
-                                                    </class>
-                                                </keep>
-
-                                                <adjust replaceName="true">
-                                                    <include name="**/*.properties"/>
-                                                </adjust>
-                                            </rename>
-
-                                            <shrink logfile="${project.build.directory}/yguard-shrinnk.log.xml">
-                                            </shrink>
-
-                                            <externalclasses>
-                                                <pathelement path="${mvn.classpath}"/>
-                                            </externalclasses>
-                                        </yguard>
                                     </tasks>
                                 </configuration>
                             </execution>

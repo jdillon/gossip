@@ -6,7 +6,7 @@ Description
 Features
 --------
 
-* Small footprint (~60k, or ~45k shrunk)
+* Small footprint ~60k (or ~45k shrunk with [ProGuard][5])
 * Profile-based configuration
 * Profile activation triggers
 * Multiple source inputs
@@ -26,10 +26,7 @@ License
 Optional Dependencies
 ---------------------
 
-When using the ANSI coloring renderer, Gossip needs to have a few more goodies:
-
-* [jline2][4]
-* [jansi][5]
+* [jansi][4] - For ANSI color output
 
 Building
 --------
@@ -48,5 +45,5 @@ Check out and build:
 [1]: http://slf4j.org
 [2]: http://logging.apache.org/log4j
 [3]: http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/package-summary.html
-[4]: http://github.com/jdillon/jline2
-[5]: http://github.com/chirino/jansi
+[4]: http://github.com/chirino/jansi
+[5]: http://proguard.sourceforge.net
