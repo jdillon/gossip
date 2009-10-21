@@ -27,5 +27,5 @@ import org.sonatype.gossip.Event;
  */
 public interface Listener
 {
-    void onEvent(Event event);
+    void onEvent(Event event) throws Exception;
 }

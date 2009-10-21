@@ -17,8 +17,6 @@
 package org.sonatype.gossip.listener;
 
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.render.Renderer;
-import org.sonatype.gossip.render.SimpleRenderer;
 
 import java.io.PrintStream;
 
@@ -30,7 +28,7 @@ import java.io.PrintStream;
  * @since 1.0
  */
 public class ConsoleListener
-    implements Listener
+    extends ListenerSupport
 {
     public static enum Stream
     {
@@ -50,8 +48,6 @@ public class ConsoleListener
 
     private Stream stream;
 
-    private Renderer renderer;
-    
     public ConsoleListener() {
         setStream(Stream.OUT);
     }
@@ -70,35 +66,21 @@ public class ConsoleListener
         setStream(Stream.valueOf(name.toUpperCase()));
     }
 
-    public Renderer getRenderer() {
-        if (renderer == null) {
-            renderer = new SimpleRenderer();
-        }
-        return renderer;
-    }
-
-    public void setRenderer(final Renderer renderer) {
-        this.renderer = renderer;
-    }
-
     public void onEvent(final Event event) {
         assert event != null;
 
-        final String text = getRenderer().render(event);
         final PrintStream out = getStream().getOutput();
 
         synchronized (out) {
-            out.print(text);
+            out.print(render(event));
             out.flush();
         }
-
     }
 
     @Override
     public String toString() {
         return "ConsoleListener{" +
             "stream=" + stream +
-            ", renderer=" + renderer +
             '}';
     }
 }
