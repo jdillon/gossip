@@ -131,7 +131,7 @@ public class FileListener
 
     @Override
     public String toString() {
-        return "FileListener{" +
+        return getClass().getSimpleName() + "{" +
             "file=" + file +
             ", append=" + append +
             ", rollingStrategy=" + rollingStrategy +

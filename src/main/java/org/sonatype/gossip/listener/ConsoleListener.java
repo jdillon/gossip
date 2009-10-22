@@ -79,7 +79,7 @@ public class ConsoleListener
 
     @Override
     public String toString() {
-        return "ConsoleListener{" +
+        return getClass().getSimpleName() + "{" +
             "stream=" + stream +
             '}';
     }
