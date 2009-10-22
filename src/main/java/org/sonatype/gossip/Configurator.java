@@ -113,29 +113,29 @@ public class Configurator
 
                 log.trace("Including profile {} -> {}", include, includedProfile);
 
-                if (includedProfile != null) {
-                    for (Object name : includedProfile.getProperties().keySet()) {
-                        if (!node.getProperties().containsKey(name)) {
-                            node.getProperties().put(name, includedProfile.getProperties().get(name));
-                        }
-                    }
+                // FIXME: This should really be in ModelMerger
 
-                    for (LoggerNode logger : includedProfile.getLoggers()) {
-                        if (!node.getLoggers().contains(logger)) {
-                            node.addLogger(logger);
-                        }
+                for (Object name : includedProfile.getProperties().keySet()) {
+                    if (!node.getProperties().containsKey(name)) {
+                        node.getProperties().put(name, includedProfile.getProperties().get(name));
                     }
+                }
 
-                    for (ListenerNode listener : includedProfile.getListeners()) {
-                        if (!node.getListeners().contains(listener)) {
-                            node.addListener(listener);
-                        }
+                for (LoggerNode logger : includedProfile.getLoggers()) {
+                    if (!node.getLoggers().contains(logger)) {
+                        node.addLogger(logger);
                     }
+                }
 
-                    for (TriggerNode trigger : includedProfile.getTriggers()) {
-                        if (!node.getTriggers().contains(trigger)) {
-                            node.addTrigger(trigger);
-                        }
+                for (ListenerNode listener : includedProfile.getListeners()) {
+                    if (!node.getListeners().contains(listener)) {
+                        node.addListener(listener);
+                    }
+                }
+
+                for (TriggerNode trigger : includedProfile.getTriggers()) {
+                    if (!node.getTriggers().contains(trigger)) {
+                        node.addTrigger(trigger);
                     }
                 }
             }
