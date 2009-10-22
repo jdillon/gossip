@@ -64,7 +64,7 @@ public class Configurator
             log.error("Failed to configure; using fall-back provider", t);
         }
 
-        if (profile.profiles().isEmpty()) {
+        if (profile.getProfiles().isEmpty()) {
             log.debug("No profiles were activated; using fall-back");
 
             ProfileNode p = createFallbackProfile();
@@ -99,11 +99,11 @@ public class Configurator
     private void resolveIncludes(final Model model) {
         assert model != null;
 
-        log.debug("Processing includes for model: {}", model);
-
         // Process profile includes
-        for (ProfileNode node : model.getProfiles()) {
-            for (String include : node.getIncludes()) {
+        for (ProfileNode profile : model.getProfiles()) {
+            log.trace("Processing includes for: {}", profile);
+
+            for (String include : profile.getIncludes()) {
                 ProfileNode includedProfile = model.findProfile(include);
 
                 if (includedProfile == null) {
@@ -111,31 +111,35 @@ public class Configurator
                     continue;
                 }
 
-                log.trace("Including profile {} -> {}", include, includedProfile);
+                log.debug("Including {} profile into: {}", include, profile);
 
                 // FIXME: This should really be in ModelMerger
 
                 for (Object name : includedProfile.getProperties().keySet()) {
-                    if (!node.getProperties().containsKey(name)) {
-                        node.getProperties().put(name, includedProfile.getProperties().get(name));
+                    if (!profile.getProperties().containsKey(name)) {
+                        profile.getProperties().put(name, includedProfile.getProperties().get(name));
+                        log.trace("Appending property: {}", name);
                     }
                 }
 
                 for (LoggerNode logger : includedProfile.getLoggers()) {
-                    if (!node.getLoggers().contains(logger)) {
-                        node.addLogger(logger);
+                    if (!profile.getLoggers().contains(logger)) {
+                        profile.addLogger(logger);
+                        log.trace("Appending logger: {}", logger);
                     }
                 }
 
                 for (ListenerNode listener : includedProfile.getListeners()) {
-                    if (!node.getListeners().contains(listener)) {
-                        node.addListener(listener);
+                    if (!profile.getListeners().contains(listener)) {
+                        profile.addListener(listener);
+                        log.trace("Appending listener: {}", listener);
                     }
                 }
 
                 for (TriggerNode trigger : includedProfile.getTriggers()) {
-                    if (!node.getTriggers().contains(trigger)) {
-                        node.addTrigger(trigger);
+                    if (!profile.getTriggers().contains(trigger)) {
+                        profile.addTrigger(trigger);
+                        log.trace("Appending trigger: {}", trigger);
                     }
                 }
             }

@@ -39,7 +39,7 @@ public final class Gossip
     private static final Log log = Log.getLogger(Gossip.class);
     
     /**
-     * Map of {@link LoggerImpl} or {@link ProvisionNode} to logger names.
+     * Map {@link Logger} names to {@link LoggerImpl} or {@link ProvisionNode}.
      */
     private final Map<String,Loggerish> loggers = new HashMap<String,Loggerish>();
 

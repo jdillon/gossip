@@ -74,9 +74,46 @@
             </codeSegments>
         </class>
 
+        <class java.abstract="true">
+            <name>Node</name>
+            <version>1.0.0+</version>
+            <fields>
+                <field>
+                    <name>id</name>
+                    <version>1.0.0+</version>
+                    <required>false</required>
+                    <type>String</type>
+                </field>
+            </fields>
+
+            <codeSegments>
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public int hashCode() {
+                            return getId().hashCode();
+                        }
+                    ]]></code>
+                </codeSegment>
+
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public boolean equals(final Object target) {
+                            if (target instanceof Node) {
+                                return ((Node)target).getId().equals(this.getId());
+                            }
+                            return false;
+                        }
+                    ]]></code>
+                </codeSegment>
+            </codeSegments>
+        </class>
+
         <class xml.tagName="profile">
             <name>ProfileNode</name>
             <version>1.0.0+</version>
+            <superClass>Node</superClass>
 
             <fields>
                 <field>
@@ -144,12 +181,26 @@
                         }
                     ]]></code>
                 </codeSegment>
+
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public String getId() {
+                            String id = super.getId();
+                            if (id == null) {
+                                return getName();
+                            }
+                            return id;
+                        }
+                    ]]></code>
+                </codeSegment>
             </codeSegments>
         </class>
         
         <class xml.tagName="logger">
             <name>LoggerNode</name>
             <version>1.0.0+</version>
+            <superClass>Node</superClass>
 
             <fields>
                 <field>
@@ -188,12 +239,27 @@
                         }
                     ]]></code>
                 </codeSegment>
+
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public String getId() {
+                            String id = super.getId();
+                            if (id == null) {
+                                return getName();
+                            }
+                            return id;
+                        }
+                    ]]></code>
+                </codeSegment>
             </codeSegments>
         </class>
 
         <class java.abstract="true">
             <name>FactoryNode</name>
             <version>1.0.0+</version>
+            <superClass>Node</superClass>
+            
             <fields>
                 <field>
                     <name>type</name>
@@ -234,20 +300,12 @@
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[
-                        public int hashCode() {
-                            return getType().hashCode();
-                        }
-                    ]]></code>
-                </codeSegment>
-
-                <codeSegment>
-                    <version>1.0.0+</version>
-                    <code><![CDATA[
-                        public boolean equals(final Object target) {
-                            if (target instanceof FactoryNode) {
-                                return ((FactoryNode)target).getType().equals(this.getType());
+                        public String getId() {
+                            String id = super.getId();
+                            if (id == null) {
+                                return getType();
                             }
-                            return false;
+                            return id;
                         }
                     ]]></code>
                 </codeSegment>

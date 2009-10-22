@@ -117,24 +117,25 @@ public class GossipPropertiesReader
 
             log.trace("Configuring source: {}", name);
 
-            SourceNode source = createSourceNode(ctx.get(SOURCE_DOT + name), ctx.child(SOURCE_DOT + name));
-            model.addSource(source);
+            SourceNode node = createSourceNode(name, ctx.get(SOURCE_DOT + name), ctx.child(SOURCE_DOT + name));
+            model.addSource(node);
         }
     }
 
-    private SourceNode createSourceNode(final String type, final Context ctx) {
+    private SourceNode createSourceNode(final String id, final String type, final Context ctx) {
         assert type != null;
         assert ctx != null;
 
         log.trace("Configuring source: {} -> {}", type, ctx);
 
-        SourceNode source = new SourceNode();
-        source.setType(type);
-        source.setConfiguration(ctx);
+        SourceNode node = new SourceNode();
+        node.setId(id);
+        node.setType(type);
+        node.setConfiguration(ctx);
 
-        log.trace("Created: {}", source);
+        log.trace("Created: {}", node);
 
-        return source;
+        return node;
     }
 
     private void configureProfileNodes(final Model model, final Context ctx) {
@@ -150,8 +151,8 @@ public class GossipPropertiesReader
                 throw new ConfigurationException("Profile name is blank");
             }
 
-            ProfileNode profile = createProfileNode(name, ctx.child(PROFILE_DOT + name));
-            model.addProfile(profile);
+            ProfileNode node = createProfileNode(name, ctx.child(PROFILE_DOT + name));
+            model.addProfile(node);
         }
     }
 
@@ -161,23 +162,24 @@ public class GossipPropertiesReader
 
         log.trace("Configuring profile: {} -> {}", name, ctx);
 
-        ProfileNode profile = new ProfileNode();
-        profile.setName(name);
-        profile.setProperties(ctx.child(PROPERTIES).toProperties());
+        ProfileNode node = new ProfileNode();
+        node.setId(name);
+        node.setName(name);
+        node.setProperties(ctx.child(PROPERTIES).toProperties());
 
-        configureLoggerNodes(profile, ctx.child(LOGGER));
-        configureTriggerNodes(profile, ctx);
-        configureListenerNodes(profile, ctx);
+        configureLoggerNodes(node, ctx.child(LOGGER));
+        configureTriggerNodes(node, ctx);
+        configureListenerNodes(node, ctx);
 
         String includes = ctx.get(INCLUDES);
         if (includes != null) {
             String[] profiles = Context.trim(includes.split(","));
-            profile.setIncludes(Arrays.asList(profiles));
+            node.setIncludes(Arrays.asList(profiles));
         }
 
-        log.trace("Created: {}", profile);
+        log.trace("Created: {}", node);
 
-        return profile;
+        return node;
     }
 
     private void configureLoggerNodes(final ProfileNode profile, final Context ctx) {
@@ -188,13 +190,14 @@ public class GossipPropertiesReader
             name = name.trim();
             String value = ctx.get(name);
 
-            LoggerNode logger = new LoggerNode();
-            logger.setName(name);
-            logger.setLevel(value);
+            LoggerNode node = new LoggerNode();
+            node.setId(name);
+            node.setName(name);
+            node.setLevel(value);
 
-            log.trace("Created: {}", logger);
+            log.trace("Created: {}", node);
 
-            profile.addLogger(logger);
+            profile.addLogger(node);
         }
     }
 
@@ -211,24 +214,25 @@ public class GossipPropertiesReader
                 throw new ConfigurationException("Trigger name is blank");
             }
 
-            TriggerNode trigger = createTriggerNode(ctx.get(TRIGGER_DOT + name), ctx.child(TRIGGER_DOT + name));
-            profile.addTrigger(trigger);
+            TriggerNode node = createTriggerNode(name, ctx.get(TRIGGER_DOT + name), ctx.child(TRIGGER_DOT + name));
+            profile.addTrigger(node);
         }
     }
 
-    private TriggerNode createTriggerNode(final String type, final Context ctx) {
+    private TriggerNode createTriggerNode(final String id, final String type, final Context ctx) {
         assert type != null;
         assert ctx != null;
 
         log.trace("Configuring trigger: {} -> {}", type, ctx);
 
-        TriggerNode trigger = new TriggerNode();
-        trigger.setType(type);
-        trigger.setConfiguration(ctx);
+        TriggerNode node = new TriggerNode();
+        node.setId(id);
+        node.setType(type);
+        node.setConfiguration(ctx);
 
-        log.trace("Created: {}", trigger);
+        log.trace("Created: {}", node);
 
-        return trigger;
+        return node;
     }
 
     private void configureListenerNodes(final ProfileNode profile, final Context ctx) {
@@ -244,23 +248,24 @@ public class GossipPropertiesReader
                 throw new ConfigurationException("Listener name is blank");
             }
 
-            ListenerNode listener = createListenerNode(ctx.get(LISTENER_DOT + name), ctx.child(LISTENER_DOT + name));
+            ListenerNode listener = createListenerNode(name, ctx.get(LISTENER_DOT + name), ctx.child(LISTENER_DOT + name));
             profile.addListener(listener);
         }
     }
 
-    private ListenerNode createListenerNode(final String type, final Context ctx) {
+    private ListenerNode createListenerNode(final String id, final String type, final Context ctx) {
         assert type != null;
         assert ctx != null;
 
         log.trace("Configuring listener: {} -> {}", type, ctx);
 
-        ListenerNode listener = new ListenerNode();
-        listener.setType(type);
-        listener.setConfiguration(ctx);
+        ListenerNode node = new ListenerNode();
+        node.setId(id);
+        node.setType(type);
+        node.setConfiguration(ctx);
 
-        log.trace("Created: {}", listener);
+        log.trace("Created: {}", node);
 
-        return listener;
+        return node;
     }
 }

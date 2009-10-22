@@ -43,13 +43,13 @@ public class EffectiveProfile
 
     public EffectiveProfile() {}
 
-    public List<ProfileNode> profiles() {
+    public List<ProfileNode> getProfiles() {
         return profiles;
     }
 
     public void addProfile(final ProfileNode node) {
         assert node != null;
-        profiles().add(node);
+        getProfiles().add(node);
     }
 
     public Map<String,LoggerNode> loggers() {
@@ -58,7 +58,7 @@ public class EffectiveProfile
 
             Map<String,LoggerNode> map = new HashMap<String,LoggerNode>();
 
-            for (ProfileNode profile : profiles()) {
+            for (ProfileNode profile : getProfiles()) {
                 for (LoggerNode node : profile.getLoggers()) {
                     map.put(node.getName(), node);
                 }
@@ -78,7 +78,7 @@ public class EffectiveProfile
             log.trace("Building listener dispatch table");
 
             List<Listener> listeners = new ArrayList<Listener>();
-            for (ProfileNode profile : profiles()) {
+            for (ProfileNode profile : getProfiles()) {
                 for (ListenerNode listener : profile.getListeners()) {
                     try {
                         log.trace("Adding listener: {}", listener);
