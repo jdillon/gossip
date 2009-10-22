@@ -18,6 +18,7 @@ package org.sonatype.gossip;
 
 import org.sonatype.gossip.listener.ConsoleListener;
 import org.sonatype.gossip.model.ListenerNode;
+import org.sonatype.gossip.model.LoggerNode;
 import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.ProfileNode;
 import org.sonatype.gossip.model.SourceNode;
@@ -80,10 +81,6 @@ public class Configurator
         ModelMerger merger = new ModelMerger();
         Map<Object,Object> hints = new HashMap<Object,Object>();
 
-        //
-        // TODO: Handle ProfileNode.getIncludes()
-        //
-        
         for (SourceNode source : bootstrap.getSources()) {
             try {
                 Source loader = source.create();
@@ -94,7 +91,55 @@ public class Configurator
             }
         }
 
+        resolveIncludes(config);
+
         return config;
+    }
+
+    private void resolveIncludes(final Model model) {
+        assert model != null;
+
+        log.debug("Processing includes for model: {}", model);
+
+        // Process profile includes
+        for (ProfileNode node : model.getProfiles()) {
+            for (String include : node.getIncludes()) {
+                ProfileNode includedProfile = model.findProfile(include);
+
+                if (includedProfile == null) {
+                    log.warn("Unable to include non-existant profile: {}", includedProfile);
+                    continue;
+                }
+
+                log.trace("Including profile {} -> {}", include, includedProfile);
+
+                if (includedProfile != null) {
+                    for (Object name : includedProfile.getProperties().keySet()) {
+                        if (!node.getProperties().containsKey(name)) {
+                            node.getProperties().put(name, includedProfile.getProperties().get(name));
+                        }
+                    }
+
+                    for (LoggerNode logger : includedProfile.getLoggers()) {
+                        if (!node.getLoggers().contains(logger)) {
+                            node.addLogger(logger);
+                        }
+                    }
+
+                    for (ListenerNode listener : includedProfile.getListeners()) {
+                        if (!node.getListeners().contains(listener)) {
+                            node.addListener(listener);
+                        }
+                    }
+
+                    for (TriggerNode trigger : includedProfile.getTriggers()) {
+                        if (!node.getTriggers().contains(trigger)) {
+                            node.addTrigger(trigger);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void configureActiveProfiles(final EffectiveProfile profile, final Model model) throws Exception {
@@ -114,7 +159,7 @@ public class Configurator
     private boolean isProfileActive(final ProfileNode profile) {
         assert profile != null;
 
-        log.trace("Checking for active triggers");
+        log.trace("Checking if profile is active: {}", profile);
 
         for (TriggerNode trigger : profile.getTriggers()) {
             try {

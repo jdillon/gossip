@@ -131,14 +131,12 @@ public class ModelMerger
             target.setProfiles(new ArrayList<ProfileNode>(merged.values()));
         }
     }
-
-    protected Object getSourceKey( SourceNode object )
-    {
+    
+    protected Object getSourceKey(SourceNode object) {
         return object;
     }
 
-    protected Object getProfileKey( ProfileNode object )
-    {
+    protected Object getProfileKey(ProfileNode object) {
         return object.getName();
     }
 }

@@ -55,6 +55,23 @@
                     </association>
                 </field>
             </fields>
+
+            <codeSegments>
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public ProfileNode findProfile(final String name) {
+                            assert name != null;
+                            for (ProfileNode profile : getProfiles()) {
+                                if (profile.getName().trim().equals(name)) {
+                                    return profile;
+                                }
+                            }
+                            return null;
+                        }
+                    ]]></code>
+                </codeSegment>
+            </codeSegments>
         </class>
 
         <class xml.tagName="profile">
@@ -208,8 +225,29 @@
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[
-                        public void setType(Class type) {
+                        public void setType(final Class type) {
                             setType(type.getName());
+                        }
+                    ]]></code>
+                </codeSegment>
+
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public int hashCode() {
+                            return getType().hashCode();
+                        }
+                    ]]></code>
+                </codeSegment>
+
+                <codeSegment>
+                    <version>1.0.0+</version>
+                    <code><![CDATA[
+                        public boolean equals(final Object target) {
+                            if (target instanceof FactoryNode) {
+                                return ((FactoryNode)target).getType().equals(this.getType());
+                            }
+                            return false;
                         }
                     ]]></code>
                 </codeSegment>

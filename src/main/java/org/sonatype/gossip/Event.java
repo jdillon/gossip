@@ -39,6 +39,10 @@ public final class Event
 
     private final String threadName;
 
+    //
+    // TODO: Optionally (and disabled by default) provide location muck
+    //
+
     public Event(final Logger logger, final Level level, final String message, final Throwable cause) {
         this.logger = logger;
         this.level = level;
