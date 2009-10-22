@@ -41,8 +41,6 @@ public class EffectiveProfile
 
     private Map<String,LoggerNode> loggers;
 
-    public EffectiveProfile() {}
-
     public List<ProfileNode> getProfiles() {
         return profiles;
     }
