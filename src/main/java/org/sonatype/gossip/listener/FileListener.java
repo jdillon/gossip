@@ -163,10 +163,11 @@ public class FileListener
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
-            "file=" + file +
-            ", append=" + append +
-            ", rollingStrategy=" + rollingStrategy +
-            '}';
+                "append=" + append +
+                ", bufferSize=" + bufferSize +
+                ", file=" + file +
+                ", rollingStrategy=" + rollingStrategy +
+                '}';
     }
 
     /**
