@@ -111,10 +111,9 @@ public class FileListener
         Writer writer = new FileWriter(file, isAppend());
 
         // Maybe buffer
-        int n = getBufferSize();
-        if (n > 0) {
-            log.trace("Using buffer size: {}", n);
-            writer = new BufferedWriter(writer, n);
+        if (bufferSize > 0) {
+            log.trace("Using buffer size: {}", bufferSize);
+            writer = new BufferedWriter(writer, bufferSize);
         }
 
         return new CountingWriter(writer);
@@ -128,8 +127,7 @@ public class FileListener
         }
         else {
             // Maybe roll the file
-            RollingStrategy roller = getRollingStrategy();
-            if (roller != null && roller.roll(this)) {
+            if (rollingStrategy != null && rollingStrategy.roll(this)) {
                 // Rebuild the writer after a roll
                 writer = createWriter();
             }
