@@ -33,11 +33,7 @@ public final class StaticLoggerBinder
     @SuppressWarnings({"UnusedDeclaration"})
     public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
     
-    private final ILoggerFactory factory;
-
-    public StaticLoggerBinder() {
-        this.factory = new Gossip();
-    }
+    private final ILoggerFactory factory = new Gossip();
 
     public ILoggerFactory getLoggerFactory() {
         return factory;

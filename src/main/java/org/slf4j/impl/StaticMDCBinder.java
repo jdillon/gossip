@@ -32,10 +32,10 @@ public final class StaticMDCBinder
     @SuppressWarnings({"UnusedDeclaration"})
     public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
-    private StaticMDCBinder() {}
-
+    private final BasicMDCAdapter adapter = new BasicMDCAdapter();
+    
     public MDCAdapter getMDCA() {
-        return new BasicMDCAdapter();
+        return adapter;
     }
 
     public String getMDCAdapterClassStr() {
