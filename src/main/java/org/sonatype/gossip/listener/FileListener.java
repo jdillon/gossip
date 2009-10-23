@@ -44,7 +44,7 @@ public class FileListener
 
     private RollingStrategy rollingStrategy;
 
-    private transient PrintWriter writer;
+    private CountingWriter writer;
 
     public File getFile() {
         return file;
@@ -75,6 +75,22 @@ public class FileListener
         this.rollingStrategy = rollingStrategy;
     }
 
+    public CountingWriter getWriter() {
+        return writer;
+    }
+
+    protected CountingWriter createWriter() throws IOException {
+        File file = getFile();
+        File dir = file.getParentFile();
+        if (dir != null && !dir.mkdirs()) {
+            log.warn("Unable to create directory structure for: {}", file);
+        }
+
+        log.trace("Creating writer for file: {}", file);
+
+        return new CountingWriter(new BufferedWriter(new FileWriter(file, isAppend())));
+    }
+
     public void onEvent(final Event event) throws Exception {
         assert event != null;
 
@@ -91,21 +107,9 @@ public class FileListener
         }
 
         synchronized (writer) {
-            writer.print(render(event));
+            writer.write(render(event));
             writer.flush();
         }
-    }
-
-    protected PrintWriter createWriter() throws IOException {
-        File file = getFile();
-        File dir = file.getParentFile();
-        if (dir != null && !dir.mkdirs()) {
-            log.warn("Unable to create directory structure for: {}", file);
-        }
-
-        log.trace("Creating writer for file: {}", file);
-
-        return new PrintWriter(new BufferedWriter(new FileWriter(file, isAppend())));
     }
 
     protected String evaluate(String input) {
