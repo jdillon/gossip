@@ -37,13 +37,15 @@ import java.util.regex.Pattern;
 public class FileListener
     extends ListenerSupport
 {
+    public static final int DEFAULT_BUFFER_SIZE = 8192;
+
     private static final Pattern PATTERN = Pattern.compile("\\$\\{([^}]+)\\}");
-    
+
     private File file;
 
     private boolean append;
 
-    private int bufferSize = 8192;
+    private int bufferSize = DEFAULT_BUFFER_SIZE;
 
     private RollingStrategy rollingStrategy;
 
