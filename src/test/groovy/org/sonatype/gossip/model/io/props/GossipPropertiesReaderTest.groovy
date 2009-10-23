@@ -30,7 +30,7 @@ class GossipPropertiesReaderTest
     void testLoad() {
         URL url = getClass().getResource("gossip1.properties")
         GossipPropertiesReader reader = new GossipPropertiesReader()
-        Model model = reader.read(url.openStream())
+        Model model = reader.read(url)
         println(model)
     }
 }

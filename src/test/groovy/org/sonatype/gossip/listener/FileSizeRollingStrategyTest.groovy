@@ -51,19 +51,28 @@ class FileSizeRollingStrategyTest
 
         return dir
     }
-    
-    @Test
-    void test1() {
+
+    private FileListener createListener(final String name) {
         def listener = new FileListener()
-        listener.setRenderer(new BasicRenderer())
-        
-        def file = new File("${getBaseDir()}/target", 'test1.log')
+
+        def renderer = new BasicRenderer()
+        renderer.includeName = false
+        listener.setRenderer(renderer)
+
+        def file = new File("${getBaseDir()}/target", name)
+        file.delete();
         listener.file = file
-        
+
         def strategy = new FileSizeRollingStrategy()
         strategy.maximumFileSize = 20
         strategy.maximumBackupIndex = 2
         listener.rollingStrategy = strategy
+        return listener
+    }
+
+    @Test
+    void test1() {
+        FileListener listener = createListener('test1.log')
         
         def logger = new Gossip().getLogger('a')
         def msg = '1234567890'
@@ -77,16 +86,7 @@ class FileSizeRollingStrategyTest
 
     @Test
     void test2() {
-        def listener = new FileListener()
-        listener.setRenderer(new BasicRenderer())
-
-        def file = new File("${getBaseDir()}/target", 'test2.log')
-        listener.file = file
-
-        def strategy = new FileSizeRollingStrategy()
-        strategy.maximumFileSize = 20
-        strategy.maximumBackupIndex = 2
-        listener.rollingStrategy = strategy
+        FileListener listener = createListener('test2.log')
 
         def logger = new Gossip().getLogger('a')
         def msg = '1234567890'
@@ -101,21 +101,12 @@ class FileSizeRollingStrategyTest
         assertEquals(11 + 8, writer.size())
 
         def rolled = new File("${getBaseDir()}/target", "test2.log.1")
-        assertEquals(11 + 8, file.text.size())
+        assertEquals(11 + 8, listener.file.text.size())
     }
 
     @Test
     void test3() {
-        def listener = new FileListener()
-        listener.setRenderer(new BasicRenderer())
-
-        def file = new File("${getBaseDir()}/target", 'test3.log')
-        listener.file = file
-
-        def strategy = new FileSizeRollingStrategy()
-        strategy.maximumFileSize = 20
-        strategy.maximumBackupIndex = 2
-        listener.rollingStrategy = strategy
+        FileListener listener = createListener('test3.log')
 
         def logger = new Gossip().getLogger('a')
         def msg = '1234567890'

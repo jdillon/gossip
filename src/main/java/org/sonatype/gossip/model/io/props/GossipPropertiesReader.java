@@ -69,12 +69,12 @@ public class GossipPropertiesReader
     // TODO: Support XML properties format
     //
     
-    public Model read(final InputStream in) throws IOException {
-        assert in != null;
+    public Model read(final URL url) throws IOException {
+        assert url != null;
 
         Model model = new Model();
 
-        Context ctx = Context.create(in);
+        Context ctx = Context.create(url);
 
         // Validate the version
         String tmp = ctx.get("version");
@@ -89,17 +89,6 @@ public class GossipPropertiesReader
         configureProfileNodes(model, ctx);
 
         return model;
-    }
-
-    public Model read(final URL url) throws IOException {
-        InputStream in = url.openStream();
-
-        try {
-            return read(in);
-        }
-        finally {
-            in.close();
-        }
     }
 
     private void configureSourceNodes(final Model model, final Context ctx) {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.net.URL;
 
 /**
  * Container for Gossip configuration details.
@@ -190,16 +191,26 @@ public final class Context
     //
 
     @SuppressWarnings({"unchecked"})
-    public static Context create(final InputStream input) throws IOException {
+    public static Context create(final URL input) throws IOException {
         assert input != null;
 
-        Properties props = new Properties();
-        props.load(input);
+        InputStream in = input.openStream();
+        Properties props;
+        try {
+            props = new Properties();
+            if (input.getFile().toLowerCase().endsWith(".xml")) {
+                props.loadFromXML(in);
+            }
+            props.load(in);
+        }
+        finally {
+            in.close();
+        }
+
         Context ctx = new Context((Map)props, null);
 
         return ctx;
     }
-
     public static Properties asProperties(final Context ctx) {
         assert ctx != null;
 
