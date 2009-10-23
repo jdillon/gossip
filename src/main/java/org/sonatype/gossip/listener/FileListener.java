@@ -101,6 +101,10 @@ public class FileListener
     }
 
     protected CountingWriter createWriter() throws IOException {
+        if (writer != null) {
+            writer.close();
+        }
+        
         File file = getFile();
         File dir = file.getParentFile();
         if (dir != null && !dir.mkdirs()) {
