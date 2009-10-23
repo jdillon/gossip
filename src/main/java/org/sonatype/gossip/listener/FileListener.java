@@ -80,20 +80,20 @@ public class FileListener
         return bufferSize;
     }
 
-    public void setBufferSize(final int bufferSize) {
-        this.bufferSize = bufferSize;
+    public void setBufferSize(final int s) {
+        this.bufferSize = s;
     }
 
-    public void setBufferSize(final String bufferSize) {
-        setBufferSize(Integer.parseInt(bufferSize));
+    public void setBufferSize(final String s) {
+        setBufferSize(Integer.parseInt(s));
     }
 
     public RollingStrategy getRollingStrategy() {
         return rollingStrategy;
     }
 
-    public void setRollingStrategy(final RollingStrategy rollingStrategy) {
-        this.rollingStrategy = rollingStrategy;
+    public void setRollingStrategy(final RollingStrategy s) {
+        this.rollingStrategy = s;
     }
 
     public CountingWriter getWriter() {
