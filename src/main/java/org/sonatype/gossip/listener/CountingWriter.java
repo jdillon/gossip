@@ -38,7 +38,7 @@ public class CountingWriter
         super(out);
     }
 
-    public long getCount() {
+    public long size() {
         return count;
     }
 

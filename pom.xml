@@ -177,6 +177,9 @@
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
+                    <properties>
+                        <org.sonatype.gossip.Log.level>TRACE</org.sonatype.gossip.Log.level>
+                    </properties>
                 </configuration>
             </plugin>
 

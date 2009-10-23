@@ -19,8 +19,6 @@ package org.sonatype.gossip.listener;
 import org.sonatype.gossip.Log;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InterruptedIOException;
 
 /**
  * A file-size {@link RollingStrategy}.
@@ -66,7 +64,7 @@ public class FileSizeRollingStrategy
         assert listener != null;
 
         CountingWriter writer = listener.getWriter();
-        if (writer.getCount() < maximumFileSize) {
+        if (writer.size() > maximumFileSize) {
             return false;
         }
 

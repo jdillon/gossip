@@ -107,7 +107,7 @@ public class FileListener
         
         File file = getFile();
         File dir = file.getParentFile();
-        if (dir != null && !dir.mkdirs()) {
+        if (dir != null && !dir.isDirectory() && !dir.mkdirs()) {
             log.warn("Unable to create directory structure for: {}", file);
         }
 
