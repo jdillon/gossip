@@ -10,6 +10,8 @@ Features
 * Profile-based configuration
 * Profile activation triggers
 * Multiple source inputs
+* Console and rolling file listeners
+* ANSI color rendering
 
 Synopsis
 --------
