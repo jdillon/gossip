@@ -34,8 +34,6 @@ import java.util.Map;
 public final class Gossip
     implements ILoggerFactory
 {
-    private static final String ROOT = "<ROOT>";
-
     private static final Log log = Log.getLogger(Gossip.class);
     
     /**
@@ -43,10 +41,10 @@ public final class Gossip
      */
     private final Map<String,Loggerish> loggers = new HashMap<String,Loggerish>();
 
+    private final LoggerImpl root = new LoggerImpl(Logger.ROOT_LOGGER_NAME, Level.WARN);
+
     private EffectiveProfile profile;
-
-    private LoggerImpl root = new LoggerImpl(ROOT, Level.INFO);
-
+    
     //
     // TODO: Add LoggerMXBean support
     //

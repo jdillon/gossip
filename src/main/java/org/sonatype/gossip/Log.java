@@ -60,12 +60,14 @@ public final class Log
         return new Log(type.getName());
     }
 
+    @Override
     protected boolean isEnabled(final Level l) {
         assert l != null;
         
         return level.id <= l.id;
     }
 
+    @Override
     protected void doLog(final Level level, final String message, final Throwable cause) {
         assert message != null;
         // cause may be null

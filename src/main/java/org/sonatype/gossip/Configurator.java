@@ -185,13 +185,13 @@ public class Configurator
         ProfileNode p = new ProfileNode();
         p.setName("fall-back");
 
-        TriggerNode t = new TriggerNode();
-        t.setType(AlwaysTrigger.class);
-        p.addTrigger(t);
+        TriggerNode trigger = new TriggerNode();
+        trigger.setType(AlwaysTrigger.class);
+        p.addTrigger(trigger);
 
-        ListenerNode l = new ListenerNode();
-        l.setType(ConsoleListener.class);
-        p.addListener(l);
+        ListenerNode listenerNode = new ListenerNode();
+        listenerNode.setType(ConsoleListener.class);
+        p.addListener(listenerNode);
 
         return p;
     }

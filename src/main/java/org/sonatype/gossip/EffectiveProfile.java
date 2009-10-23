@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class EffectiveProfile
 {
-    private final Log log = Log.getLogger(getClass());
+    private static final Log log = Log.getLogger(EffectiveProfile.class);
 
     private List<ProfileNode> profiles = new ArrayList<ProfileNode>();
 
