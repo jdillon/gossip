@@ -62,7 +62,7 @@ class FileSizeRollingStrategyTest
         
         def strategy = new FileSizeRollingStrategy()
         strategy.maximumFileSize = 20
-        strategy.maximumBackupIndex = 4
+        strategy.maximumBackupIndex = 2
         listener.rollingStrategy = strategy
         
         def logger = new Gossip().getLogger('a')
@@ -85,7 +85,7 @@ class FileSizeRollingStrategyTest
 
         def strategy = new FileSizeRollingStrategy()
         strategy.maximumFileSize = 20
-        strategy.maximumBackupIndex = 4
+        strategy.maximumBackupIndex = 2
         listener.rollingStrategy = strategy
 
         def logger = new Gossip().getLogger('a')
@@ -102,5 +102,41 @@ class FileSizeRollingStrategyTest
 
         def rolled = new File("${getBaseDir()}/target", "test2.log.1")
         assertEquals(11 + 8, file.text.size())
+    }
+
+    @Test
+    void test3() {
+        def listener = new FileListener()
+        listener.setRenderer(new SimpleRenderer())
+
+        def file = new File("${getBaseDir()}/target", 'test3.log')
+        listener.file = file
+
+        def strategy = new FileSizeRollingStrategy()
+        strategy.maximumFileSize = 20
+        strategy.maximumBackupIndex = 2
+        listener.rollingStrategy = strategy
+
+        def logger = new Gossip().getLogger('a')
+        def msg = '1234567890'
+        def event = new Event(logger, Level.INFO, msg, null)
+
+        listener.onEvent(event)
+
+        def writer = listener.getWriter()
+        assertEquals(11 + 8, writer.size())
+
+        listener.onEvent(event)
+        assertEquals(11 + 8, writer.size())
+
+        listener.onEvent(event)
+        assertEquals(11 + 8, writer.size())
+
+        listener.onEvent(event)
+        assertEquals(11 + 8, writer.size())
+
+        assertEquals(11 + 8, new File("${getBaseDir()}/target", "test3.log").text.size())
+        assertEquals(11 + 8, new File("${getBaseDir()}/target", "test3.log.1").text.size())
+        assertEquals(11 + 8, new File("${getBaseDir()}/target", "test3.log.2").text.size())
     }
 }
