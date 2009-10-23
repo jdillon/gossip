@@ -19,13 +19,13 @@ package org.sonatype.gossip.render;
 import org.sonatype.gossip.Event;
 
 /**
- * A simple event renderer.
+ * The basic {@link Event} {@link Renderer}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
  */
-public class SimpleRenderer
+public class BasicRenderer
     implements Renderer
 {
     private boolean includeName = false;
@@ -34,12 +34,18 @@ public class SimpleRenderer
 
     private int nameWidth = -1;
 
+    private boolean includeTimeStamp;
+
+    private boolean includeThread;
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
                 "includeName=" + includeName +
                 ", shortName=" + shortName +
                 ", nameWidth=" + nameWidth +
+                ", includeTimeStamp=" + includeTimeStamp +
+                ", includeThread=" + includeThread +
                 '}';
     }
 
@@ -79,10 +85,39 @@ public class SimpleRenderer
         return nameWidth;
     }
 
+    public boolean isIncludeThread() {
+        return includeThread;
+    }
+
+    public void setIncludeThread(boolean includeThread) {
+        this.includeThread = includeThread;
+    }
+
+    public void setIncludeThread(String includeThread) {
+        setIncludeThread(Boolean.parseBoolean(includeThread));
+    }
+
+    public boolean isIncludeTimeStamp() {
+        return includeTimeStamp;
+    }
+
+    public void setIncludeTimeStamp(boolean includeTimeStamp) {
+        this.includeTimeStamp = includeTimeStamp;
+    }
+
+    public void setIncludeTimeStamp(String includeThread) {
+        setIncludeTimeStamp(Boolean.parseBoolean(includeThread));
+    }
+
     public String render(final Event event) {
         assert event != null;
 
         StringBuilder buff = new StringBuilder();
+
+        if (includeTimeStamp) {
+            renderTimeStamp(event, buff);
+            buff.append(" ");
+        }
 
         buff.append("[");
         appendLevel(event, buff);
@@ -101,6 +136,12 @@ public class SimpleRenderer
             buff.append(" - ");
         }
 
+        if (includeThread) {
+            buff.append("<");
+            renderThreadName(event, buff);
+            buff.append("> ");
+        }
+
         appendMessage(event, buff);
 
         buff.append(NEWLINE);
@@ -110,6 +151,13 @@ public class SimpleRenderer
         }
 
         return buff.toString();
+    }
+
+    protected void renderTimeStamp(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
+
+        buff.append(event.getTimeStamp());
     }
 
     protected void appendLevel(final Event event, final StringBuilder buff) {
@@ -139,6 +187,13 @@ public class SimpleRenderer
         }
 
         buff.append(name);
+    }
+
+    protected void renderThreadName(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
+
+        buff.append(event.getThreadName());
     }
 
     protected void appendMessage(final Event event, final StringBuilder buff) {

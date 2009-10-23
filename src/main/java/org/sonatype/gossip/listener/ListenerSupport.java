@@ -19,7 +19,7 @@ package org.sonatype.gossip.listener;
 import org.sonatype.gossip.Event;
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.render.Renderer;
-import org.sonatype.gossip.render.SimpleRenderer;
+import org.sonatype.gossip.render.BasicRenderer;
 
 /**
  * Support for {@link Listener} implementations.
@@ -40,7 +40,7 @@ public abstract class ListenerSupport
     }
 
     protected Renderer createRenderer() {
-         return new SimpleRenderer();
+         return new BasicRenderer();
     }
     
     public void setRenderer(final Renderer renderer) {

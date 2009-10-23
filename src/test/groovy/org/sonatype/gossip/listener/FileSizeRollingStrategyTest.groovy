@@ -21,7 +21,7 @@ import static org.junit.Assert.*
 import org.sonatype.gossip.Event
 import org.sonatype.gossip.Level
 import org.sonatype.gossip.Gossip
-import org.sonatype.gossip.render.SimpleRenderer
+import org.sonatype.gossip.render.BasicRenderer
 
 /**
  * Tests for {@link FileSizeRollingStrategy}.
@@ -55,7 +55,7 @@ class FileSizeRollingStrategyTest
     @Test
     void test1() {
         def listener = new FileListener()
-        listener.setRenderer(new SimpleRenderer())
+        listener.setRenderer(new BasicRenderer())
         
         def file = new File("${getBaseDir()}/target", 'test1.log')
         listener.file = file
@@ -78,7 +78,7 @@ class FileSizeRollingStrategyTest
     @Test
     void test2() {
         def listener = new FileListener()
-        listener.setRenderer(new SimpleRenderer())
+        listener.setRenderer(new BasicRenderer())
 
         def file = new File("${getBaseDir()}/target", 'test2.log')
         listener.file = file
@@ -107,7 +107,7 @@ class FileSizeRollingStrategyTest
     @Test
     void test3() {
         def listener = new FileListener()
-        listener.setRenderer(new SimpleRenderer())
+        listener.setRenderer(new BasicRenderer())
 
         def file = new File("${getBaseDir()}/target", 'test3.log')
         listener.file = file

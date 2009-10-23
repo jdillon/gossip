@@ -31,7 +31,7 @@ import org.sonatype.gossip.Event;
  * @since 1.0
  */
 public class ColorRenderer
-    extends SimpleRenderer
+    extends BasicRenderer
 {
     @Override
     protected void appendLevel(final Event event, final StringBuilder buff) {

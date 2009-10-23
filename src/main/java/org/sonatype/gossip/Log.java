@@ -16,7 +16,7 @@
 
 package org.sonatype.gossip;
 
-import org.sonatype.gossip.render.SimpleRenderer;
+import org.sonatype.gossip.render.BasicRenderer;
 
 import java.io.PrintStream;
 
@@ -32,7 +32,7 @@ public final class Log
 {
     private static Level level = Level.WARN;
 
-    private static SimpleRenderer renderer;
+    private static BasicRenderer renderer;
 
     static {
         String tmp = System.getProperty(Log.class.getName() + ".level");
@@ -40,7 +40,7 @@ public final class Log
             level = Level.valueOf(tmp.toUpperCase());
         }
 
-        renderer = new SimpleRenderer();
+        renderer = new BasicRenderer();
         renderer.setIncludeName(true);
     }
 
