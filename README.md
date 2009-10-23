@@ -6,7 +6,7 @@ Description
 Features
 --------
 
-* Small footprint ~85k (or ~60k shrunk with [ProGuard][5])
+* Small footprint ~70k (or ~55k shrunk with [ProGuard][5])
 * Profile-based configuration
 * Profile activation triggers
 * Multiple source inputs
