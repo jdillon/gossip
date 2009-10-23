@@ -333,11 +333,9 @@
                         <version>1.3</version>
                         <dependencies>
                             <dependency>
-                                <groupId>proguard</groupId>
+                                <groupId>net.sf.proguard</groupId>
                                 <artifactId>proguard</artifactId>
                                 <version>4.4</version>
-                                <scope>system</scope>
-                                <systemPath>${project.basedir}/lib/proguard-4.4.jar</systemPath>
                             </dependency>
                         </dependencies>
                         <executions>
