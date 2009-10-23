@@ -23,8 +23,9 @@ import org.slf4j.spi.MarkerFactoryBinder;
 /**
  * Gossip marker binder for SLF4J.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public final class StaticMarkerBinder
     implements MarkerFactoryBinder

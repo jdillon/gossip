@@ -17,13 +17,15 @@
 package org.slf4j.impl;
 
 import org.slf4j.helpers.NOPMakerAdapter;
+import org.slf4j.helpers.BasicMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 
 /**
  * Gossip MDC binder for SLF4J.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ *
+ * @since 1.0
  */
 public final class StaticMDCBinder
 {
@@ -33,10 +35,10 @@ public final class StaticMDCBinder
     private StaticMDCBinder() {}
 
     public MDCAdapter getMDCA() {
-        return new NOPMakerAdapter();
+        return new BasicMDCAdapter();
     }
 
     public String getMDCAdapterClassStr() {
-        return NOPMakerAdapter.class.getName();
+        return BasicMDCAdapter.class.getName();
     }
 }
