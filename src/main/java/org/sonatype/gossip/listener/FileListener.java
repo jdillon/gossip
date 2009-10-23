@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,6 +42,8 @@ public class FileListener
     private File file;
 
     private boolean append;
+
+    private int bufferSize = 8192;
 
     private RollingStrategy rollingStrategy;
 
@@ -67,6 +70,14 @@ public class FileListener
         this.append = append;
     }
 
+    public int getBufferSize() {
+        return bufferSize;
+    }
+
+    public void setBufferSize(final int bufferSize) {
+        this.bufferSize = bufferSize;
+    }
+
     public RollingStrategy getRollingStrategy() {
         return rollingStrategy;
     }
@@ -87,8 +98,16 @@ public class FileListener
         }
 
         log.trace("Creating writer for file: {}", file);
+        Writer writer = new FileWriter(file, isAppend());
 
-        return new CountingWriter(new BufferedWriter(new FileWriter(file, isAppend())));
+        // Maybe buffer
+        int n = getBufferSize();
+        if (n > 0) {
+            log.trace("Using buffer size: {}", n);
+            writer = new BufferedWriter(writer, n);
+        }
+
+        return new CountingWriter(writer);
     }
 
     public void onEvent(final Event event) throws Exception {
