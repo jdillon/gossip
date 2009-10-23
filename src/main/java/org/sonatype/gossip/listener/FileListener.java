@@ -181,8 +181,4 @@ public class FileListener
     {
         boolean roll(FileListener listener);
     }
-
-    //
-    // TODO: Add some rolling strategies
-    //
 }
