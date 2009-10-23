@@ -114,7 +114,7 @@ public class BasicRenderer
 
         StringBuilder buff = new StringBuilder();
 
-        if (includeTimeStamp) {
+        if (isIncludeTimeStamp()) {
             renderTimeStamp(event, buff);
             buff.append(" ");
         }
@@ -136,7 +136,7 @@ public class BasicRenderer
             buff.append(" - ");
         }
 
-        if (includeThread) {
+        if (isIncludeThread()) {
             buff.append("<");
             renderThreadName(event, buff);
             buff.append("> ");
