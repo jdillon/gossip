@@ -32,6 +32,71 @@ Optional Dependencies
 
 * [jANSI][4] - For ANSI colored output
 
+Configuration
+-------------
+
+Configuration of Gossip is handled via standard property files.
+
+The [bootstrap configuration](http://github.com/jdillon/gossip/blob/master/src/main/resources/org/sonatype/gossip/bootstrap.properties)
+attempts to read:
+
+1. org/sonatype/gossip/defaults.properties (as resource)
+2. META-INF/org.sonatype.gossip/config.properties (as resource)
+3. -Dgossip.configuration (value of as file/url)
+4. ~/.gossip/config.properties (as file)
+
+For example, to configure Gossip for your application on a per-user level to enable DEBUG or TRACE, 
+create a file named ~/.gossip/config.properties containing:
+
+    version=1.0.0
+    profiles=myapp-common, myapp-debug, myapp-trace
+    profile.myapp-common.listeners=console
+    profile.myapp-common.listener.console=org.sonatype.gossip.listener.ConsoleListener
+
+    ## -Dmyapp.logging=DEBUG
+    profile.myapp-debug.includes=myapp-common    
+    profile.myapp-debug.triggers=default
+    profile.myapp-debug.trigger.default=org.sonatype.gossip.trigger.SystemPropertyTrigger
+    profile.myapp-debug.trigger.default.name=myapp.logging
+    profile.myapp-debug.trigger.default.value=DEBUG
+    profile.myapp-debug.logger.org.mycompany.myapp=DEBUG
+
+    ## -Dmyapp.logging=TRACE
+    profile.myapp-trace.includes=myapp-common
+    profile.myapp-trace.triggers=default
+    profile.myapp-trace.trigger.default=org.sonatype.gossip.trigger.SystemPropertyTrigger
+    profile.myapp-trace.trigger.default.name=myapp.logging
+    profile.myapp-trace.trigger.default.value=TRACE
+    profile.myapp-trace.logger.org.mycompany.myapp=TRACE
+
+If you want ANSI colors on the console, replace the __myapp-common__ profile with:
+
+    profile.myapp-common.listeners=console
+    profile.myapp-common.listener.console=org.sonatype.gossip.listener.ConsoleListener
+    profile.myapp-common.listener.console.renderer=org.sonatype.gossip.render.ColorRenderer
+
+Want to save log events to a file to?  Well then change the __myapp-common__ profile to:
+
+    profile.myapp-common.listeners=console,file
+    profile.myapp-common.listener.console=org.sonatype.gossip.listener.ConsoleListener
+    profile.myapp-common.listener.console.renderer=org.sonatype.gossip.render.ColorRenderer
+    profile.myapp-common.listener.file=org.sonatype.gossip.listener.FileListener
+    profile.myapp-common.listener.file.file=${some.sysproperty}/myapp.log
+
+Need your log file rolled when it gets too big?  Then use something like:
+
+    profile.myapp-common.listeners=console,file
+    profile.myapp-common.listener.console=org.sonatype.gossip.listener.ConsoleListener
+    profile.myapp-common.listener.console.renderer=org.sonatype.gossip.render.ColorRenderer
+    profile.myapp-common.listener.file=org.sonatype.gossip.listener.FileListener
+    profile.myapp-common.listener.file.file=${some.sysproperty}/myapp.log
+    profile.myapp-common.listener.file.rollingStrategy=org.sonatype.gossip.listener.FileSizeRollingStrategy
+    profile.myapp-common.listener.file.rollingStrategy.maximumFileSize=10240
+    profile.myapp-common.listener.file.rollingStrategy.maximumBackupIndex=5
+
+When the log file exceed 10mb the file will be rolled.  At anyone time only 5 files will be preserved.
+Older files will be renamed myapp.log-1, myapp.log-2, etc.
+    
 Building
 --------
 

@@ -34,9 +34,9 @@ public abstract class NameValueTriggerSupport
 
     private String value;
 
-    private boolean trim;
+    private boolean trim = true;
 
-    private boolean ignoreCase;
+    private boolean ignoreCase = true;
 
     public void setName(final String name) {
         this.name = name;

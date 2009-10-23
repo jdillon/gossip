@@ -28,7 +28,7 @@ import org.sonatype.gossip.Event;
 public class BasicRenderer
     implements Renderer
 {
-    private boolean includeName;
+    private boolean includeName = true;
 
     private boolean shortName;
 
