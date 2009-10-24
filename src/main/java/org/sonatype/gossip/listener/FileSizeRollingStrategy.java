@@ -68,6 +68,10 @@ public class FileSizeRollingStrategy
             return false;
         }
 
+        //
+        // This was coppied from Log4j's RollingFileAppender and massaged a bit, probably needs more work on Windows
+        //
+        
         File source = listener.getFile();
         File target;
         boolean renameSucceeded = true;
@@ -97,18 +101,9 @@ public class FileSizeRollingStrategy
                 log.debug("Renaming file {} to {}", file, target);
                 renameSucceeded = file.renameTo(target);
 
-//                // if file rename failed, reopen file with append = true
-//                if (!renameSucceeded) {
-//                    try {
-//                        this.setFile(fileName, true, bufferedIO, bufferSize);
-//                    }
-//                    catch (IOException e) {
-//                        if (e instanceof InterruptedIOException) {
-//                            Thread.currentThread().interrupt();
-//                        }
-//                        LogLog.error("setFile(" + fileName + ", true) call failed.", e);
-//                    }
-//                }
+                if (!renameSucceeded) {
+                    return false;
+                }
             }
         }
 
