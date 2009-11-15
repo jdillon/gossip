@@ -31,6 +31,8 @@ public abstract class LoggerSupport
     extends MarkerIgnoringBase
     implements org.slf4j.Logger
 {
+    public static final String ROOT="*";
+    
     public final String name;
 
     protected LoggerSupport(final String name) {

@@ -61,12 +61,20 @@ public final class Gossip
         for (Map.Entry<String,LoggerNode> entry : profile.loggers().entrySet()) {
             String name = entry.getKey();
             LoggerNode node = entry.getValue();
-            LoggerImpl logger = (LoggerImpl) getLogger(name);
+            LoggerImpl logger;
+
+            if (LoggerSupport.ROOT.equals(name)) {
+                logger = root;
+            }
+            else {
+                logger = getLogger(name);
+            }
+
             logger.level = node.asLevel();
         }
     }
 
-    public Logger getLogger(final String name) {
+    public LoggerImpl getLogger(final String name) {
         assert name != null;
 
         LoggerImpl logger;
