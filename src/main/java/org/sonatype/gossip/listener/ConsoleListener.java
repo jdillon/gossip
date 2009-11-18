@@ -33,23 +33,13 @@ public class ConsoleListener
     public static enum Stream
     {
         OUT, ERR;
-
-        public PrintStream getOutput() {
-            switch (this) {
-                case OUT:
-                    return System.out;
-                case ERR:
-                    return System.err;
-            }
-
-            throw new InternalError();
-        }
     }
 
     private Stream stream;
 
     public ConsoleListener() {
         setStream(Stream.OUT);
+        System.out.println("Initialized");
     }
 
     public Stream getStream() {
@@ -69,7 +59,19 @@ public class ConsoleListener
     public void onEvent(final Event event) {
         assert event != null;
 
-        final PrintStream out = getStream().getOutput();
+        Stream stream = getStream();
+        PrintStream out;
+
+        switch (stream) {
+            case OUT:
+                out = System.out;
+                break;
+            case ERR:
+                out = System.err;
+                break;
+            default:
+                throw new InternalError();
+        }
 
         synchronized (out) {
             out.print(render(event));

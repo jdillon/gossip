@@ -21,7 +21,7 @@ import org.sonatype.gossip.Log;
 import java.io.File;
 
 /**
- * A file-size {@link RollingStrategy}.
+ * A file-size {@link FileListener.RollingStrategy}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
