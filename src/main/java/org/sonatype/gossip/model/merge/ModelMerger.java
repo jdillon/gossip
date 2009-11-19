@@ -18,7 +18,6 @@ package org.sonatype.gossip.model.merge;
 
 import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.ProfileNode;
-import org.sonatype.gossip.model.SourceNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,23 +51,8 @@ public class ModelMerger
     }
 
     protected void mergeModel(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
-        mergeModel_Version(target, source, sourceDominant, context);
         mergeModel_Properties(target, source, sourceDominant, context);
-        mergeModel_Sources(target, source, sourceDominant, context);
         mergeModel_Profiles(target, source, sourceDominant, context);
-    }
-
-    protected void mergeModel_Version(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
-        /*
-        Version is not inherited.
-        
-        String src = source.getVersion();
-        if (src != null) {
-            if (sourceDominant || target.getVersion() == null) {
-                target.setVersion(src);
-            }
-        }
-        */
     }
 
     protected void mergeModel_Properties(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
@@ -84,45 +68,19 @@ public class ModelMerger
         target.setProperties(merged);
     }
 
-    protected void mergeModel_Sources(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
-        /*
-        Sources are not inherited
-        
-        List<SourceNode> src = source.getSources();
-        if (!src.isEmpty()) {
-            List<SourceNode> tgt = target.getSources();
-            Map<Object,SourceNode> merged = new LinkedHashMap<Object,SourceNode>((src.size() + tgt.size()) * 2);
-
-            for (SourceNode element : tgt) {
-                Object key = getSourceKey(element);
-                merged.put(key, element);
-            }
-
-            for (SourceNode element : src) {
-                Object key = getSourceKey(element);
-                if (sourceDominant || !merged.containsKey(key)) {
-                    merged.put(key, element);
-                }
-            }
-
-            target.setSources(new ArrayList<SourceNode>(merged.values()));
-        }
-        */
-    }
-
     protected void mergeModel_Profiles(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
         List<ProfileNode> src = source.getProfiles();
         if (!src.isEmpty()) {
-            List<ProfileNode> tgt = target.getProfiles();
-            Map<Object,ProfileNode> merged = new LinkedHashMap<Object,ProfileNode>((src.size() + tgt.size()) * 2);
+            List<ProfileNode> profiles = target.getProfiles();
+            Map<Object,ProfileNode> merged = new LinkedHashMap<Object,ProfileNode>((src.size() + profiles.size()) * 2);
 
-            for (ProfileNode element : tgt) {
-                Object key = getProfileKey(element);
+            for (ProfileNode element : profiles) {
+                Object key = element.getName();
                 merged.put(key, element);
             }
 
             for (ProfileNode element : src) {
-                Object key = getProfileKey(element);
+                Object key = element.getName();
                 if (sourceDominant || !merged.containsKey(key)) {
                     merged.put(key, element);
                 }
@@ -130,13 +88,5 @@ public class ModelMerger
 
             target.setProfiles(new ArrayList<ProfileNode>(merged.values()));
         }
-    }
-    
-    protected Object getSourceKey(SourceNode object) {
-        return object;
-    }
-
-    protected Object getProfileKey(ProfileNode object) {
-        return object.getName();
     }
 }

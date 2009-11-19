@@ -39,7 +39,6 @@ public class ConsoleListener
 
     public ConsoleListener() {
         setStream(Stream.OUT);
-        System.out.println("Initialized");
     }
 
     public Stream getStream() {

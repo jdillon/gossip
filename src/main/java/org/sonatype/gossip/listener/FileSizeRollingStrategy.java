@@ -69,7 +69,7 @@ public class FileSizeRollingStrategy
         }
 
         //
-        // This was coppied from Log4j's RollingFileAppender and massaged a bit, probably needs more work on Windows
+        // This was copied from Log4j's RollingFileAppender and massaged a bit, probably needs more work on Windows
         //
         
         File source = listener.getFile();

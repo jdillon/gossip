@@ -66,8 +66,10 @@ public class ColorRenderer
         Throwable cause = event.getCause();
 
         buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getClass().getName()).reset());
-        buff.append(": ");
-        buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
+        if (cause.getMessage() != null) {
+            buff.append(": ");
+            buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
+        }
         buff.append(NEWLINE);
 
         while (cause != null) {
@@ -80,8 +82,11 @@ public class ColorRenderer
 
             cause = cause.getCause();
             if (cause != null) {
-                buff.append(ansi().a(INTENSITY_BOLD).a("Caused by").reset().a(" ").a(cause.getClass().getName()).a(": "));
-                buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
+                buff.append(ansi().a(INTENSITY_BOLD).a("Caused by").reset().a(" ").a(cause.getClass().getName()));
+                if (cause.getMessage() != null) {
+                    buff.append(": ");
+                    buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
+                }
                 buff.append(NEWLINE);
             }
         }
