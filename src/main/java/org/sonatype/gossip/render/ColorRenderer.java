@@ -57,7 +57,14 @@ public class ColorRenderer
                 throw new InternalError();
         }
     }
-    
+
+    @Override
+    protected void appendLogger(final Event event, final StringBuilder buff) {
+        StringBuilder tmp = new StringBuilder();
+        super.appendLogger(event, tmp);
+        buff.append(ansi().fg(GREEN).a(tmp).reset());
+    }
+
     @Override
     protected void appendCause(final Event event, final StringBuilder buff) {
         assert event != null;
