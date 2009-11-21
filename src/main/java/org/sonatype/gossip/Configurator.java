@@ -65,6 +65,10 @@ public class Configurator
         }
 
         if (profile.getProfiles().isEmpty()) {
+            //
+            // FIXME: Before defaulting to fall-back, try looking for a "default" profile, if it exists activate it, if not then use fall-back
+            //
+            
             log.debug("No profiles were activated; using fall-back");
 
             ProfileNode p = createFallbackProfile();
