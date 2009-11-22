@@ -16,6 +16,7 @@
 
 package org.sonatype.gossip.listener;
 
+import org.slf4j.Logger;
 import org.sonatype.gossip.Log;
 
 import java.io.File;
@@ -30,7 +31,7 @@ import java.io.File;
 public class FileSizeRollingStrategy
     implements FileListener.RollingStrategy
 {
-    private static final Log log = Log.getLogger(FileSizeRollingStrategy.class);
+    private static final Logger log = Log.getLogger(FileSizeRollingStrategy.class);
 
     private long maximumFileSize = 10*1024*1024;
     

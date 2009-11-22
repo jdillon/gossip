@@ -16,6 +16,7 @@
 
 package org.sonatype.gossip.model.io.props;
 
+import org.slf4j.Logger;
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.model.ComponentFactory;
 
@@ -30,7 +31,7 @@ import java.lang.reflect.Method;
  */
 public class ContextConfigurator
 {
-    private static final Log log = Log.getLogger(ContextConfigurator.class);
+    private static final Logger log = Log.getLogger(ContextConfigurator.class);
 
     public void configure(final Object target, final Context config) throws Exception {
         assert target != null;
@@ -82,7 +83,7 @@ public class ContextConfigurator
             Method setter = type.getMethod(tmp, value.getClass());
 
             if (setter != null) {
-                log.trace("Setting '{}={}' via: {}", name, value, setter);
+                log.trace("Setting '{}={}' via: {}", new Object[] { name, value, setter });
                 setter.invoke(target, value);
                 return true;
             }
@@ -91,7 +92,7 @@ public class ContextConfigurator
             log.trace("Missing setter for: {}", value);
         }
         catch (Exception e) {
-            log.error("Failed to set '{}={}'", name, value, e);
+            log.error("Failed to set '{}={}'", new Object[] { name, value, e });
         }
 
         return false;

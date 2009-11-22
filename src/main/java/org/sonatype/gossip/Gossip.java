@@ -34,8 +34,14 @@ import java.util.Map;
 public final class Gossip
     implements ILoggerFactory
 {
-    private static final Log log = Log.getLogger(Gossip.class);
-    
+    private static final Logger log = Log.getLogger(Gossip.class);
+
+    private static final Gossip INSTANCE = new Gossip();
+
+    public static Gossip getInstance() {
+        return INSTANCE;
+    }
+
     /**
      * Map {@link Logger} names to {@link LoggerImpl} or {@link ProvisionNode}.
      */
@@ -43,22 +49,30 @@ public final class Gossip
 
     private final LoggerImpl root = new LoggerImpl(Logger.ROOT_LOGGER_NAME, Level.WARN);
 
-    private EffectiveProfile profile;
-    
+    private final EffectiveProfile effectiveProfile;
+
     //
     // TODO: Add LoggerMXBean support
     //
 
-    public Gossip() {
-        profile = new Configurator().configure();
+    private Gossip() {
+        effectiveProfile = new Configurator().configure();
         prime();
+    }
+
+    public LoggerImpl getRoot() {
+        return root;
+    }
+
+    public EffectiveProfile getEffectiveProfile() {
+        return effectiveProfile;
     }
 
     private void prime() {
         log.trace("Priming");
 
         // Prime the loggers we have configured
-        for (Map.Entry<String,LoggerNode> entry : profile.loggers().entrySet()) {
+        for (Map.Entry<String,LoggerNode> entry : effectiveProfile.loggers().entrySet()) {
             String name = entry.getKey();
             LoggerNode node = entry.getValue();
             LoggerImpl logger;
@@ -86,14 +100,12 @@ public final class Gossip
                 logger = new LoggerImpl(name);
                 loggers.put(name, logger);
                 log.trace("Created logger: {}", logger);
-
                 updateParents(logger);
             }
             else if (obj instanceof ProvisionNode) {
                 logger = new LoggerImpl(name);
                 loggers.put(name, logger);
                 log.trace("Replaced provision node with logger: {}", logger);
-
                 updateChildren((ProvisionNode)obj, logger);
                 updateParents(logger);
             }
@@ -161,7 +173,7 @@ public final class Gossip
 
         @Override
         protected void doLog(final Level level, final String message, final Throwable cause) {
-            profile.dispatch(new Event(this, level, message, cause));
+            effectiveProfile.dispatch(new Event(this, level, message, cause));
         }
         
         @Override
@@ -189,12 +201,9 @@ public final class Gossip
 
         String name = logger.getName();
         int length = name.length();
-
-        // log.trace("Update parents: {}", name);
-
         boolean parentFound = false;
 
-        // if name = "w.x.y.z", loop thourgh "w.x.y", "w.x" and "w", but not "w.x.y.z"
+        // if name = "w.x.y.z", loop through "w.x.y", "w.x" and "w", but not "w.x.y.z"
         for (int i = name.lastIndexOf('.', length - 1); i >= 0; i = name.lastIndexOf('.', i - 1)) {
             String key = name.substring(0, i);
 
@@ -237,11 +246,9 @@ public final class Gossip
         for (int i = 0; i < last; i++) {
             LoggerImpl l = (LoggerImpl) pn.get(i);
 
-            // log.trace("Updating child {}", l.name);
-
             // Unless this child already points to a correct (lower) parent,
             // make cat.parent point to l.parent and l.parent to cat.
-            if (!l.parent.name.startsWith(logger.name)) {
+            if (!l.parent.getName().startsWith(logger.getName())) {
                 logger.parent = l.parent;
                 l.parent = logger;
             }

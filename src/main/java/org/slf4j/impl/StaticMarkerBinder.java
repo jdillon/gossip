@@ -40,6 +40,6 @@ public final class StaticMarkerBinder
     }
 
     public String getMarkerFactoryClassStr() {
-        return BasicMarkerFactory.class.getName();
+        return factory.getClass().getName();
     }
 }

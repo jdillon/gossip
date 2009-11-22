@@ -16,6 +16,7 @@
 
 package org.sonatype.gossip.source;
 
+import org.slf4j.Logger;
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.io.props.GossipPropertiesReader;
@@ -33,7 +34,7 @@ import java.net.URL;
 public abstract class SourceSupport
     implements Source
 {
-    protected final Log log = Log.getLogger(getClass());
+    protected final Logger log = Log.getLogger(getClass());
 
     protected Model load(final URL url) throws Exception {
         assert url != null;

@@ -33,11 +33,10 @@ public abstract class LoggerSupport
 {
     public static final String ROOT="*";
     
-    public final String name;
+    private final String name;
 
     protected LoggerSupport(final String name) {
         assert name != null;
-
         this.name = name;
     }
 

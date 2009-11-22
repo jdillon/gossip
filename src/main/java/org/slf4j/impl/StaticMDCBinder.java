@@ -16,7 +16,6 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.helpers.NOPMakerAdapter;
 import org.slf4j.helpers.BasicMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 
@@ -39,6 +38,6 @@ public final class StaticMDCBinder
     }
 
     public String getMDCAdapterClassStr() {
-        return BasicMDCAdapter.class.getName();
+        return adapter.getClass().getName();
     }
 }

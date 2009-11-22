@@ -16,6 +16,7 @@
 
 package org.sonatype.gossip;
 
+import org.slf4j.Logger;
 import org.sonatype.gossip.listener.Listener;
 import org.sonatype.gossip.model.ListenerNode;
 import org.sonatype.gossip.model.LoggerNode;
@@ -33,11 +34,11 @@ import java.util.Map;
  *
  * @since 1.0
  */
-public class EffectiveProfile
+public final class EffectiveProfile
 {
-    private static final Log log = Log.getLogger(EffectiveProfile.class);
+    private static final Logger log = Log.getLogger(EffectiveProfile.class);
 
-    private List<ProfileNode> profiles = new ArrayList<ProfileNode>();
+    private final List<ProfileNode> profiles = new ArrayList<ProfileNode>();
 
     private Map<String,LoggerNode> loggers;
 

@@ -14,20 +14,30 @@
  * limitations under the License.
  */
 
-package org.slf4j.impl;
+package org.sonatype.gossip;
 
-import org.sonatype.gossip.LoggerFactoryBinderImpl;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.spi.LoggerFactoryBinder;
+import org.sonatype.gossip.Gossip;
 
 /**
- * Gossip logger binder for SLF4J.
+ * Gossip logger factory binder for SLF4J.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
  */
-public final class StaticLoggerBinder
-    extends LoggerFactoryBinderImpl
+public class LoggerFactoryBinderImpl
+    implements LoggerFactoryBinder
 {
-    @SuppressWarnings({"UnusedDeclaration"})
-    public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+    private final ILoggerFactory factory = Gossip.getInstance();
+
+    public ILoggerFactory getLoggerFactory() {
+        Log.configure();
+        return factory;
+    }
+
+    public String getLoggerFactoryClassStr() {
+        return factory.getClass().getName();
+    }
 }

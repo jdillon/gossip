@@ -16,6 +16,7 @@
 
 package org.sonatype.gossip.trigger;
 
+import org.slf4j.Logger;
 import org.sonatype.gossip.Log;
 
 /**
@@ -28,7 +29,7 @@ import org.sonatype.gossip.Log;
 public abstract class NameValueTriggerSupport
     implements Trigger
 {
-    protected transient Log log = Log.getLogger(getClass());
+    protected transient Logger log = Log.getLogger(getClass());
 
     private String name;
 
@@ -87,7 +88,7 @@ public abstract class NameValueTriggerSupport
         String have = resolve();
 
         if (log.isTraceEnabled()) {
-            log.trace("Checking active state; name={}, expect={}, found={}", name, value, have);
+            log.trace("Checking active state; name={}, expect={}, found={}", new Object[] { name, value, have });
         }
 
         // If not set, its not active

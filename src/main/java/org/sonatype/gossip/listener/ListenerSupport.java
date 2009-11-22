@@ -16,6 +16,7 @@
 
 package org.sonatype.gossip.listener;
 
+import org.slf4j.Logger;
 import org.sonatype.gossip.Event;
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.render.Renderer;
@@ -31,7 +32,7 @@ import org.sonatype.gossip.render.BasicRenderer;
 public abstract class ListenerSupport
     implements Listener
 {
-    protected final Log log = Log.getLogger(getClass());
+    protected final Logger log = Log.getLogger(getClass());
 
     private Renderer renderer;
 

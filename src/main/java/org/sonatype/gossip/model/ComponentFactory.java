@@ -16,6 +16,7 @@
 
 package org.sonatype.gossip.model;
 
+import org.slf4j.Logger;
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.listener.Listener;
 import org.sonatype.gossip.model.io.props.Context;
@@ -32,7 +33,7 @@ import org.sonatype.gossip.trigger.Trigger;
  */
 public class ComponentFactory
 {
-    private static Log log = Log.getLogger(ComponentFactory.class);
+    private static Logger log = Log.getLogger(ComponentFactory.class);
 
     public static Source create(final SourceNode node) throws Exception {
         return (Source) build(node);

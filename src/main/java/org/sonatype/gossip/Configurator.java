@@ -16,6 +16,7 @@
 
 package org.sonatype.gossip;
 
+import org.slf4j.Logger;
 import org.sonatype.gossip.listener.ConsoleListener;
 import org.sonatype.gossip.model.ListenerNode;
 import org.sonatype.gossip.model.LoggerNode;
@@ -43,7 +44,7 @@ public class Configurator
 {
     private static final String BOOTSTRAP_RESOURCE = "bootstrap.properties";
 
-    private final Log log = Log.getLogger(getClass());
+    private final Logger log = Log.getLogger(getClass());
 
     public EffectiveProfile configure() {
         log.debug("Configuring");
@@ -65,10 +66,6 @@ public class Configurator
         }
 
         if (profile.getProfiles().isEmpty()) {
-            //
-            // FIXME: Before defaulting to fall-back, try looking for a "default" profile, if it exists activate it, if not then use fall-back
-            //
-            
             log.debug("No profiles were activated; using fall-back");
 
             ProfileNode p = createFallbackProfile();
@@ -159,6 +156,15 @@ public class Configurator
         for (ProfileNode node : model.getProfiles()) {
             if (isProfileActive(node)) {
                 log.debug("Active profile: {}", node);
+                profile.addProfile(node);
+            }
+        }
+
+        // If no profiles were activated, look for a "default" profile, if it exists then use it
+        if (profile.getProfiles().isEmpty()) {
+            ProfileNode node = model.findProfile("default");
+            if (node != null) {
+                log.debug("Using default profile: {}", node);
                 profile.addProfile(node);
             }
         }

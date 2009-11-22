@@ -16,6 +16,7 @@
 
 package org.sonatype.gossip.model.io.props;
 
+import org.slf4j.Logger;
 import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.model.ListenerNode;
@@ -63,7 +64,7 @@ public class GossipPropertiesReader
 
     private static final String LISTENER_DOT = "listener.";
 
-    private static final Log log = Log.getLogger(GossipPropertiesReader.class);
+    private static final Logger log = Log.getLogger(GossipPropertiesReader.class);
 
     //
     // TODO: Support XML properties format

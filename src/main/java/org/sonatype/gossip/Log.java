@@ -16,9 +16,15 @@
 
 package org.sonatype.gossip;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonatype.gossip.render.BasicRenderer;
 
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides internal logging support for Gossip.
@@ -28,56 +34,92 @@ import java.io.PrintStream;
  * @since 1.0
  */
 public final class Log
-    extends LoggerSupport
 {
-    private static Level level = Level.WARN;
+    private final static Map<String,LoggerDelegate> delegates = new HashMap<String,LoggerDelegate>();
 
-    private static BasicRenderer renderer;
+    private final static Level level;
+
+    private final static Level internalLevel;
+
+    private final static BasicRenderer renderer;
+
+    private static boolean configured;
 
     static {
-        String tmp = System.getProperty(Log.class.getName() + ".level");
-        if (tmp != null) {
-            level = Level.valueOf(tmp.toUpperCase());
-        }
-
+        level = Level.valueOf(System.getProperty(Log.class.getName() + ".level", Level.WARN.toString()).toUpperCase());
+        internalLevel = Level.valueOf(System.getProperty(Log.class.getName() + ".internal.level", Level.WARN.toString()).toUpperCase());
         renderer = new BasicRenderer();
         renderer.setIncludeName(true);
     }
 
-    public Log(final String name) {
-        super(name);
+    static void configure() {
+        if (!configured) {
+            // Replace all logger delegates with real loggers
+            for (Map.Entry<String,LoggerDelegate> entry : delegates.entrySet()) {
+                Logger logger = Gossip.getInstance().getLogger(entry.getKey());
+                entry.getValue().setDelegate(logger);
+            }
+            delegates.clear();
+            configured = true;
+        }
     }
 
-    public static Log getLogger(final String name) {
+    public static Logger getLogger(final String name) {
         assert name != null;
 
-        return new Log(name);
+        // Gossip loggers will always be internal
+        if (name.startsWith("org.sonatype.gossip")) {
+            return new LoggerImpl(name);
+        }
+
+        if (!configured) {
+            synchronized (delegates) {
+                LoggerDelegate delegate = new LoggerDelegate(new LoggerImpl(name));
+                delegates.put(name, delegate);
+                return delegate;
+            }
+        }
+
+        return Gossip.getInstance().getLogger(name);
     }
     
-    public static Log getLogger(final Class type) {
+    public static Logger getLogger(final Class type) {
         assert type != null;
-
-        return new Log(type.getName());
+        return getLogger(type.getName());
     }
 
-    @Override
-    protected boolean isEnabled(final Level l) {
-        assert l != null;
-        
-        return level.id <= l.id;
-    }
+    private static class LoggerImpl
+        extends LoggerSupport
+    {
+        private LoggerImpl(final String name) {
+            super(name);
+        }
 
-    @Override
-    protected void doLog(final Level level, final String message, final Throwable cause) {
-        assert message != null;
-        // cause may be null
-        // level should have been checked already
+        @Override
+        protected boolean isEnabled(final Level l) {
+            assert l != null;
 
-        final PrintStream out = System.out;
+            Level threashold = Log.level;
 
-        synchronized (out) {
-            out.print(renderer.render(new Event(this, level, message, cause)));
-            out.flush();
+            if (getName().startsWith("org.sonatype.gossip")) {
+                threashold = Log.internalLevel;
+            }
+
+            return threashold.id <= l.id;
+        }
+
+        @Override
+        protected void doLog(final Level level, final String message, final Throwable cause) {
+            assert message != null;
+            // cause may be null
+            // level should have been checked already
+
+            final PrintStream out = System.out;
+
+            synchronized (out) {
+                out.print(renderer.render(new Event(this, level, message, cause)));
+                out.flush();
+            }
         }
     }
 }
