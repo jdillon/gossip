@@ -18,13 +18,13 @@ package org.sonatype.gossip.model.io.props;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.net.URL;
 
 /**
  * Container for Gossip configuration details.

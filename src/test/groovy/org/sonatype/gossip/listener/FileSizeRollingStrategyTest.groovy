@@ -17,11 +17,11 @@
 package org.sonatype.gossip.listener
 
 import org.junit.Test
-import static org.junit.Assert.*
 import org.sonatype.gossip.Event
-import org.sonatype.gossip.Level
 import org.sonatype.gossip.Gossip
+import org.sonatype.gossip.Level
 import org.sonatype.gossip.render.BasicRenderer
+import static org.junit.Assert.assertEquals
 
 /**
  * Tests for {@link FileSizeRollingStrategy}.

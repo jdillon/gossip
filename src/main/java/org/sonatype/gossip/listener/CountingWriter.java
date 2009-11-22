@@ -16,11 +16,9 @@
 
 package org.sonatype.gossip.listener;
 
-import org.sonatype.gossip.Event;
-
-import java.io.Writer;
-import java.io.IOException;
 import java.io.FilterWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * Writer which counts the number of bytes written.

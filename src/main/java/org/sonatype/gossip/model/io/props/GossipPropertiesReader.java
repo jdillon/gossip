@@ -27,7 +27,6 @@ import org.sonatype.gossip.model.SourceNode;
 import org.sonatype.gossip.model.TriggerNode;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 

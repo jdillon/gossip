@@ -19,8 +19,8 @@ package org.sonatype.gossip.listener;
 import org.slf4j.Logger;
 import org.sonatype.gossip.Event;
 import org.sonatype.gossip.Log;
-import org.sonatype.gossip.render.Renderer;
 import org.sonatype.gossip.render.BasicRenderer;
+import org.sonatype.gossip.render.Renderer;
 
 /**
  * Support for {@link Listener} implementations.

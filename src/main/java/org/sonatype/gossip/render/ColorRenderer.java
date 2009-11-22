@@ -16,12 +16,13 @@
 
 package org.sonatype.gossip.render;
 
+import org.sonatype.gossip.Event;
+
 import static org.fusesource.jansi.Ansi.Attribute.INTENSITY_BOLD;
 import static org.fusesource.jansi.Ansi.Color.GREEN;
 import static org.fusesource.jansi.Ansi.Color.RED;
 import static org.fusesource.jansi.Ansi.Color.YELLOW;
 import static org.fusesource.jansi.Ansi.ansi;
-import org.sonatype.gossip.Event;
 
 /**
  * Renders events with ANSI colors.

@@ -16,11 +16,12 @@
 
 package org.sonatype.gossip.source;
 
-import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.sonatype.gossip.model.Model;
 
 import java.net.URL;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Tests for the {@link org.sonatype.gossip.source.URLSource} class.

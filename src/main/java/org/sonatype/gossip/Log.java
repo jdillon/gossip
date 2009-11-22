@@ -17,13 +17,10 @@
 package org.sonatype.gossip;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonatype.gossip.render.BasicRenderer;
 
 import java.io.PrintStream;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**

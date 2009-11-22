@@ -18,9 +18,10 @@ package org.sonatype.gossip.source;
 
 import org.sonatype.gossip.MissingPropertyException;
 import org.sonatype.gossip.model.Model;
-import static org.sonatype.gossip.source.ResourceSource.ClassLoaderType.TCL;
 
 import java.net.URL;
+
+import static org.sonatype.gossip.source.ResourceSource.ClassLoaderType.TCL;
 
 /**
  * Resource-based configuration source.

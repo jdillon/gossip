@@ -18,7 +18,6 @@ package org.sonatype.gossip;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
-import org.sonatype.gossip.Gossip;
 
 /**
  * Gossip logger factory binder for SLF4J.
