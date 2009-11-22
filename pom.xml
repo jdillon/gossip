@@ -383,6 +383,19 @@
 
                                             -keep public class org.sonatype.gossip.**
 
+                                            -keep public class org.sonatype.gossip.Gossip {
+                                                public <methods>;
+                                            }
+
+                                            -keep public class org.sonatype.gossip.Log {
+                                                public <methods>;
+                                            }
+
+                                            -keep public class org.sonatype.gossip.Level {
+                                                public static <fields>;
+                                                public <methods>;
+                                            }
+                                            
                                             -keep public class org.sonatype.gossip.source.* {
                                                 public void set*(***);
                                             }

@@ -6,7 +6,7 @@ Description
 Features
 --------
 
-* Small footprint ~70k (or ~55k shrunk with [ProGuard][5])
+* Small footprint ~77k (or ~58k shrunk with [ProGuard][5])
 * Profile-based configuration
 * Profile activation triggers
 * Multiple source inputs
@@ -40,10 +40,9 @@ Configuration of Gossip is handled via standard property files.
 The [bootstrap configuration](http://github.com/jdillon/gossip/blob/master/src/main/resources/org/sonatype/gossip/bootstrap.properties)
 attempts to read:
 
-1. org/sonatype/gossip/defaults.properties (as resource)
-2. META-INF/org.sonatype.gossip/config.properties (as resource)
-3. -Dgossip.configuration (value of as file/url)
-4. ~/.gossip/config.properties (as file)
+1. META-INF/org.sonatype.gossip/config.properties (as resource)
+2. -Dgossip.configuration (value of as file/url)
+3. ~/.gossip/config.properties (as file)
 
 For example, to configure Gossip for your application on a per-user level to enable DEBUG or TRACE, 
 create a file named ~/.gossip/config.properties containing:
