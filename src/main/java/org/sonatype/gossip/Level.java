@@ -39,7 +39,7 @@ public enum Level
 
     public final int id;
 
-    private Level(final int id) {
+    Level(final int id) {
         this.id = id;
     }
 }

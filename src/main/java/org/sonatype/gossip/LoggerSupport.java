@@ -41,7 +41,7 @@ public abstract class LoggerSupport
     }
 
     @Override
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
@@ -51,7 +51,7 @@ public abstract class LoggerSupport
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return name.hashCode();
     }
 
@@ -67,7 +67,6 @@ public abstract class LoggerSupport
         Logger that = (Logger) obj;
 
         return !(name != null ? !name.equals(that.getName()) : that.getName() != null);
-
     }
 
     protected abstract boolean isEnabled(final Level level);
@@ -123,27 +122,27 @@ public abstract class LoggerSupport
     // TRACE
     //
 
-    public boolean isTraceEnabled() {
+    public final boolean isTraceEnabled() {
         return isEnabled(Level.TRACE);
     }
 
-    public void trace(final String msg) {
+    public final void trace(final String msg) {
         log(Level.TRACE, msg);
     }
 
-    public void trace(final String format, final Object arg) {
+    public final void trace(final String format, final Object arg) {
         log(Level.TRACE, format, arg);
     }
 
-    public void trace(final String format, final Object arg1, final Object arg2) {
+    public final void trace(final String format, final Object arg1, final Object arg2) {
         log(Level.TRACE, format, arg1, arg2);
     }
 
-    public void trace(final String format, final Object... args) {
+    public final void trace(final String format, final Object... args) {
         log(Level.TRACE, format, args);
     }
 
-    public void trace(final String msg, final Throwable cause) {
+    public final void trace(final String msg, final Throwable cause) {
         log(Level.TRACE, msg, cause);
     }
 
@@ -151,27 +150,27 @@ public abstract class LoggerSupport
     // DEBUG
     //
 
-    public boolean isDebugEnabled() {
+    public final boolean isDebugEnabled() {
         return isEnabled(Level.DEBUG);
     }
 
-    public void debug(final String msg) {
+    public final void debug(final String msg) {
         log(Level.DEBUG, msg);
     }
 
-    public void debug(final String format, final Object arg) {
+    public final void debug(final String format, final Object arg) {
         log(Level.DEBUG, format, arg);
     }
 
-    public void debug(final String format, final Object arg1, final Object arg2) {
+    public final void debug(final String format, final Object arg1, final Object arg2) {
         log(Level.DEBUG, format, arg1, arg2);
     }
 
-    public void debug(final String format, final Object... args) {
+    public final void debug(final String format, final Object... args) {
         log(Level.DEBUG, format, args);
     }
 
-    public void debug(final String msg, final Throwable cause) {
+    public final void debug(final String msg, final Throwable cause) {
         log(Level.DEBUG, msg, cause);
     }
 
@@ -179,27 +178,27 @@ public abstract class LoggerSupport
     // INFO
     //
 
-    public boolean isInfoEnabled() {
+    public final boolean isInfoEnabled() {
         return isEnabled(Level.INFO);
     }
 
-    public void info(final String msg) {
+    public final void info(final String msg) {
         log(Level.INFO, msg);
     }
 
-    public void info(final String format, final Object arg) {
+    public final void info(final String format, final Object arg) {
         log(Level.INFO, format, arg);
     }
 
-    public void info(final String format, final Object arg1, final Object arg2) {
+    public final void info(final String format, final Object arg1, final Object arg2) {
         log(Level.INFO, format, arg1, arg2);
     }
 
-    public void info(final String format, final Object... args) {
+    public final void info(final String format, final Object... args) {
         log(Level.INFO, format, args);
     }
 
-    public void info(final String msg, final Throwable cause) {
+    public final void info(final String msg, final Throwable cause) {
         log(Level.INFO, msg, cause);
     }
 
@@ -207,27 +206,27 @@ public abstract class LoggerSupport
     // WARN
     //
 
-    public boolean isWarnEnabled() {
+    public final boolean isWarnEnabled() {
         return isEnabled(Level.WARN);
     }
 
-    public void warn(final String msg) {
+    public final void warn(final String msg) {
         log(Level.WARN, msg);
     }
 
-    public void warn(final String format, final Object arg) {
+    public final void warn(final String format, final Object arg) {
         log(Level.WARN, format, arg);
     }
 
-    public void warn(final String format, final Object... args) {
+    public final void warn(final String format, final Object... args) {
         log(Level.WARN, format, args);
     }
 
-    public void warn(final String format, final Object arg1, final Object arg2) {
+    public final void warn(final String format, final Object arg1, final Object arg2) {
         log(Level.WARN, format, arg1, arg2);
     }
 
-    public void warn(final String msg, final Throwable cause) {
+    public final void warn(final String msg, final Throwable cause) {
         log(Level.WARN, msg, cause);
     }
 
@@ -235,27 +234,27 @@ public abstract class LoggerSupport
     // ERROR
     //
 
-    public boolean isErrorEnabled() {
+    public final boolean isErrorEnabled() {
         return isEnabled(Level.ERROR);
     }
 
-    public void error(final String msg) {
+    public final void error(final String msg) {
         log(Level.ERROR, msg);
     }
 
-    public void error(final String format, final Object arg) {
+    public final void error(final String format, final Object arg) {
         log(Level.ERROR, format, arg);
     }
 
-    public void error(final String format, final Object arg1, final Object arg2) {
+    public final void error(final String format, final Object arg1, final Object arg2) {
         log(Level.ERROR, format, arg1, arg2);
     }
 
-    public void error(final String format, final Object... args) {
+    public final void error(final String format, final Object... args) {
         log(Level.ERROR, format, args);
     }
 
-    public void error(final String msg, final Throwable cause) {
+    public final void error(final String msg, final Throwable cause) {
         log(Level.ERROR, msg, cause);
     }
 }

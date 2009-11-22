@@ -126,7 +126,7 @@ public final class Gossip
         // Marker
     }
 
-    private class LoggerImpl
+    private final class LoggerImpl
         extends LoggerSupport
         implements Loggerish
     {
@@ -186,7 +186,7 @@ public final class Gossip
     // NOTE: The following was borrowed and massaged from Log4j
     //
 
-    private class ProvisionNode
+    private final class ProvisionNode
         extends ArrayList<Object>
         implements Loggerish
     {
