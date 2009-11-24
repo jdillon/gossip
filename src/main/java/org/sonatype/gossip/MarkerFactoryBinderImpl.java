@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package org.slf4j.impl;
+package org.sonatype.gossip;
 
-import org.sonatype.gossip.MarkerFactoryBinderImpl;
+import org.slf4j.IMarkerFactory;
+import org.slf4j.helpers.BasicMarkerFactory;
+import org.slf4j.spi.MarkerFactoryBinder;
 
 /**
  * Gossip marker binder for SLF4J.
@@ -25,9 +27,16 @@ import org.sonatype.gossip.MarkerFactoryBinderImpl;
  *
  * @since 1.0
  */
-public final class StaticMarkerBinder
-    extends MarkerFactoryBinderImpl
+public class MarkerFactoryBinderImpl
+    implements MarkerFactoryBinder
 {
-    @SuppressWarnings({"UnusedDeclaration"})
-    public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
+    private final IMarkerFactory factory = new BasicMarkerFactory();
+
+    public IMarkerFactory getMarkerFactory() {
+        return factory;
+    }
+
+    public String getMarkerFactoryClassStr() {
+        return factory.getClass().getName();
+    }
 }

@@ -14,20 +14,27 @@
  * limitations under the License.
  */
 
-package org.slf4j.impl;
+package org.sonatype.gossip;
 
-import org.sonatype.gossip.MarkerFactoryBinderImpl;
+import org.slf4j.helpers.BasicMDCAdapter;
+import org.slf4j.spi.MDCAdapter;
 
 /**
- * Gossip marker binder for SLF4J.
+ * Gossip MDC binder for SLF4J.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
  * @since 1.0
  */
-public final class StaticMarkerBinder
-    extends MarkerFactoryBinderImpl
+public class MdcAdapterImpl
 {
-    @SuppressWarnings({"UnusedDeclaration"})
-    public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
+    private final BasicMDCAdapter adapter = new BasicMDCAdapter();
+
+    public MDCAdapter getMDCA() {
+        return adapter;
+    }
+
+    public String getMDCAdapterClassStr() {
+        return adapter.getClass().getName();
+    }
 }
