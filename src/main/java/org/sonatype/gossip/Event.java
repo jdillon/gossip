@@ -33,10 +33,10 @@ public final class Event
 {
     private static final long serialVersionUID = 1;
 
-    private static final boolean stackTraceEnable;
+    private static final boolean traceEnable;
 
     static {
-        stackTraceEnable = Boolean.getBoolean(Event.class.getName() + ".stackTraceEnable");
+        traceEnable = Boolean.getBoolean(Event.class.getName() + ".traceEnable");
     }
 
     private final Logger logger;
@@ -61,7 +61,7 @@ public final class Event
         this.timeStamp = System.currentTimeMillis();
         this.threadName = Thread.currentThread().getName();
 
-        if (stackTraceEnable) {
+        if (traceEnable) {
             this.trace = new Throwable().getStackTrace();
         }
         else {
