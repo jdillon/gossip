@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
 
+import java.io.Serializable;
+
 /**
  * Support for the Gossip {@link org.slf4j.Logger} implementation.
  *
@@ -29,8 +31,10 @@ import org.slf4j.helpers.MessageFormatter;
  */
 public abstract class LoggerSupport
     extends MarkerIgnoringBase
-    implements org.slf4j.Logger
+    implements org.slf4j.Logger, Serializable
 {
+    private static final long serialVersionUID = 1;
+
     public static final String ROOT="*";
     
     private final String name;

@@ -27,6 +27,8 @@ public class ConfigurationException
 {
     ///CLOVER:OFF
 
+    private static final long serialVersionUID = 1;
+
     public ConfigurationException() {}
 
     public ConfigurationException(final String message) {

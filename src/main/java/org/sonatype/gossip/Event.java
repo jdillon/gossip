@@ -18,6 +18,8 @@ package org.sonatype.gossip;
 
 import org.slf4j.Logger;
 
+import java.io.Serializable;
+
 /**
  * Gossip logging event container.
  *
@@ -26,7 +28,10 @@ import org.slf4j.Logger;
  * @since 1.0
  */
 public final class Event
+    implements Serializable
 {
+    private static final long serialVersionUID = 1;
+
     private static final boolean stackTraceEnable;
 
     static {
