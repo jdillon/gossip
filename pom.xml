@@ -48,6 +48,28 @@
         <url>http://github.com/jdillon/gossip</url>
     </scm>
 
+    <!--
+    FIXME: Replace with Sonatype details...
+    <distributionManagement>
+        <repository>
+            <id>release.fusesource.org</id>
+            <name>RestMQ Release Repository</name>
+            <url>dav:http://fusesource.com/forge/dav/jansi/repo/release</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>snapshot.fusesource.org</id>
+            <name>RestMQ Snapshot Repository</name>
+            <url>dav:http://fusesource.com/forge/dav/jansi/repo/snapshot</url>
+        </snapshotRepository>
+        <site>
+            <id>website.fusesource.org</id>
+            <name>website</name>
+            <url>dav:http://fusesource.com/forge/dav/jansi/maven/${project.version}</url>
+        </site>
+    </distributionManagement>
+    -->
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -244,7 +266,6 @@
 
             <!--
             FIXME: Not really sure what the import/export for Gossip should be. :-(
-            
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
