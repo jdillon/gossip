@@ -19,6 +19,7 @@ package org.sonatype.gossip;
 import org.slf4j.Logger;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Gossip logging event container.
@@ -105,6 +106,7 @@ public final class Event
             ", cause=" + cause +
             ", timeStamp=" + timeStamp +
             ", threadName='" + threadName + '\'' +
+            ", trace=" + (trace == null ? null : Arrays.asList(trace)) +
             '}';
     }
 }
