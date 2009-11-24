@@ -173,19 +173,6 @@
             </testResource>
         </testResources>
         
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.groovy.maven</groupId>
-                    <artifactId>gmaven-plugin</artifactId>
-                    <version>1.0</version>
-                    <configuration>
-                        <providerSelection>1.6</providerSelection>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -221,8 +208,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.0.2</version>
                 <configuration>
-                    <debug>true</debug>
-                    <optimize>false</optimize>
                     <source>1.5</source>
                     <target>1.5</target>
                 </configuration>
@@ -231,6 +216,10 @@
             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <providerSelection>1.6</providerSelection>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -264,8 +253,6 @@
                 </executions>
             </plugin>
 
-            <!--
-            FIXME: Not really sure what the import/export for Gossip should be. :-(
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -278,9 +265,8 @@
                         </goals>
                         <configuration>
                             <instructions>
-                                <Import-Package>
-                                    !org.sonatype.gossip*,org.fusesource.jansi*;resolution:=optional,com.sun.jna;resolution:=optional,sun.reflect;resolution:=optional,*
-                                </Import-Package>
+                                <Import-Package>!org.sonatype.gossip*,!org.slf4j.impl*,org.fusesource.jansi*;resolution:=optional,com.sun.jna;resolution:=optional,sun.reflect;resolution:=optional,*</Import-Package>
+                                <DynamicImport-Package>*</DynamicImport-Package>
                             </instructions>
                         </configuration>
                     </execution>
@@ -297,7 +283,6 @@
                     </archive>
                 </configuration>
             </plugin>
-            -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
