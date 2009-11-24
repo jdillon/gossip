@@ -160,7 +160,7 @@
                     <configuration>
                         <useReleaseProfile>false</useReleaseProfile>
                         <goals>deploy</goals>
-                        <arguments>-Prelease</arguments>
+                        <arguments>-B -Prelease</arguments>
                     </configuration>
                 </plugin>
             </plugins>
