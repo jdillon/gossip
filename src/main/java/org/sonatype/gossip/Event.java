@@ -27,6 +27,12 @@ import org.slf4j.Logger;
  */
 public final class Event
 {
+    private static final boolean stackTraceEnable;
+
+    static {
+        stackTraceEnable = Boolean.getBoolean(Event.class.getName() + ".stackTraceEnable");
+    }
+
     private final Logger logger;
 
     private final Level level;
@@ -39,9 +45,7 @@ public final class Event
 
     private final String threadName;
 
-    //
-    // TODO: Optionally (and disabled by default) provide location muck
-    //
+    private final StackTraceElement[] trace;
 
     public Event(final Logger logger, final Level level, final String message, final Throwable cause) {
         this.logger = logger;
@@ -50,6 +54,13 @@ public final class Event
         this.cause = cause;
         this.timeStamp = System.currentTimeMillis();
         this.threadName = Thread.currentThread().getName();
+
+        if (stackTraceEnable) {
+            this.trace = new Throwable().getStackTrace();
+        }
+        else {
+            this.trace = null;
+        }
     }
 
     public String getName() {
@@ -74,6 +85,10 @@ public final class Event
 
     public String getThreadName() {
         return threadName;
+    }
+
+    public StackTraceElement[] getTrace() {
+        return trace;
     }
 
     @Override
