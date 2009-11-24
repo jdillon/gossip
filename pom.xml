@@ -44,7 +44,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/jdillon/gossip.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:jdillon/gossip.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/jdillon/gossip.git</developerConnection>
         <url>http://github.com/jdillon/gossip</url>
     </scm>
 
