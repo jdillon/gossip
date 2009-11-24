@@ -20,11 +20,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.spice</groupId>
-        <artifactId>spice-parent</artifactId>
-        <version>13</version>
+        <groupId>org.sonatype.forge</groupId>
+        <artifactId>forge-parent</artifactId>
+        <version>5</version>
     </parent>
-    
+
     <groupId>org.sonatype.gossip</groupId>
     <artifactId>gossip</artifactId>
     <name>Gossip</name>
@@ -48,28 +48,6 @@
         <url>http://github.com/jdillon/gossip</url>
     </scm>
 
-    <!--
-    FIXME: Replace with Sonatype details...
-    <distributionManagement>
-        <repository>
-            <id>release.fusesource.org</id>
-            <name>RestMQ Release Repository</name>
-            <url>dav:http://fusesource.com/forge/dav/jansi/repo/release</url>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>snapshot.fusesource.org</id>
-            <name>RestMQ Snapshot Repository</name>
-            <url>dav:http://fusesource.com/forge/dav/jansi/repo/snapshot</url>
-        </snapshotRepository>
-        <site>
-            <id>website.fusesource.org</id>
-            <name>website</name>
-            <url>dav:http://fusesource.com/forge/dav/jansi/maven/${project.version}</url>
-        </site>
-    </distributionManagement>
-    -->
-    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -172,6 +150,21 @@
                 </includes>
             </testResource>
         </testResources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.0-beta-9</version>
+                    <configuration>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <goals>deploy</goals>
+                        <arguments>-Prelease</arguments>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         
         <plugins>
             <plugin>
