@@ -125,6 +125,8 @@ public class FileListener
     public void onEvent(final Event event) throws Exception {
         assert event != null;
 
+        if (!isLoggable(event)) return;
+
         if (writer == null) {
             writer = createWriter();
         }

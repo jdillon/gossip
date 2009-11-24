@@ -58,6 +58,8 @@ public class ConsoleListener
     public void onEvent(final Event event) {
         assert event != null;
 
+        if (!isLoggable(event)) return;
+
         Stream stream = getStream();
         PrintStream out;
 

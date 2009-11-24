@@ -18,6 +18,7 @@ package org.sonatype.gossip.listener;
 
 import org.slf4j.Logger;
 import org.sonatype.gossip.Event;
+import org.sonatype.gossip.Level;
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.render.BasicRenderer;
 import org.sonatype.gossip.render.Renderer;
@@ -36,6 +37,8 @@ public abstract class ListenerSupport
 
     private Renderer renderer;
 
+    private Level threshold = Level.TRACE;
+
     public Renderer getRenderer() {
         return renderer;
     }
@@ -46,6 +49,22 @@ public abstract class ListenerSupport
     
     public void setRenderer(final Renderer renderer) {
         this.renderer = renderer;
+    }
+
+    public Level getThreshold() {
+        return threshold;
+    }
+
+    public void setThreshold(final Level threshold) {
+        this.threshold = threshold;
+    }
+
+    /**
+     * Returns false if the given event does not match the threshold.
+     */
+    protected boolean isLoggable(final Event event) {
+        assert event != null;
+        return event.getLevel().id >= getThreshold().id;
     }
 
     protected String render(final Event event) {
