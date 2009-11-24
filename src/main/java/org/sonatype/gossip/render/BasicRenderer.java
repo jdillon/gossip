@@ -38,15 +38,18 @@ public class BasicRenderer
 
     private boolean includeThread;
 
+    private boolean includeTrace;
+
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "includeName=" + includeName +
-                ", shortName=" + shortName +
-                ", nameWidth=" + nameWidth +
-                ", includeTimeStamp=" + includeTimeStamp +
-                ", includeThread=" + includeThread +
-                '}';
+        return "BasicRenderer{" +
+            "includeName=" + includeName +
+            ", shortName=" + shortName +
+            ", nameWidth=" + nameWidth +
+            ", includeTimeStamp=" + includeTimeStamp +
+            ", includeThread=" + includeThread +
+            ", includeTrace=" + includeTrace +
+            '}';
     }
 
     public void setIncludeName(final boolean flag) {
@@ -109,6 +112,18 @@ public class BasicRenderer
         setIncludeTimeStamp(Boolean.parseBoolean(includeThread));
     }
 
+    public boolean isIncludeTrace() {
+        return includeTrace;
+    }
+
+    public void setIncludeTrace(boolean includeTrace) {
+        this.includeTrace = includeTrace;
+    }
+
+    public void setIncludeTrace(String includeTrace) {
+        this.includeTrace = Boolean.parseBoolean(includeTrace);
+    }
+
     public String render(final Event event) {
         assert event != null;
 
@@ -148,6 +163,10 @@ public class BasicRenderer
 
         if (event.getCause() != null) {
             appendCause(event, buff);
+        }
+
+        if (isIncludeTrace()) {
+            appendTrace(event, buff);
         }
 
         return buff.toString();
@@ -226,6 +245,10 @@ public class BasicRenderer
                 buff.append(NEWLINE);
             }
         }
+    }
+
+    protected void appendTrace(final Event event, final StringBuilder buff) {
+        // TODO:
     }
 
     protected String getLocation(final StackTraceElement e) {
