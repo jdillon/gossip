@@ -27,5 +27,11 @@ import org.sonatype.gossip.model.Model;
  */
 public interface Source
 {
+    /**
+     * Load a configuration model.
+     *
+     * @return The loaded model.
+     * @throws Exception Failed to load the model.
+     */
     Model load() throws Exception;
 }
