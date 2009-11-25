@@ -40,7 +40,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
-public class Configurator
+public final class Configurator
 {
     private static final String BOOTSTRAP_RESOURCE = "bootstrap.properties";
 
