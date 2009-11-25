@@ -104,7 +104,9 @@ public class PatternRenderer
 {
     private static final String NEWLINE = System.getProperty("line.separator");
 
-    private String pattern = "[%l] %c - %m%n%x";
+    private static final String DEFAULT_PATTERN = "[%l] %c - %m%n%x";
+
+    private String pattern = DEFAULT_PATTERN;
 
     @Override
     public String toString() {
@@ -163,19 +165,27 @@ public class PatternRenderer
                         break;
 
                     case 'T':
-                        renderTraceClass(event, buff);
+                        if (event.getTrace() != null) {
+                            renderTraceClass(event, buff);
+                        }
                         break;
 
                     case 'F':
-                        renderTraceFile(event, buff);
+                        if (event.getTrace() != null) {
+                            renderTraceFile(event, buff);
+                        }
                         break;
 
                     case 'M':
-                        renderTraceMethod(event, buff);
+                        if (event.getTrace() != null) {
+                            renderTraceMethod(event, buff);
+                        }
                         break;
 
                     case 'L':
-                        renderTraceLine(event, buff);
+                        if (event.getTrace() != null) {
+                            renderTraceLine(event, buff);
+                        }
                         break;
 
                     case 'm':
@@ -284,9 +294,8 @@ public class PatternRenderer
         assert buff != null;
 
         StackTraceElement[] trace = event.getTrace();
-        if (trace != null) {
-            buff.append(trace[0].getFileName());
-        }
+        assert trace != null;
+        buff.append(trace[0].getFileName());
     }
 
     protected void renderTraceClass(final Event event, final StringBuilder buff) {
@@ -294,9 +303,8 @@ public class PatternRenderer
         assert buff != null;
 
         StackTraceElement[] trace = event.getTrace();
-        if (trace != null) {
-            buff.append(trace[0].getClassName());
-        }
+        assert trace != null;
+        buff.append(trace[0].getClassName());
     }
 
     protected void renderTraceMethod(final Event event, final StringBuilder buff) {
@@ -304,9 +312,8 @@ public class PatternRenderer
         assert buff != null;
 
         StackTraceElement[] trace = event.getTrace();
-        if (trace != null) {
-            buff.append(trace[0].getMethodName());
-        }
+        assert trace != null;
+        buff.append(trace[0].getMethodName());
     }
 
     protected void renderTraceLine(final Event event, final StringBuilder buff) {
@@ -314,9 +321,8 @@ public class PatternRenderer
         assert buff != null;
 
         StackTraceElement[] trace = event.getTrace();
-        if (trace != null) {
-            buff.append(trace[0].getLineNumber());
-        }
+        assert trace != null;
+        buff.append(trace[0].getLineNumber());
     }
 
     protected String getLocation(final StackTraceElement e) {
