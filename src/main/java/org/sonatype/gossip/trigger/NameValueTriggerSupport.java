@@ -55,24 +55,16 @@ public abstract class NameValueTriggerSupport
         return value;
     }
 
-    public void setTrim(final boolean trim) {
-        this.trim = trim;
-    }
-
-    public void setTrim(final String trim) {
-        setTrim(Boolean.valueOf(trim));
+    public void setTrim(final boolean flag) {
+        this.trim = flag;
     }
 
     public boolean isTrim() {
         return trim;
     }
 
-    public void setIgnoreCase(final boolean ignoreCase) {
-        this.ignoreCase = ignoreCase;
-    }
-
-    public void setIgnoreCase(final String ignoreCase) {
-        setIgnoreCase(Boolean.valueOf(ignoreCase));
+    public void setIgnoreCase(final boolean flag) {
+        this.ignoreCase = flag;
     }
 
     public boolean isIgnoreCase() {

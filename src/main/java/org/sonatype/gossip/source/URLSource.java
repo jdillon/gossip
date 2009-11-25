@@ -40,7 +40,6 @@ public class URLSource
     
     public void setUrl(final String location) throws MalformedURLException {
         assert location != null;
-
         setUrl(new URL(location));
     }
 

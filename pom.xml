@@ -171,6 +171,7 @@
                     </includes>
                     <properties>
                         <org.sonatype.gossip.Log.level>TRACE</org.sonatype.gossip.Log.level>
+                        <org.sonatype.gossip.Log.internal.level>TRACE</org.sonatype.gossip.Log.internal.level>
                     </properties>
                 </configuration>
             </plugin>

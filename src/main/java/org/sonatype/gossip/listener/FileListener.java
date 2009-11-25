@@ -71,20 +71,12 @@ public class FileListener
         this.append = append;
     }
 
-    public void setAppend(final String append) {
-        setAppend(Boolean.parseBoolean(append));
-    }
-
     public int getBufferSize() {
         return bufferSize;
     }
 
-    public void setBufferSize(final int s) {
-        this.bufferSize = s;
-    }
-
-    public void setBufferSize(final String s) {
-        setBufferSize(Integer.parseInt(s));
+    public void setBufferSize(final int n) {
+        this.bufferSize = n;
     }
 
     public RollingStrategy getRollingStrategy() {

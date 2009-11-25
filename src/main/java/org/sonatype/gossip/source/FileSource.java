@@ -33,10 +33,13 @@ public class FileSource
 {
     private File file;
 
+    public void setFile(final File file) {
+        this.file = file;
+    }
+
     public void setFile(final String fileName) {
         assert fileName != null;
-        
-        file = new File(fileName);
+        setFile(new File(fileName));
     }
 
     public File getFile() {

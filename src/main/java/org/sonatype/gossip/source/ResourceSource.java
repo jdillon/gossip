@@ -51,10 +51,9 @@ public class ResourceSource
         this.name = name;
     }
 
-    public void setClassLoaderType(final String type) {
+    public void setClassLoaderType(final ClassLoaderType type) {
         assert type != null;
-        
-        this.classLoaderType = ClassLoaderType.valueOf(type.toUpperCase());
+        this.classLoaderType = type;
     }
 
     public ClassLoaderType getClassLoaderType() {
@@ -96,7 +95,6 @@ public class ResourceSource
         log.trace("Loading resource for name: {}, CL: {}", name, cl);
         
         URL url = cl.getResource(name);
-
         if (url == null) {
             log.trace("Unable to load; missing resource: {}", name);
         }

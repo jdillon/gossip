@@ -47,7 +47,6 @@ public class HomeDirectorySource
         }
 
         File homeDir = new File(System.getProperty("user.home"));
-
         File file = new File(homeDir, path);
 
         return load(file);

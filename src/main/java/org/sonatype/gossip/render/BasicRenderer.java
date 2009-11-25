@@ -56,20 +56,12 @@ public class BasicRenderer
         this.includeName = flag;
     }
 
-    public void setIncludeName(final String flag) {
-        setIncludeName(Boolean.valueOf(flag).booleanValue());
-    }
-
     public boolean isIncludeName() {
         return includeName;
     }
 
     public void setShortName(final boolean flag) {
         this.shortName = flag;
-    }
-
-    public void setShortName(final String flag) {
-        setShortName(Boolean.valueOf(flag));
     }
 
     public boolean isShortName() {
@@ -80,10 +72,6 @@ public class BasicRenderer
         this.nameWidth = width;
     }
 
-    public void setNameWidth(final String width) {
-        setNameWidth(Integer.parseInt(width));
-    }
-
     public int getNameWidth() {
         return nameWidth;
     }
@@ -92,36 +80,24 @@ public class BasicRenderer
         return includeThread;
     }
 
-    public void setIncludeThread(boolean includeThread) {
-        this.includeThread = includeThread;
-    }
-
-    public void setIncludeThread(String includeThread) {
-        setIncludeThread(Boolean.parseBoolean(includeThread));
+    public void setIncludeThread(final boolean flag) {
+        this.includeThread = flag;
     }
 
     public boolean isIncludeTimeStamp() {
         return includeTimeStamp;
     }
 
-    public void setIncludeTimeStamp(boolean includeTimeStamp) {
-        this.includeTimeStamp = includeTimeStamp;
-    }
-
-    public void setIncludeTimeStamp(String includeThread) {
-        setIncludeTimeStamp(Boolean.parseBoolean(includeThread));
+    public void setIncludeTimeStamp(final boolean flag) {
+        this.includeTimeStamp = flag;
     }
 
     public boolean isIncludeTrace() {
         return includeTrace;
     }
 
-    public void setIncludeTrace(boolean includeTrace) {
-        this.includeTrace = includeTrace;
-    }
-
-    public void setIncludeTrace(String includeTrace) {
-        this.includeTrace = Boolean.parseBoolean(includeTrace);
+    public void setIncludeTrace(final boolean flag) {
+        this.includeTrace = flag;
     }
 
     public String render(final Event event) {

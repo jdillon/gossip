@@ -20,7 +20,13 @@ import org.slf4j.Logger;
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.model.ComponentFactory;
 
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Configures components from {@link Context}
@@ -71,31 +77,72 @@ public class ContextConfigurator
         }
     }
 
-    private boolean maybeSet(final Object target, final String name, final Object value) {
+    //
+    // TODO: Handle enums
+    //
+
+    private boolean maybeSet(final Object target, final String name, final String text) {
         assert target != null;
         assert name != null;
-        assert value != null;
-
-        String tmp = getSetterName(name);
-        Class type = target.getClass();
+        assert text != null;
 
         try {
-            Method setter = type.getMethod(tmp, value.getClass());
+            Method setter = selectSetter(target.getClass(), getSetterName(name));
 
             if (setter != null) {
-                log.trace("Setting '{}={}' via: {}", new Object[] { name, value, setter });
+                Class type = setter.getParameterTypes()[0];
+
+                log.trace("Setting '{}={}' via: {}", new Object[] { name, text, setter });
+
+                Object value = text;
+                if (type != String.class) {
+                    PropertyEditor editor = PropertyEditorManager.findEditor(type);
+                    if (editor != null) {
+                        editor.setAsText(text);
+                        value = editor.getValue();
+                        log.trace("Converted value: {}", value);
+                    }
+                    else {
+                        log.trace("Unable to convert value {} to {}", text, type);
+                        return false;
+                    }
+                }
+
                 setter.invoke(target, value);
                 return true;
             }
-        }
-        catch (NoSuchMethodException e) {
-            log.trace("Missing setter for: {}", value);
+            else {
+                log.trace("Missing setter for: {}", text);
+            }
         }
         catch (Exception e) {
-            log.error("Failed to set '{}={}'", new Object[] { name, value, e });
+            log.error("Failed to set '{}={}'", new Object[] { name, text, e });
         }
 
         return false;
+    }
+
+    private Method selectSetter(final Class type, final String name) {
+        assert type != null;
+        assert name != null;
+
+        Map<Class,Method> setters = new HashMap<Class,Method>();
+        for (Method method : type.getMethods()) {
+            if (method.getName().equals(name) && method.getParameterTypes().length == 1) {
+                setters.put(method.getParameterTypes()[0], method);
+            }
+        }
+
+        Method setter = null;
+        if (setters.size() == 1) {
+            setter = setters.entrySet().iterator().next().getValue();
+        }
+        else if (setters.size() > 1) {
+            // Prefer the string setter if if there is one
+            setter = setters.get(String.class);
+        }
+
+        return setter;
     }
 
     private String getSetterName(final String name) {

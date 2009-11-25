@@ -45,20 +45,12 @@ public class FileSizeRollingStrategy
         this.maximumBackupIndex = n;
     }
 
-    public void setMaximumBackupIndex(final String n) {
-        setMaximumBackupIndex(Integer.parseInt(n));
-    }
-
     public long getMaximumFileSize() {
         return maximumFileSize;
     }
 
     public void setMaximumFileSize(final long n) {
         this.maximumFileSize = n;
-    }
-
-    public void setMaximumFileSize(final String n) {
-        setMaximumFileSize(Long.parseLong(n));
     }
 
     public boolean roll(final FileListener listener) {

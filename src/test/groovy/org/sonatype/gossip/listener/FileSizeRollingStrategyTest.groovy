@@ -64,8 +64,8 @@ class FileSizeRollingStrategyTest
         listener.file = file
 
         def strategy = new FileSizeRollingStrategy()
-        strategy.setMaximumFileSize('20')
-        strategy.setMaximumBackupIndex('2')
+        strategy.setMaximumFileSize(20)
+        strategy.setMaximumBackupIndex(2)
         listener.rollingStrategy = strategy
         return listener
     }

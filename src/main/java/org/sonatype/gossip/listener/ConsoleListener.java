@@ -50,11 +50,6 @@ public class ConsoleListener
         this.stream = stream;
     }
 
-    public void setStream(final String name) {
-        assert name != null;
-        setStream(Stream.valueOf(name.toUpperCase()));
-    }
-
     public void onEvent(final Event event) {
         assert event != null;
 
