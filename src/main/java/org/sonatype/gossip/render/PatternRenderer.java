@@ -20,6 +20,7 @@ import org.sonatype.gossip.Event;
 
 /**
  * Renders events based on a pattern.
+ * 
  * <p/>
  * Pattern syntax:
  * <pre>
