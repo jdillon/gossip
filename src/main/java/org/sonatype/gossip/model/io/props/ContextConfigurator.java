@@ -90,6 +90,7 @@ public class ContextConfigurator
 
                 Object value = text;
                 if (type.isEnum()) {
+                    //noinspection unchecked
                     value = selectEnum(type, text);
                 }
                 else if (type != String.class) {
