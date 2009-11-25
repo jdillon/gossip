@@ -66,6 +66,9 @@ public abstract class ListenerSupport
 
     /**
      * Returns false if the given event does not match the threshold.
+     *
+     * @param event The event to evaluate.1
+     * @return      True if the event is loggable.
      */
     protected final boolean isLoggable(final Event event) {
         assert event != null;

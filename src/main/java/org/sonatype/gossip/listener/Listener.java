@@ -27,5 +27,11 @@ import org.sonatype.gossip.Event;
  */
 public interface Listener
 {
+    /**
+     * Handle an event.
+     *
+     * @param event The event to handle.
+     * @throws Exception Failed to handled event.
+     */
     void onEvent(Event event) throws Exception;
 }
