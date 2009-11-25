@@ -23,9 +23,7 @@ import org.sonatype.gossip.model.ComponentFactory;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,10 +75,6 @@ public class ContextConfigurator
         }
     }
 
-    //
-    // TODO: Handle enums
-    //
-
     private boolean maybeSet(final Object target, final String name, final String text) {
         assert target != null;
         assert name != null;
@@ -95,7 +89,10 @@ public class ContextConfigurator
                 log.trace("Setting '{}={}' via: {}", new Object[] { name, text, setter });
 
                 Object value = text;
-                if (type != String.class) {
+                if (type.isEnum()) {
+                    value = selectEnum(type, text);
+                }
+                else if (type != String.class) {
                     PropertyEditor editor = PropertyEditorManager.findEditor(type);
                     if (editor != null) {
                         editor.setAsText(text);
@@ -120,6 +117,19 @@ public class ContextConfigurator
         }
 
         return false;
+    }
+
+    private Enum<?> selectEnum(final Class<Enum> type, final String name) {
+        assert type != null;
+        assert name != null;
+
+        for (Enum n : type.getEnumConstants()) {
+            if (n.name().equalsIgnoreCase(name)) {
+                return n;
+            }
+        }
+
+        throw new IllegalArgumentException("No enum const " + type + "." + name);
     }
 
     private Method selectSetter(final Class type, final String name) {
