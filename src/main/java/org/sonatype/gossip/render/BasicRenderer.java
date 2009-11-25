@@ -19,7 +19,7 @@ package org.sonatype.gossip.render;
 import org.sonatype.gossip.Event;
 
 /**
- * The basic {@link Event} {@link Renderer}.
+ * Basic {@link Event} {@link Renderer}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
