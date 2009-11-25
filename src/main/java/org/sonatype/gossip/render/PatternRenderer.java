@@ -23,58 +23,75 @@ import org.sonatype.gossip.Event;
  * <p/>
  * Pattern syntax:
  * <pre>
- *   ((<tt>%</tt><em>token</em>)*(text)*)+
+ *   ((<em>token</em>)*(<tt>text</tt>)*)+
  * </pre>
  *
- * <table>            
+ * <h4>Tokens:</h4>
+ *
+ * <table border="1" cellspacing="5" cellpadding="5">
  *   <tr>
- *     <td><tt>%</tt></td>
- *     <td>The sequence %% outputs a single percent sign.</td>
+ *     <td><tt>%%</tt></td>
+ *     <td>A percent sign</td>
  *   </tr>
  *
  *   <tr>
- *     <td><tt>d</tt></td>
- *     <td>Renders the time-stamp.</td>
+ *     <td><tt>%d</tt></td>
+ *     <td>Time-stamp</td>
  *   </tr>
  *
  *   <tr>
- *     <td><tt>c</tt></td>
- *     <td>Renders the short logger name.</td>
+ *     <td><tt>%c</tt></td>
+ *     <td>Short logger name</td>
  *   </tr>
  *
  *   <tr>
- *     <td><tt>C</tt></td>
- *     <td>Renders the full logger name.</td>
+ *     <td><tt>%C</tt></td>
+ *     <td>Full logger name</td>
  *   </tr>
  *
  *   <tr>
- *     <td><tt>l</tt></td>
- *     <td>Renders the level.</td>
+ *     <td><tt>%l</tt></td>
+ *     <td>Level</td>
  *   </tr>
  *
  *   <tr>
- *     <td><tt>t</tt></td>
- *     <td>Renders the thread name.</td>
+ *     <td><tt>%t</tt></td>
+ *     <td>Thread name</td>
  *   </tr>
  *
  *   <tr>
- *     <td><tt>T</tt></td>
- *     <td>Renders the trace.</td>
+ *     <td><tt>%m</tt></td>
+ *     <td>Message</td>
  *   </tr>
  *
  *   <tr>
- *     <td><tt>m</tt></td>
- *     <td>Renders the message.</td>
+ *     <td><tt>%x</tt></td>
+ *     <td>Cause</td>
  *   </tr>
  *
  *   <tr>
- *     <td><tt>x</tt></td>
- *     <td>Renders the cause.</td>
+ *     <td><tt>%n</tt></td>
+ *     <td>Newline</td>
  *   </tr>
- * 
+ *
  *   <tr>
- *     <td><tt>n</tt></td>
- *     <td>Renders a newline.</td>
+ *     <td><tt>%T</tt></td>
+ *     <td>Qualified class name of the caller issuing the logging request</td>
+ *   </tr>
+ *
+ *   <tr>
+ *     <td><tt>%M</tt></td>
+ *     <td>The method name where the logging request was issued</td>
+ *   </tr>
+ *
+ *   <tr>
+ *     <td><tt>%F</tt></td>
+ *     <td>The file name where the logging request was issued</td>
+ *   </tr>
+ *
+ *   <tr>
+ *     <td><tt>%L</tt></td>
+ *     <td>The line number from where the logging request was issued</td>
  *   </tr>
  * </table>
  *
@@ -146,7 +163,19 @@ public class PatternRenderer
                         break;
 
                     case 'T':
-                        renderTrace(event, buff);
+                        renderTraceClass(event, buff);
+                        break;
+
+                    case 'F':
+                        renderTraceFile(event, buff);
+                        break;
+
+                    case 'M':
+                        renderTraceMethod(event, buff);
+                        break;
+
+                    case 'L':
+                        renderTraceLine(event, buff);
                         break;
 
                     case 'm':
@@ -163,10 +192,6 @@ public class PatternRenderer
                         renderNewLine(buff);
                         break;
 
-                    //
-                    // TODO: Add tokens to render details about where the log line was emitted.
-                    //
-                    
                     default:
                         throw new IllegalArgumentException("Invalid pattern token: " + t);
                 }
@@ -254,8 +279,44 @@ public class PatternRenderer
         }
     }
 
-    protected void renderTrace(final Event event, final StringBuilder buff) {
-        // TODO:
+    protected void renderTraceFile(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
+
+        StackTraceElement[] trace = event.getTrace();
+        if (trace != null) {
+            buff.append(trace[0].getFileName());
+        }
+    }
+
+    protected void renderTraceClass(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
+
+        StackTraceElement[] trace = event.getTrace();
+        if (trace != null) {
+            buff.append(trace[0].getClassName());
+        }
+    }
+
+    protected void renderTraceMethod(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
+
+        StackTraceElement[] trace = event.getTrace();
+        if (trace != null) {
+            buff.append(trace[0].getMethodName());
+        }
+    }
+
+    protected void renderTraceLine(final Event event, final StringBuilder buff) {
+        assert event != null;
+        assert buff != null;
+
+        StackTraceElement[] trace = event.getTrace();
+        if (trace != null) {
+            buff.append(trace[0].getLineNumber());
+        }
     }
 
     protected String getLocation(final StackTraceElement e) {
