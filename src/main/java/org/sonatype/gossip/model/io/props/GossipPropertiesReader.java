@@ -107,7 +107,7 @@ public class GossipPropertiesReader
             log.trace("Configuring source: {}", name);
 
             SourceNode node = createSourceNode(name, ctx.get(SOURCE_DOT + name), ctx.child(SOURCE_DOT + name));
-            model.addSource(node);
+            model.getSources().add(node);
         }
     }
 
@@ -141,7 +141,7 @@ public class GossipPropertiesReader
             }
 
             ProfileNode node = createProfileNode(name, ctx.child(PROFILE_DOT + name));
-            model.addProfile(node);
+            model.getProfiles().add(node);
         }
     }
 
@@ -186,7 +186,7 @@ public class GossipPropertiesReader
 
             log.trace("Created: {}", node);
 
-            profile.addLogger(node);
+            profile.getLoggers().add(node);
         }
     }
 
@@ -204,7 +204,7 @@ public class GossipPropertiesReader
             }
 
             TriggerNode node = createTriggerNode(name, ctx.get(TRIGGER_DOT + name), ctx.child(TRIGGER_DOT + name));
-            profile.addTrigger(node);
+            profile.getTriggers().add(node);
         }
     }
 
@@ -238,7 +238,7 @@ public class GossipPropertiesReader
             }
 
             ListenerNode listener = createListenerNode(name, ctx.get(LISTENER_DOT + name), ctx.child(LISTENER_DOT + name));
-            profile.addListener(listener);
+            profile.getListeners().add(listener);
         }
     }
 

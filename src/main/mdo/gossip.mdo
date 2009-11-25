@@ -47,7 +47,7 @@
                     <name>properties</name>
                     <version>1.0.0+</version>
                     <type>Properties</type>
-                    <association xml.mapStyle="inline">
+                    <association xml.mapStyle="inline" java.adder="false" java.bidi="false">
                         <type>String</type>
                         <multiplicity>*</multiplicity>
                     </association>
@@ -56,7 +56,7 @@
                 <field>
                     <name>sources</name>
                     <version>1.0.0+</version>
-                    <association>
+                    <association java.adder="false" java.bidi="false">
                         <type>SourceNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
@@ -65,7 +65,7 @@
                 <field>
                     <name>profiles</name>
                     <version>1.0.0+</version>
-                    <association>
+                    <association java.adder="false" java.bidi="false">
                         <type>ProfileNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
@@ -143,7 +143,7 @@
                     <name>properties</name>
                     <version>1.0.0+</version>
                     <type>Properties</type>
-                    <association xml.mapStyle="inline">
+                    <association xml.mapStyle="inline" java.adder="false" java.bidi="false">
                         <type>String</type>
                         <multiplicity>*</multiplicity>
                     </association>
@@ -152,7 +152,7 @@
                 <field>
                     <name>includes</name>
                     <version>1.0.0+</version>
-                    <association>
+                    <association java.adder="false" java.bidi="false">
                         <type>String</type>
                         <multiplicity>*</multiplicity>
                     </association>
@@ -161,7 +161,7 @@
                 <field>
                     <name>loggers</name>
                     <version>1.0.0+</version>
-                    <association>
+                    <association java.adder="false" java.bidi="false">
                         <type>LoggerNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
@@ -170,7 +170,7 @@
                 <field>
                     <name>triggers</name>
                     <version>1.0.0+</version>
-                    <association>
+                    <association java.adder="false" java.bidi="false">
                         <type>TriggerNode</type>
                         <multiplicity>*</multiplicity>
                     </association>
@@ -179,7 +179,7 @@
                 <field>
                     <name>listeners</name>
                     <version>1.0.0+</version>
-                    <association>
+                    <association java.adder="false" java.bidi="false">
                         <type>ListenerNode</type>
                         <multiplicity>*</multiplicity>
                     </association>

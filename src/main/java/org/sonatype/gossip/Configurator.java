@@ -125,21 +125,21 @@ public class Configurator
 
                 for (LoggerNode logger : includedProfile.getLoggers()) {
                     if (!profile.getLoggers().contains(logger)) {
-                        profile.addLogger(logger);
+                        profile.getLoggers().add(logger);
                         log.trace("Appending logger: {}", logger);
                     }
                 }
 
                 for (ListenerNode listener : includedProfile.getListeners()) {
                     if (!profile.getListeners().contains(listener)) {
-                        profile.addListener(listener);
+                        profile.getListeners().add(listener);
                         log.trace("Appending listener: {}", listener);
                     }
                 }
 
                 for (TriggerNode trigger : includedProfile.getTriggers()) {
                     if (!profile.getTriggers().contains(trigger)) {
-                        profile.addTrigger(trigger);
+                        profile.getTriggers().add(trigger);
                         log.trace("Appending trigger: {}", trigger);
                     }
                 }
@@ -197,11 +197,11 @@ public class Configurator
 
         TriggerNode trigger = new TriggerNode();
         trigger.setType(AlwaysTrigger.class);
-        p.addTrigger(trigger);
+        p.getTriggers().add(trigger);
 
         ListenerNode listenerNode = new ListenerNode();
         listenerNode.setType(ConsoleListener.class);
-        p.addListener(listenerNode);
+        p.getListeners().add(listenerNode);
 
         return p;
     }
