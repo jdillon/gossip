@@ -38,7 +38,7 @@ public final class Context
 {
     private static final String NEWLINE = System.getProperty("line.separator");
 
-    private Map<String,String> store;
+    private final Map<String,String> store;
 
     private String prefix;
 
