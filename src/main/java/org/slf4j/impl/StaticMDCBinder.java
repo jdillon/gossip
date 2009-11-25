@@ -25,9 +25,9 @@ import org.sonatype.gossip.MdcAdapterImpl;
  *
  * @since 1.0
  */
+@SuppressWarnings({"UnusedDeclaration"})
 public final class StaticMDCBinder
     extends MdcAdapterImpl
 {
-    @SuppressWarnings({"UnusedDeclaration"})
     public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 }

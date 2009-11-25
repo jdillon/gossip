@@ -19,8 +19,8 @@ package org.sonatype.gossip;
 /**
  * Thrown to indicate a failure has occurred while configuring Gossip.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ * @since 1.0
  */
 public class ConfigurationException
     extends RuntimeException

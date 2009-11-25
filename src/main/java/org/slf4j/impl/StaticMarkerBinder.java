@@ -25,9 +25,9 @@ import org.sonatype.gossip.MarkerFactoryBinderImpl;
  *
  * @since 1.0
  */
+@SuppressWarnings({"UnusedDeclaration"})
 public final class StaticMarkerBinder
     extends MarkerFactoryBinderImpl
 {
-    @SuppressWarnings({"UnusedDeclaration"})
     public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
 }

@@ -21,8 +21,8 @@ import java.text.MessageFormat;
 /**
  * Thrown to indicate a required configuration property is missing.
  *
- * @since 1.0
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ * @since 1.0
  */
 public class MissingPropertyException
     extends ConfigurationException
