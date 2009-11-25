@@ -26,7 +26,7 @@ import org.sonatype.gossip.Event;
  *   ((<tt>%</tt><em>token</em>)*(text)*)+
  * </pre>
  *
- * <table>               
+ * <table>            
  *   <tr>
  *     <td><tt>%</tt></td>
  *     <td>The sequence %% outputs a single percent sign.</td>
