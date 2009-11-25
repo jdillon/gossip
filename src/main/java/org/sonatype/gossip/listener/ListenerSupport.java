@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.sonatype.gossip.Event;
 import org.sonatype.gossip.Level;
 import org.sonatype.gossip.Log;
-import org.sonatype.gossip.render.BasicRenderer;
+import org.sonatype.gossip.render.PatternRenderer;
 import org.sonatype.gossip.render.Renderer;
 
 /**
@@ -44,7 +44,7 @@ public abstract class ListenerSupport
     }
 
     protected Renderer createRenderer() {
-         return new BasicRenderer();
+         return new PatternRenderer();
     }
     
     public void setRenderer(final Renderer renderer) {

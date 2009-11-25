@@ -20,7 +20,7 @@ import org.junit.Test
 import org.sonatype.gossip.Event
 import org.sonatype.gossip.Gossip
 import org.sonatype.gossip.Level
-import org.sonatype.gossip.render.BasicRenderer
+import org.sonatype.gossip.render.PatternRenderer
 import static org.junit.Assert.assertEquals
 
 /**
@@ -55,8 +55,7 @@ class FileSizeRollingStrategyTest
     private FileListener createListener(final String name) {
         def listener = new FileListener()
 
-        def renderer = new BasicRenderer()
-        renderer.includeName = false
+        def renderer = new PatternRenderer()
         listener.setRenderer(renderer)
 
         def file = new File("${getBaseDir()}/target", name)
@@ -64,7 +63,7 @@ class FileSizeRollingStrategyTest
         listener.file = file
 
         def strategy = new FileSizeRollingStrategy()
-        strategy.setMaximumFileSize(20)
+        strategy.setMaximumFileSize(30)
         strategy.setMaximumBackupIndex(2)
         listener.rollingStrategy = strategy
         return listener
@@ -81,7 +80,7 @@ class FileSizeRollingStrategyTest
         listener.onEvent(event)
         
         def writer = listener.getWriter()
-        assertEquals(11 + 8, writer.size())
+        assertEquals(11 + 11, writer.size())
     }
 
     @Test
@@ -95,13 +94,13 @@ class FileSizeRollingStrategyTest
         listener.onEvent(event)
 
         def writer = listener.getWriter()
-        assertEquals(11 + 8, writer.size())
+        assertEquals(11 + 11, writer.size())
 
         listener.onEvent(event)
-        assertEquals(11 + 8, writer.size())
+        assertEquals(11 + 11, writer.size())
 
         def rolled = new File("${getBaseDir()}/target", "test2.log.1")
-        assertEquals(11 + 8, listener.file.text.size())
+        assertEquals(11 + 11, listener.file.text.size())
     }
 
     @Test
@@ -115,19 +114,19 @@ class FileSizeRollingStrategyTest
         listener.onEvent(event)
 
         def writer = listener.getWriter()
-        assertEquals(11 + 8, writer.size())
+        assertEquals(11 + 11, writer.size())
 
         listener.onEvent(event)
-        assertEquals(11 + 8, writer.size())
+        assertEquals(11 + 11, writer.size())
 
         listener.onEvent(event)
-        assertEquals(11 + 8, writer.size())
+        assertEquals(11 + 11, writer.size())
 
         listener.onEvent(event)
-        assertEquals(11 + 8, writer.size())
+        assertEquals(11 + 11, writer.size())
 
-        assertEquals(11 + 8, new File("${getBaseDir()}/target", "test3.log").text.size())
-        assertEquals(11 + 8, new File("${getBaseDir()}/target", "test3.log.1").text.size())
-        assertEquals(11 + 8, new File("${getBaseDir()}/target", "test3.log.2").text.size())
+        assertEquals(11 + 11, new File("${getBaseDir()}/target", "test3.log").text.size())
+        assertEquals(11 + 11, new File("${getBaseDir()}/target", "test3.log.1").text.size())
+        assertEquals(11 + 11, new File("${getBaseDir()}/target", "test3.log.2").text.size())
     }
 }

@@ -17,7 +17,7 @@
 package org.sonatype.gossip;
 
 import org.slf4j.Logger;
-import org.sonatype.gossip.render.BasicRenderer;
+import org.sonatype.gossip.render.PatternRenderer;
 
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -38,15 +38,14 @@ public final class Log
 
     private final static Level internalLevel;
 
-    private final static BasicRenderer renderer;
+    private final static PatternRenderer renderer;
 
     private static boolean configured;
 
     static {
         level = Level.valueOf(System.getProperty(Log.class.getName() + ".level", Level.WARN.toString()).toUpperCase());
         internalLevel = Level.valueOf(System.getProperty(Log.class.getName() + ".internal.level", Level.WARN.toString()).toUpperCase());
-        renderer = new BasicRenderer();
-        renderer.setIncludeName(true);
+        renderer = new PatternRenderer();
     }
 
     static void configure() {

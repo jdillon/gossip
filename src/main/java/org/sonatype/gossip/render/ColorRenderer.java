@@ -32,10 +32,10 @@ import static org.fusesource.jansi.Ansi.ansi;
  * @since 1.0
  */
 public class ColorRenderer
-    extends BasicRenderer
+    extends PatternRenderer
 {
     @Override
-    protected void appendLevel(final Event event, final StringBuilder buff) {
+    protected void renderLevel(final Event event, final StringBuilder buff) {
         assert event != null;
         assert buff != null;
 
@@ -60,14 +60,14 @@ public class ColorRenderer
     }
 
     @Override
-    protected void appendLogger(final Event event, final StringBuilder buff) {
+    protected void renderName(final Event event, final StringBuilder buff, final boolean shortName) {
         StringBuilder tmp = new StringBuilder();
-        super.appendLogger(event, tmp);
+        super.renderName(event, tmp, shortName);
         buff.append(ansi().fg(GREEN).a(tmp).reset());
     }
 
     @Override
-    protected void appendCause(final Event event, final StringBuilder buff) {
+    protected void renderCause(final Event event, final StringBuilder buff) {
         assert event != null;
         assert buff != null;
 
@@ -78,14 +78,14 @@ public class ColorRenderer
             buff.append(": ");
             buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
         }
-        buff.append(NEWLINE);
+        renderNewLine(buff);
 
         while (cause != null) {
             for (StackTraceElement e : cause.getStackTrace()) {
                 buff.append("    ");
                 buff.append(ansi().a(INTENSITY_BOLD).a("at").reset().a(" ").a(e.getClassName()).a(".").a(e.getMethodName()));
                 buff.append(ansi().a(" (").a(INTENSITY_BOLD).a(getLocation(e)).reset().a(")"));
-                buff.append(NEWLINE);
+                renderNewLine(buff);
             }
 
             cause = cause.getCause();
@@ -95,7 +95,7 @@ public class ColorRenderer
                     buff.append(": ");
                     buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
                 }
-                buff.append(NEWLINE);
+                renderNewLine(buff);
             }
         }
     }

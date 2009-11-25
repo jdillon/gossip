@@ -27,7 +27,5 @@ import org.sonatype.gossip.Event;
  */
 public interface Renderer
 {
-    String NEWLINE = System.getProperty("line.separator");
-
     String render(Event event);
 }
