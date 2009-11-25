@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.model.merge;
+package org.sonatype.gossip.model;
 
 import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.ProfileNode;

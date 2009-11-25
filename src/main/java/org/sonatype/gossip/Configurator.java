@@ -24,7 +24,7 @@ import org.sonatype.gossip.model.Model;
 import org.sonatype.gossip.model.ProfileNode;
 import org.sonatype.gossip.model.SourceNode;
 import org.sonatype.gossip.model.TriggerNode;
-import org.sonatype.gossip.model.merge.ModelMerger;
+import org.sonatype.gossip.model.ModelMerger;
 import org.sonatype.gossip.source.Source;
 import org.sonatype.gossip.source.URLSource;
 import org.sonatype.gossip.trigger.AlwaysTrigger;
