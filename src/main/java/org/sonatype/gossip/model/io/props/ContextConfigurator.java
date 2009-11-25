@@ -88,7 +88,7 @@ public class ContextConfigurator
 
                 log.trace("Setting '{}={}' via: {}", new Object[] { name, text, setter });
 
-                Object value = text;
+                Object value = null;
                 if (type.isEnum()) {
                     //noinspection unchecked
                     value = selectEnum(type, text);
@@ -98,12 +98,18 @@ public class ContextConfigurator
                     if (editor != null) {
                         editor.setAsText(text);
                         value = editor.getValue();
-                        log.trace("Converted value: {}", value);
                     }
                     else {
                         log.trace("Unable to convert value {} to {}", text, type);
                         return false;
                     }
+                }
+
+                if (value != null) {
+                    log.trace("Converted value: {}", value);
+                }
+                else {
+                    value = text;
                 }
 
                 setter.invoke(target, value);
