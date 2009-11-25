@@ -172,6 +172,7 @@ public class FileListener
                 ", bufferSize=" + bufferSize +
                 ", file=" + file +
                 ", rollingStrategy=" + rollingStrategy +
+                ", threshold=" + getThreshold() +
                 '}';
     }
 

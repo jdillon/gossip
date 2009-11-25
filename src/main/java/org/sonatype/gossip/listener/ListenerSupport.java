@@ -59,12 +59,17 @@ public abstract class ListenerSupport
         this.threshold = threshold;
     }
 
+    public void setThreshold(final String threshold) {
+        assert threshold != null;
+        setThreshold(Level.valueOf(threshold));
+    }
+
     /**
      * Returns false if the given event does not match the threshold.
      */
-    protected boolean isLoggable(final Event event) {
+    protected final boolean isLoggable(final Event event) {
         assert event != null;
-        return event.getLevel().id >= getThreshold().id;
+        return threshold == null || event.getLevel().id >= threshold.id;
     }
 
     protected String render(final Event event) {

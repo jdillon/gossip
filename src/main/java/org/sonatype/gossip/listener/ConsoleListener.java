@@ -84,6 +84,7 @@ public class ConsoleListener
     public String toString() {
         return getClass().getSimpleName() + "{" +
             "stream=" + stream +
+            ", threshold=" + getThreshold() +
             '}';
     }
 }
