@@ -16,9 +16,6 @@
 
 package org.sonatype.gossip.model;
 
-import org.sonatype.gossip.model.Model;
-import org.sonatype.gossip.model.ProfileNode;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
