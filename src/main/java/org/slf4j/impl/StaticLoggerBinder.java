@@ -28,11 +28,16 @@ import org.sonatype.gossip.LoggerFactoryBinderImpl;
 public final class StaticLoggerBinder
     extends LoggerFactoryBinderImpl
 {
-    // to avoid constant folding by the compiler, this field must *not* be final
-    public static String REQUESTED_API_VERSION = "1.5.10";
+    /**
+     * @since 1.1
+     */
+    public static String REQUESTED_API_VERSION = "1.5.10";  // to avoid constant folding by the compiler, this field must *not* be final
     
     private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
+    /**
+     * since 1.1
+     */
     public static final StaticLoggerBinder getSingleton() {
         return SINGLETON;
     }
