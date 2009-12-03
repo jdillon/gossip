@@ -28,7 +28,7 @@
     <groupId>org.sonatype.gossip</groupId>
     <artifactId>gossip</artifactId>
     <name>Gossip</name>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
     
     <description>
         Gossip is a plugin for SLF4j which has simple and flexible configuration.
@@ -376,7 +376,7 @@
                                 </goals>
                                 <configuration>
                                     <tasks>
-                                        <taskdef resource="proguard/ant/task.properties"/>
+                                        <taskdef resource="proguard/ant/task.properties" />
                                         <proguard><![CDATA[
                                             -basedirectory ${project.build.directory}
                                             -injars ${project.build.finalName}.${project.packaging}
