@@ -69,7 +69,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.5.8</version>
+            <version>1.5.10</version>
         </dependency>
         
         <dependency>
@@ -89,7 +89,7 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>1.6.5</version>
+            <version>1.7-rc-1</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -187,11 +187,11 @@
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.groovy.maven</groupId>
+                <groupId>org.codehaus.gmaven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
-                <version>1.0</version>
+                <version>1.1</version>
                 <configuration>
-                    <providerSelection>1.6</providerSelection>
+                    <providerSelection>1.7</providerSelection>
                 </configuration>
                 <executions>
                     <execution>
@@ -253,10 +253,11 @@
                 <configuration>
                     <archive>
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                        <addMavenDescriptor>false</addMavenDescriptor>
                     </archive>
                 </configuration>
             </plugin>
-
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -306,7 +307,32 @@
                 </plugins>
             </build>
         </profile>
-        
+
+        <profile>
+            <id>macos</id>
+            <activation>
+                <os>
+                    <name>mac os x</name>
+                </os>
+            </activation>
+            <properties>
+                <java-runtime>${java.home}/../Classes/classes.jar</java-runtime>
+                <java-cryptography-extension>${java.home}/../Classes/jce.jar</java-cryptography-extension>
+            </properties>
+        </profile>
+        <profile>
+            <id>non-macos</id>
+            <activation>
+                <os>
+                    <name>!mac os x</name>
+                </os>
+            </activation>
+            <properties>
+                <java-runtime>${java.home}/lib/rt.jar</java-runtime>
+                <java-cryptography-extension>${java.home}/lib/jce.jar</java-cryptography-extension>
+            </properties>
+        </profile>
+
         <profile>
             <id>shrink</id>
             <activation>
@@ -319,21 +345,6 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <configuration>
-                            <archive>
-                                <addMavenDescriptor>false</addMavenDescriptor>
-                            </archive>
-                            <excludes>
-                                <exclude>META-INF/DEPENDENCIES</exclude>
-                                <exclude>META-INF/LICENSE</exclude>
-                                <exclude>META-INF/NOTICE</exclude>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-                    
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
                         <version>2.1</version>
                         <executions>
@@ -342,33 +353,6 @@
                                 <goals>
                                     <goal>copy-dependencies</goal>
                                 </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    
-                    <plugin>
-                        <groupId>org.codehaus.groovy.maven</groupId>
-                        <artifactId>gmaven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <source>
-                                        // Build the correct classpath for the valid bootstrap jars for ProGuard
-                                        def path = System.getProperty('sun.boot.class.path')
-                                        def files = []
-                                        path.split(File.pathSeparator).each {
-                                            def file = new File(it)
-                                            if (file.exists()) {
-                                                files.add(file)
-                                            }
-                                        }
-                                        project.properties.setProperty('proguard.java.classpath', files.join(File.pathSeparator))
-                                    </source>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -392,31 +376,29 @@
                                 </goals>
                                 <configuration>
                                     <tasks>
-                                        <taskdef resource="proguard/ant/task.properties" />
-                                        
+                                        <taskdef resource="proguard/ant/task.properties"/>
                                         <proguard><![CDATA[
                                             -basedirectory ${project.build.directory}
                                             -injars ${project.build.finalName}.${project.packaging}
                                             -outjars ${project.build.finalName}-shrunk.${project.packaging}
 
-                                            -libraryjars ${proguard.java.classpath}
+                                            -libraryjars ${java-runtime}
                                             -libraryjars dependency
 
                                             -target 1.5
                                             -printmapping proguard.map
                                             -forceprocessing
                                             -optimizationpasses 3
-                                            
-                                            -dontnote
+
                                             
                                             -renamesourcefileattribute SourceFile
-                                            -keepattributes InnerClasses,SourceFile,LineNumberTable
-                                            
+                                            -keepattributes *Annotation*,Exceptions,InnerClasses,Signature
+
                                             -keepclassmembers enum * {
                                                 public static **[] values();
                                                 public static ** valueOf(java.lang.String);
                                             }
-                                            
+
                                             -keepclassmembernames class * {
                                                 java.lang.Class class$(java.lang.String);
                                                 java.lang.Class class$(java.lang.String, boolean);
@@ -427,7 +409,10 @@
                                                 public <methods>;
                                             }
 
-                                            -keep public class org.sonatype.gossip.**
+                                            -keep public class * extends java.lang.Exception {
+                                                public <methods>;
+                                                public <fields>;
+                                            }
 
                                             -keep public class org.sonatype.gossip.Gossip {
                                                 public <methods>;
@@ -441,7 +426,7 @@
                                                 public static <fields>;
                                                 public <methods>;
                                             }
-                                            
+
                                             -keep public class org.sonatype.gossip.source.* {
                                                 public void set*(***);
                                             }
@@ -459,6 +444,35 @@
                                             }
                                         ]]></proguard>
                                     </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>attach-artifacts</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.build.directory}/proguard.map</file>
+                                            <type>map</type>
+                                            <classifier>shrunk</classifier>
+                                        </artifact>
+                                        <artifact>
+                                            <file>${project.build.directory}/${project.build.finalName}-shrunk.${project.packaging}</file>
+                                            <type>jar</type>
+                                            <classifier>shrunk</classifier>
+                                        </artifact>
+                                    </artifacts>
                                 </configuration>
                             </execution>
                         </executions>

@@ -22,12 +22,18 @@ import org.sonatype.gossip.LoggerFactoryBinderImpl;
  * Gossip logger binder for SLF4J.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 @SuppressWarnings({"UnusedDeclaration"})
 public final class StaticLoggerBinder
     extends LoggerFactoryBinderImpl
 {
-    public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+    // to avoid constant folding by the compiler, this field must *not* be final
+    public static String REQUESTED_API_VERSION = "1.5.10";
+    
+    private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+
+    public static final StaticLoggerBinder getSingleton() {
+        return SINGLETON;
+    }
 }

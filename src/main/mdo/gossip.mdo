@@ -16,13 +16,15 @@
   ~ limitations under the License.
   -->
 
-<model xmlns="http://modello.codehaus.org/MODELLO/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://modello.codehaus.org/MODELLO/1.0.0 http://modello.codehaus.org/xsd/modello-1.0.0.xsd"
-       xml.namespace="http://sonatype.org/gossip/${version}"
-       xml.schemaLocation="http://sonatype.org/xsd/gossip-${version}.xsd">
+<model xmlns="http://modello.codehaus.org/MODELLO/1.1.0"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://modello.codehaus.org/MODELLO/1.1.0 http://modello.codehaus.org/xsd/modello-1.1.0.xsd"
+       xml.namespace="http://sonatype.org/gossip/1.0.0"
+       xml.schemaLocation="http://sonatype.org/xsd/gossip-1.0.0.xsd">
 
     <id>gossip</id>
     <name>Gossip</name>
+    <version>1.0.0</version>
 
     <defaults>
         <default>
@@ -30,6 +32,11 @@
             <value>org.sonatype.gossip.model</value>
         </default>
     </defaults>
+
+    <versionDefinition>
+        <type>field</type>
+        <value>version</value>
+    </versionDefinition>
 
     <classes>
         <class rootElement="true" xml.tagName="gossip">

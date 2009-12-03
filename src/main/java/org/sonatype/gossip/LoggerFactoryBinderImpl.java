@@ -37,6 +37,6 @@ public class LoggerFactoryBinderImpl
     }
 
     public String getLoggerFactoryClassStr() {
-        return factory.getClass().getName();
+        return Gossip.class.getName();
     }
 }
