@@ -56,6 +56,10 @@ public final class Gossip
     //
 
     private Gossip() {
+        if (log.isTraceEnabled()) {
+            log.trace("Initializing", new Throwable("INIT MARKER"));
+        }
+
         effectiveProfile = new Configurator().configure();
         prime();
     }

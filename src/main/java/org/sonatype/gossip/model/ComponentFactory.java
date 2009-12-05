@@ -54,7 +54,18 @@ public class ComponentFactory
     private static Class loadClass(final String className) throws ClassNotFoundException {
         assert className != null;
 
-        Class type = Thread.currentThread().getContextClassLoader().loadClass(className);
+        Class type;
+
+        try {
+            ClassLoader cl = Thread.currentThread().getContextClassLoader();
+            log.trace("Using class-loader: {}", cl);
+            type = cl.loadClass(className);
+        }
+        catch (ClassNotFoundException e) {
+            // HACK: This is needed as a fallback on Maven 2.0.x and 2.2.x which does not have the TCL setup as expected
+            log.trace("Falling back to Class.forName...");
+            type = Class.forName(className);
+        }
 
         log.trace("Loaded class: {}", type);
 

@@ -37,6 +37,7 @@ public final class StaticLoggerBinder
 
     /**
      * since 1.1
+     * @return {@link #SINGLETON}
      */
     public static final StaticLoggerBinder getSingleton() {
         return SINGLETON;

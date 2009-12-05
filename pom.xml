@@ -404,21 +404,20 @@
                                                 java.lang.Class class$(java.lang.String, boolean);
                                             }
 
+                                            -keep public class * extends java.lang.Exception {
+                                                public <methods>;
+                                                public <fields>;
+                                            }
+                                            
                                             -keep public class org.slf4j.impl.* {
                                                 public static <fields>;
                                                 public <methods>;
                                             }
 
-                                            -keep public class * extends java.lang.Exception {
-                                                public <methods>;
-                                                public <fields>;
-                                            }
-
-                                            -keep public class org.sonatype.gossip.Gossip {
-                                                public <methods>;
-                                            }
-
-                                            -keep public class org.sonatype.gossip.Log {
+                                            -keep public class
+                                                org.sonatype.gossip.Gossip,
+                                                org.sonatype.gossip.Log
+                                            {
                                                 public <methods>;
                                             }
 
@@ -427,19 +426,12 @@
                                                 public <methods>;
                                             }
 
-                                            -keep public class org.sonatype.gossip.source.* {
-                                                public void set*(***);
-                                            }
-
-                                            -keep public class org.sonatype.gossip.trigger.* {
-                                                public void set*(***);
-                                            }
-
-                                            -keep public class org.sonatype.gossip.listener.* {
-                                                public void set*(***);
-                                            }
-
-                                            -keep public class org.sonatype.gossip.render.* {
+                                            -keep public class
+                                                org.sonatype.gossip.source.*,
+                                                org.sonatype.gossip.trigger.*,
+                                                org.sonatype.gossip.listener.*,
+                                                org.sonatype.gossip.render.*
+                                            {
                                                 public void set*(***);
                                             }
                                         ]]></proguard>

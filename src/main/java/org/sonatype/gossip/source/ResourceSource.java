@@ -66,9 +66,11 @@ public class ResourceSource
                 case TCL:
                     classLoader = Thread.currentThread().getContextClassLoader();
                     break;
+
                 case INTERNAL:
                     classLoader = getClass().getClassLoader();
                     break;
+
                 case SYSTEM:
                     classLoader = ClassLoader.getSystemClassLoader();
                     break;
@@ -92,9 +94,17 @@ public class ResourceSource
         ClassLoader cl = getClassLoader();
         assert cl != null;
         
-        log.trace("Loading resource for name: {}, CL: {}", name, cl);
+        log.trace("Loading resource for name: {}, CL: {} ({})", new Object[] { name, cl, classLoaderType });
         
         URL url = cl.getResource(name);
+
+        // HACK: This is needed as a fallback on Maven 2.0.x and 2.2.x which does not have the TCL setup as expected
+        if (url == null) {
+            cl = getClass().getClassLoader();
+            log.trace("Configured CL failed, trying {}: {}", ClassLoaderType.INTERNAL, cl);
+            url = cl.getResource(name);
+        }
+
         if (url == null) {
             log.trace("Unable to load; missing resource: {}", name);
         }
