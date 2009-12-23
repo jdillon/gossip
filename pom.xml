@@ -34,6 +34,11 @@
         Gossip is a plugin for SLF4j which has simple and flexible configuration.
     </description>
 
+    <organization>
+        <name>Sonatype</name>
+        <url>http://sonatype.org</url>
+    </organization>
+    
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
