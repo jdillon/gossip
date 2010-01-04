@@ -94,7 +94,7 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>1.7-rc-1</version>
+            <version>1.7.0</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -194,7 +194,7 @@
             <plugin>
                 <groupId>org.codehaus.gmaven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
-                <version>1.1</version>
+                <version>1.2</version>
                 <configuration>
                     <providerSelection>1.7</providerSelection>
                 </configuration>
