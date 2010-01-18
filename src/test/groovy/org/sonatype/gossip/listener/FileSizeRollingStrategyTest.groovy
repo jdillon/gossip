@@ -30,6 +30,8 @@ import static org.junit.Assert.assertEquals
  */
 class FileSizeRollingStrategyTest
 {
+    private static final int NEWLINE_LENGTH = System.getProperty("line.separator").length();
+
     private File getBaseDir() {
         File dir
 
@@ -80,7 +82,7 @@ class FileSizeRollingStrategyTest
         listener.onEvent(event)
         
         def writer = listener.getWriter()
-        assertEquals(11 + 11, writer.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
     }
 
     @Test
@@ -94,13 +96,13 @@ class FileSizeRollingStrategyTest
         listener.onEvent(event)
 
         def writer = listener.getWriter()
-        assertEquals(11 + 11, writer.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
 
         listener.onEvent(event)
-        assertEquals(11 + 11, writer.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
 
         def rolled = new File("${getBaseDir()}/target", "test2.log.1")
-        assertEquals(11 + 11, listener.file.text.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, listener.file.text.size())
     }
 
     @Test
@@ -114,19 +116,19 @@ class FileSizeRollingStrategyTest
         listener.onEvent(event)
 
         def writer = listener.getWriter()
-        assertEquals(11 + 11, writer.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
 
         listener.onEvent(event)
-        assertEquals(11 + 11, writer.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
 
         listener.onEvent(event)
-        assertEquals(11 + 11, writer.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
 
         listener.onEvent(event)
-        assertEquals(11 + 11, writer.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
 
-        assertEquals(11 + 11, new File("${getBaseDir()}/target", "test3.log").text.size())
-        assertEquals(11 + 11, new File("${getBaseDir()}/target", "test3.log.1").text.size())
-        assertEquals(11 + 11, new File("${getBaseDir()}/target", "test3.log.2").text.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, new File("${getBaseDir()}/target", "test3.log").text.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, new File("${getBaseDir()}/target", "test3.log.1").text.size())
+        assertEquals(11 + 10 + NEWLINE_LENGTH, new File("${getBaseDir()}/target", "test3.log.2").text.size())
     }
 }
