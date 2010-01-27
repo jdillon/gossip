@@ -87,8 +87,8 @@ public final class Gossip
             else {
                 logger = getLogger(name);
             }
-
-            logger.level = node.asLevel();
+            
+            logger.setLevel(node.asLevel());
         }
     }
 
@@ -150,6 +150,11 @@ public final class Gossip
             this(name, null);
         }
 
+        public void setLevel(final Level level) {
+            this.level = level;
+            this.cachedLevel = level;
+        }
+
         private Level findEffectiveLevel() {
             for (LoggerImpl logger = this; logger != null; logger=logger.parent) {
                 if (logger.level != null) {
@@ -157,7 +162,7 @@ public final class Gossip
                 }
             }
 
-            return null;
+            return Level.ERROR;
         }
 
         private Level getEffectiveLevel() {
