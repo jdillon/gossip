@@ -180,6 +180,10 @@ public final class Gossip
         }
         
         private Level findEffectiveLevel() {
+            if (level != null) {
+                return level;
+            }
+            
             for (Logger logger = this; logger != null; logger=logger.parent) {
                 if (logger.level != null) {
                     return logger.level;
