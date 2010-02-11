@@ -165,6 +165,7 @@ public final class Gossip
         }
 
         public void setLevel(final Level level) {
+            // level can be null
             this.level = level;
             this.cachedLevel = level;
 
@@ -180,20 +181,24 @@ public final class Gossip
         }
         
         private Level findEffectiveLevel() {
+            // If this logger has a level configured, then it is effective
             if (level != null) {
                 return level;
             }
-            
+
+            // Else look back through the ancestor tree to find the level
             for (Logger logger = this; logger != null; logger=logger.parent) {
                 if (logger.level != null) {
                     return logger.level;
                 }
             }
 
+            // If we don't have antying, then default to the most quiet
             return Level.ERROR;
         }
 
         public Level getEffectiveLevel() {
+            // If we don't have a cached level, then find and cache it
             if (cachedLevel == null) {
                 cachedLevel = findEffectiveLevel();
             }
@@ -204,7 +209,6 @@ public final class Gossip
         @Override
         protected boolean isEnabled(final Level level) {
             assert level != null;
-
             return getEffectiveLevel().id <= level.id;
         }
 
