@@ -167,11 +167,17 @@ public final class Gossip
         public void setLevel(final Level level) {
             this.level = level;
             this.cachedLevel = level;
-        }
 
-        //
-        // FIXME: Setting a new level should also affect any children with unset levels
-        //
+            // Update any children's cached level, forcing them to re-evaluate if needed
+            for (Map.Entry<String,Loggerish> entry : loggers.entrySet()) {
+                if (entry.getKey().startsWith(getName() + ".")) {
+                    Object obj = entry.getValue();
+                    if (obj instanceof Logger) {
+                        ((Logger)obj).cachedLevel = null;
+                    }
+                }
+            }
+        }
         
         private Level findEffectiveLevel() {
             for (Logger logger = this; logger != null; logger=logger.parent) {
