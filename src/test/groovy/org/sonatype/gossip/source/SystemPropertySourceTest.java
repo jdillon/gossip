@@ -20,8 +20,7 @@ import org.junit.Test;
 import org.sonatype.gossip.ConfigurationException;
 import org.sonatype.gossip.model.Model;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Tests for the {@link org.sonatype.gossip.source.SystemPropertySource} class.

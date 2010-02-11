@@ -19,7 +19,7 @@ package org.sonatype.gossip.listener
 import org.junit.Test
 import org.sonatype.gossip.Event
 import org.sonatype.gossip.Gossip
-import org.sonatype.gossip.Level
+import org.sonatype.gossip.Gossip.Level
 import org.sonatype.gossip.render.PatternRenderer
 import static org.junit.Assert.assertEquals
 
@@ -111,7 +111,7 @@ class FileSizeRollingStrategyTest
 
         def logger = new Gossip().getLogger('a')
         def msg = '1234567890'
-        def event = new Event(logger, Level.INFO, msg, null)
+        def event = new Event(logger, org.sonatype.gossip.Gossip.Level.INFO, msg, null)
 
         listener.onEvent(event)
 

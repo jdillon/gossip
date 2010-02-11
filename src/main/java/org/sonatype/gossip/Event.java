@@ -41,7 +41,7 @@ public final class Event
 
     private final Logger logger;
 
-    private final Level level;
+    private final Gossip.Level level;
 
     private final String message;
 
@@ -53,7 +53,7 @@ public final class Event
 
     private final StackTraceElement[] trace;
 
-    public Event(final Logger logger, final Level level, final String message, final Throwable cause) {
+    public Event(final Logger logger, final Gossip.Level level, final String message, final Throwable cause) {
         this.logger = logger;
         this.level = level;
         this.message = message;
@@ -73,7 +73,7 @@ public final class Event
         return logger.getName();
     }
 
-    public Level getLevel() {
+    public Gossip.Level getLevel() {
         return level;
     }
 

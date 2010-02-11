@@ -21,7 +21,7 @@ import org.sonatype.gossip.model.Model;
 
 import java.net.URL;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Tests for the {@link org.sonatype.gossip.source.URLSource} class.

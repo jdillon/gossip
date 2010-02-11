@@ -34,17 +34,17 @@ public final class Log
 {
     private final static Map<String,LoggerDelegate> delegates = new HashMap<String,LoggerDelegate>();
 
-    private final static Level level;
+    private final static Gossip.Level level;
 
-    private final static Level internalLevel;
+    private final static Gossip.Level internalLevel;
 
     private final static PatternRenderer renderer;
 
     private static boolean configured;
 
     static {
-        level = Level.valueOf(System.getProperty(Log.class.getName() + ".level", Level.WARN.toString()).toUpperCase());
-        internalLevel = Level.valueOf(System.getProperty(Log.class.getName() + ".internal.level", Level.WARN.toString()).toUpperCase());
+        level = Gossip.Level.valueOf(System.getProperty(Log.class.getName() + ".level", Gossip.Level.WARN.toString()).toUpperCase());
+        internalLevel = Gossip.Level.valueOf(System.getProperty(Log.class.getName() + ".internal.level", Gossip.Level.WARN.toString()).toUpperCase());
         renderer = new PatternRenderer();
     }
 
@@ -92,10 +92,10 @@ public final class Log
         }
 
         @Override
-        protected boolean isEnabled(final Level l) {
+        protected boolean isEnabled(final Gossip.Level l) {
             assert l != null;
 
-            Level threashold = Log.level;
+            Gossip.Level threashold = Log.level;
 
             if (getName().startsWith("org.sonatype.gossip")) {
                 threashold = Log.internalLevel;
@@ -105,7 +105,7 @@ public final class Log
         }
 
         @Override
-        protected void doLog(final Level level, final String message, final Throwable cause) {
+        protected void doLog(final Gossip.Level level, final String message, final Throwable cause) {
             assert message != null;
             // cause may be null
             // level should have been checked already

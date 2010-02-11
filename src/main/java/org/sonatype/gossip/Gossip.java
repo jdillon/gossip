@@ -17,24 +17,25 @@
 package org.sonatype.gossip;
 
 import org.slf4j.ILoggerFactory;
-import org.slf4j.Logger;
+import org.slf4j.spi.LocationAwareLogger;
 import org.sonatype.gossip.model.LoggerNode;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Factory to produce <em>Gossip</em> {@link Logger} instances.
+ * Factory to produce <em>Gossip</em> {@link org.slf4j.Logger} instances.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public final class Gossip
     implements ILoggerFactory
 {
-    private static final Logger log = Log.getLogger(Gossip.class);
+    private static final org.slf4j.Logger log = Log.getLogger(Gossip.class);
 
     private static final Gossip INSTANCE = new Gossip();
 
@@ -43,20 +44,17 @@ public final class Gossip
     }
 
     /**
-     * Map {@link Logger} names to {@link LoggerImpl} or {@link ProvisionNode}.
+     * Map {@link org.slf4j.Logger} names to {@link org.sonatype.gossip.Gossip.Logger} or {@link ProvisionNode}.
      */
     private final Map<String,Loggerish> loggers = new HashMap<String,Loggerish>();
 
-    private final LoggerImpl root = new LoggerImpl(Logger.ROOT_LOGGER_NAME, Level.WARN);
+    private final Logger root = new Logger(org.slf4j.Logger.ROOT_LOGGER_NAME, Level.WARN);
 
     private final EffectiveProfile effectiveProfile;
 
-    //
-    // TODO: Add LoggerMXBean support
-    //
-
     private Gossip() {
         if (log.isTraceEnabled()) {
+            //noinspection ThrowableInstanceNeverThrown
             log.trace("Initializing", new Throwable("INIT MARKER"));
         }
 
@@ -64,7 +62,7 @@ public final class Gossip
         prime();
     }
 
-    public LoggerImpl getRoot() {
+    public Logger getRoot() {
         return root;
     }
 
@@ -79,7 +77,7 @@ public final class Gossip
         for (Map.Entry<String,LoggerNode> entry : effectiveProfile.loggers().entrySet()) {
             String name = entry.getKey();
             LoggerNode node = entry.getValue();
-            LoggerImpl logger;
+            Logger logger;
 
             if (LoggerSupport.ROOT.equals(name)) {
                 logger = root;
@@ -92,29 +90,29 @@ public final class Gossip
         }
     }
 
-    public LoggerImpl getLogger(final String name) {
+    public Logger getLogger(final String name) {
         assert name != null;
 
-        LoggerImpl logger;
+        Logger logger;
 
         synchronized (loggers) {
             Object obj = loggers.get(name);
 
             if (obj == null) {
-                logger = new LoggerImpl(name);
+                logger = new Logger(name);
                 loggers.put(name, logger);
                 log.trace("Created logger: {}", logger);
                 updateParents(logger);
             }
             else if (obj instanceof ProvisionNode) {
-                logger = new LoggerImpl(name);
+                logger = new Logger(name);
                 loggers.put(name, logger);
                 log.trace("Replaced provision node with logger: {}", logger);
                 updateChildren((ProvisionNode)obj, logger);
                 updateParents(logger);
             }
-            else if (obj instanceof LoggerImpl) {
-                logger = (LoggerImpl)obj;
+            else if (obj instanceof Logger) {
+                logger = (Logger)obj;
                 log.trace("Using cached logger: {}", logger);
             }
             else {
@@ -125,12 +123,18 @@ public final class Gossip
         return logger;
     }
 
+    public Collection<String> getLoggerNames() {
+        synchronized (loggers) {
+            return Collections.unmodifiableSet(loggers.keySet());
+        }
+    }
+
     private interface Loggerish
     {
         // Marker
     }
 
-    private final class LoggerImpl
+    public final class Logger
         extends LoggerSupport
         implements Loggerish
     {
@@ -138,16 +142,23 @@ public final class Gossip
 
         private Level cachedLevel;
 
-        private LoggerImpl parent;
+        private Logger parent;
 
-        private LoggerImpl(final String name, final Level level) {
+        private Logger(final String name, final Level level) {
             super(name);
-
             this.level = level;
         }
 
-        private LoggerImpl(final String name) {
+        private Logger(final String name) {
             this(name, null);
+        }
+
+        public Logger getParent() {
+            return parent;
+        }
+
+        public Level getLevel() {
+            return level;
         }
 
         public void setLevel(final Level level) {
@@ -156,7 +167,7 @@ public final class Gossip
         }
 
         private Level findEffectiveLevel() {
-            for (LoggerImpl logger = this; logger != null; logger=logger.parent) {
+            for (Logger logger = this; logger != null; logger=logger.parent) {
                 if (logger.level != null) {
                     return logger.level;
                 }
@@ -199,13 +210,13 @@ public final class Gossip
         extends ArrayList<Object>
         implements Loggerish
     {
-        private ProvisionNode(final LoggerImpl logger) {
+        private ProvisionNode(final Logger logger) {
             assert logger != null;
             add(logger);
         }
     }
 
-    private void updateParents(final LoggerImpl logger) {
+    private void updateParents(final Logger logger) {
         assert logger != null;
 
         String name = logger.getName();
@@ -224,10 +235,10 @@ public final class Gossip
 
                 loggers.put(key, pn);
             }
-            else if (obj instanceof LoggerImpl) {
+            else if (obj instanceof Logger) {
                 parentFound = true;
 
-                logger.parent = (LoggerImpl) obj;
+                logger.parent = (Logger) obj;
 
                 // no need to update the ancestors of the closest ancestor
                 break;
@@ -246,14 +257,14 @@ public final class Gossip
         }
     }
 
-    private void updateChildren(final ProvisionNode pn, final LoggerImpl logger) {
+    private void updateChildren(final ProvisionNode pn, final Logger logger) {
         assert pn != null;
         assert logger != null;
 
         final int last = pn.size();
 
         for (int i = 0; i < last; i++) {
-            LoggerImpl l = (LoggerImpl) pn.get(i);
+            Logger l = (Logger) pn.get(i);
 
             // Unless this child already points to a correct (lower) parent,
             // make cat.parent point to l.parent and l.parent to cat.
@@ -261,6 +272,31 @@ public final class Gossip
                 logger.parent = l.parent;
                 l.parent = logger;
             }
+        }
+    }
+
+    /**
+     * Gossip logging level.
+     *
+     * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+     * @since 1.4
+     */
+    public static enum Level
+    {
+        TRACE(LocationAwareLogger.TRACE_INT),
+
+        DEBUG(LocationAwareLogger.DEBUG_INT),
+
+        INFO(LocationAwareLogger.INFO_INT),
+
+        WARN(LocationAwareLogger.WARN_INT),
+
+        ERROR(LocationAwareLogger.ERROR_INT);
+
+        public final int id;
+
+        Level(final int id) {
+            this.id = id;
         }
     }
 }

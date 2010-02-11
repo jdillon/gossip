@@ -21,7 +21,7 @@ import org.sonatype.gossip.model.Model;
 
 import java.net.URL;
 
-import static org.sonatype.gossip.source.ResourceSource.ClassLoaderType.TCL;
+import static org.sonatype.gossip.source.ResourceSource.ClassLoaderType.*;
 
 /**
  * Resource-based configuration source.

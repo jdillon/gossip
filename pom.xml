@@ -412,7 +412,7 @@
                                             -forceprocessing
                                             -optimizationpasses 3
 
-                                            
+
                                             -renamesourcefileattribute SourceFile
                                             -keepattributes *Annotation*,Exceptions,InnerClasses,Signature
 
@@ -430,7 +430,7 @@
                                                 public <methods>;
                                                 public <fields>;
                                             }
-                                            
+
                                             -keep public class org.slf4j.impl.* {
                                                 public static <fields>;
                                                 public <methods>;
@@ -443,7 +443,7 @@
                                                 public <methods>;
                                             }
 
-                                            -keep public class org.sonatype.gossip.Level {
+                                            -keep public class org.sonatype.gossip.Gossip$Level {
                                                 public static <fields>;
                                                 public <methods>;
                                             }
