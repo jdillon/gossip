@@ -73,6 +73,9 @@ public final class Gossip
     private void prime() {
         log.trace("Priming");
 
+        // Include the root logger in the list
+        loggers.put(root.getName(), root);
+
         // Prime the loggers we have configured
         for (Map.Entry<String,LoggerNode> entry : effectiveProfile.loggers().entrySet()) {
             String name = entry.getKey();
@@ -166,6 +169,10 @@ public final class Gossip
             this.cachedLevel = level;
         }
 
+        //
+        // FIXME: Setting a new level should also affect any children with unset levels
+        //
+        
         private Level findEffectiveLevel() {
             for (Logger logger = this; logger != null; logger=logger.parent) {
                 if (logger.level != null) {
@@ -176,7 +183,7 @@ public final class Gossip
             return Level.ERROR;
         }
 
-        private Level getEffectiveLevel() {
+        public Level getEffectiveLevel() {
             if (cachedLevel == null) {
                 cachedLevel = findEffectiveLevel();
             }
