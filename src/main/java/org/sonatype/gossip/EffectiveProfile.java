@@ -56,7 +56,6 @@ public final class EffectiveProfile
             log.trace("Loading effective logger table");
 
             Map<String,LoggerNode> map = new HashMap<String,LoggerNode>();
-
             for (ProfileNode profile : getProfiles()) {
                 for (LoggerNode node : profile.getLoggers()) {
                     map.put(node.getName(), node);
@@ -70,9 +69,10 @@ public final class EffectiveProfile
 
     private Listener[] listeners;
 
-    public void dispatch(Event event) {
-        assert event != null;
-
+    /**
+     * @since 2.5
+     */
+    public Listener[] getListeners() {
         if (this.listeners == null) {
             log.trace("Building listener dispatch table");
 
@@ -92,6 +92,14 @@ public final class EffectiveProfile
             this.listeners = listeners.toArray(new Listener[listeners.size()]);
         }
 
+        return this.listeners;
+    }
+
+    public void dispatch(final Event event) {
+        assert event != null;
+
+        Listener[] listeners = getListeners();
+        
         log.trace("Dispatching event to {} listener(s): {}", listeners.length, event);
 
         int i=0;

@@ -144,15 +144,17 @@ public final class Gossip
      */
     public static enum Level
     {
-        TRACE(LocationAwareLogger.TRACE_INT),
+        TRACE(LocationAwareLogger.TRACE_INT),   // 0
 
-        DEBUG(LocationAwareLogger.DEBUG_INT),
+        DEBUG(LocationAwareLogger.DEBUG_INT),   // 10
 
-        INFO(LocationAwareLogger.INFO_INT),
+        INFO(LocationAwareLogger.INFO_INT),     // 20
 
-        WARN(LocationAwareLogger.WARN_INT),
+        WARN(LocationAwareLogger.WARN_INT),     // 30
 
-        ERROR(LocationAwareLogger.ERROR_INT);
+        ERROR(LocationAwareLogger.ERROR_INT),   // 40
+
+        OFF(1000);                              // 1000
 
         public final int id;
 
@@ -202,33 +204,31 @@ public final class Gossip
             // level can be null
             this.level = level;
             this.cachedLevel = level;
+            invalidateCache();
+        }
 
-            // Update any children's cached level, forcing them to re-evaluate if needed
-            for (Map.Entry<String,Loggerish> entry : loggers.entrySet()) {
+        private void invalidateCache() {
+            // Update any children's cached level, forcing them to re-evaluate and cache if needed
+            for (Map.Entry<String, Loggerish> entry : loggers.entrySet()) {
                 if (entry.getKey().startsWith(getName() + ".")) {
                     Object obj = entry.getValue();
-                    if (obj instanceof Logger) {
-                        ((Logger)obj).cachedLevel = null;
+                    if (obj instanceof Gossip.Logger) {
+                        Gossip.Logger logger = (Gossip.Logger)obj;
+                        if (logger.level == null) {
+                            logger.cachedLevel = null;
+                        }
                     }
                 }
             }
         }
-        
-        private Level findEffectiveLevel() {
-            // If this logger has a level configured, then it is effective
-            if (level != null) {
-                return level;
-            }
 
-            // Else look back through the ancestor tree to find the level
+        public Level findEffectiveLevel() {
             for (Logger logger = this; logger != null; logger=logger.parent) {
                 if (logger.level != null) {
                     return logger.level;
                 }
             }
-
-            // If we don't have anything, then default to the most quiet
-            return Level.ERROR;
+            return Level.OFF;
         }
 
         public Level getEffectiveLevel() {

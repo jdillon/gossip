@@ -16,6 +16,7 @@
 
 package org.sonatype.gossip;
 
+import org.sonatype.gossip.Gossip.Level;
 import org.slf4j.Logger;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
@@ -71,23 +72,23 @@ public abstract class LoggerSupport
         return !(name != null ? !name.equals(that.getName()) : that.getName() != null);
     }
 
-    protected abstract boolean isEnabled(final Gossip.Level level);
+    protected abstract boolean isEnabled(final Level level);
 
-    protected abstract void doLog(Gossip.Level level, String message, Throwable cause);
+    protected abstract void doLog(Level level, String message, Throwable cause);
 
-    private void log(final Gossip.Level level, final String msg, final Throwable cause) {
+    private void log(final Level level, final String msg, final Throwable cause) {
         if (isEnabled(level)) {
             doLog(level, msg, cause);
         }
     }
 
-    private void log(final Gossip.Level level, final String msg) {
+    private void log(final Level level, final String msg) {
         if (isEnabled(level)) {
             doLog(level, msg, null);
         }
     }
 
-    private void log(final Gossip.Level level, final String format, final Object arg) {
+    private void log(final Level level, final String format, final Object arg) {
         if (isEnabled(level)) {
             if (arg instanceof Throwable) {
                 doLog(level, MessageFormatter.format(format, arg), (Throwable) arg);
@@ -98,7 +99,7 @@ public abstract class LoggerSupport
         }
     }
 
-    private void log(final Gossip.Level level, final String format, final Object arg1, final Object arg2) {
+    private void log(final Level level, final String format, final Object arg1, final Object arg2) {
         if (isEnabled(level)) {
             if (arg2 instanceof Throwable) {
                 doLog(level, MessageFormatter.format(format, arg1, arg2), (Throwable) arg2);
@@ -109,7 +110,7 @@ public abstract class LoggerSupport
         }
     }
 
-    private void log(final Gossip.Level level, final String format, final Object[] args) {
+    private void log(final Level level, final String format, final Object[] args) {
         if (isEnabled(level)) {
             if (args != null && args.length != 0 && args[args.length - 1] instanceof Throwable) {
                 doLog(level, MessageFormatter.arrayFormat(format, args), (Throwable) args[args.length - 1]);
@@ -125,27 +126,27 @@ public abstract class LoggerSupport
     //
 
     public final boolean isTraceEnabled() {
-        return isEnabled(Gossip.Level.TRACE);
+        return isEnabled(Level.TRACE);
     }
 
     public final void trace(final String msg) {
-        log(Gossip.Level.TRACE, msg);
+        log(Level.TRACE, msg);
     }
 
     public final void trace(final String format, final Object arg) {
-        log(Gossip.Level.TRACE, format, arg);
+        log(Level.TRACE, format, arg);
     }
 
     public final void trace(final String format, final Object arg1, final Object arg2) {
-        log(Gossip.Level.TRACE, format, arg1, arg2);
+        log(Level.TRACE, format, arg1, arg2);
     }
 
     public final void trace(final String format, final Object... args) {
-        log(Gossip.Level.TRACE, format, args);
+        log(Level.TRACE, format, args);
     }
 
     public final void trace(final String msg, final Throwable cause) {
-        log(Gossip.Level.TRACE, msg, cause);
+        log(Level.TRACE, msg, cause);
     }
 
     //
@@ -153,27 +154,27 @@ public abstract class LoggerSupport
     //
 
     public final boolean isDebugEnabled() {
-        return isEnabled(Gossip.Level.DEBUG);
+        return isEnabled(Level.DEBUG);
     }
 
     public final void debug(final String msg) {
-        log(Gossip.Level.DEBUG, msg);
+        log(Level.DEBUG, msg);
     }
 
     public final void debug(final String format, final Object arg) {
-        log(Gossip.Level.DEBUG, format, arg);
+        log(Level.DEBUG, format, arg);
     }
 
     public final void debug(final String format, final Object arg1, final Object arg2) {
-        log(Gossip.Level.DEBUG, format, arg1, arg2);
+        log(Level.DEBUG, format, arg1, arg2);
     }
 
     public final void debug(final String format, final Object... args) {
-        log(Gossip.Level.DEBUG, format, args);
+        log(Level.DEBUG, format, args);
     }
 
     public final void debug(final String msg, final Throwable cause) {
-        log(Gossip.Level.DEBUG, msg, cause);
+        log(Level.DEBUG, msg, cause);
     }
 
     //
@@ -181,27 +182,27 @@ public abstract class LoggerSupport
     //
 
     public final boolean isInfoEnabled() {
-        return isEnabled(Gossip.Level.INFO);
+        return isEnabled(Level.INFO);
     }
 
     public final void info(final String msg) {
-        log(Gossip.Level.INFO, msg);
+        log(Level.INFO, msg);
     }
 
     public final void info(final String format, final Object arg) {
-        log(Gossip.Level.INFO, format, arg);
+        log(Level.INFO, format, arg);
     }
 
     public final void info(final String format, final Object arg1, final Object arg2) {
-        log(Gossip.Level.INFO, format, arg1, arg2);
+        log(Level.INFO, format, arg1, arg2);
     }
 
     public final void info(final String format, final Object... args) {
-        log(Gossip.Level.INFO, format, args);
+        log(Level.INFO, format, args);
     }
 
     public final void info(final String msg, final Throwable cause) {
-        log(Gossip.Level.INFO, msg, cause);
+        log(Level.INFO, msg, cause);
     }
 
     //
@@ -209,27 +210,27 @@ public abstract class LoggerSupport
     //
 
     public final boolean isWarnEnabled() {
-        return isEnabled(Gossip.Level.WARN);
+        return isEnabled(Level.WARN);
     }
 
     public final void warn(final String msg) {
-        log(Gossip.Level.WARN, msg);
+        log(Level.WARN, msg);
     }
 
     public final void warn(final String format, final Object arg) {
-        log(Gossip.Level.WARN, format, arg);
+        log(Level.WARN, format, arg);
     }
 
     public final void warn(final String format, final Object... args) {
-        log(Gossip.Level.WARN, format, args);
+        log(Level.WARN, format, args);
     }
 
     public final void warn(final String format, final Object arg1, final Object arg2) {
-        log(Gossip.Level.WARN, format, arg1, arg2);
+        log(Level.WARN, format, arg1, arg2);
     }
 
     public final void warn(final String msg, final Throwable cause) {
-        log(Gossip.Level.WARN, msg, cause);
+        log(Level.WARN, msg, cause);
     }
 
     //
@@ -237,26 +238,26 @@ public abstract class LoggerSupport
     //
 
     public final boolean isErrorEnabled() {
-        return isEnabled(Gossip.Level.ERROR);
+        return isEnabled(Level.ERROR);
     }
 
     public final void error(final String msg) {
-        log(Gossip.Level.ERROR, msg);
+        log(Level.ERROR, msg);
     }
 
     public final void error(final String format, final Object arg) {
-        log(Gossip.Level.ERROR, format, arg);
+        log(Level.ERROR, format, arg);
     }
 
     public final void error(final String format, final Object arg1, final Object arg2) {
-        log(Gossip.Level.ERROR, format, arg1, arg2);
+        log(Level.ERROR, format, arg1, arg2);
     }
 
     public final void error(final String format, final Object... args) {
-        log(Gossip.Level.ERROR, format, args);
+        log(Level.ERROR, format, args);
     }
 
     public final void error(final String msg, final Throwable cause) {
-        log(Gossip.Level.ERROR, msg, cause);
+        log(Level.ERROR, msg, cause);
     }
 }
