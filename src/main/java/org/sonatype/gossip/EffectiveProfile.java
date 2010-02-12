@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Effective profile.  This handles what is currently configured/activated.  The meat of event dispatching is done here.
+ * Effective profile.  This handles what is currently configured and activated.
+ * The meat of event dispatching is done here.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public final class EffectiveProfile
@@ -96,14 +96,13 @@ public final class EffectiveProfile
 
         int i=0;
         for (Listener listener : listeners) {
-            log.trace("Dispatching to listener[{}]: {}", i, listener);
+            log.trace("Dispatching to listener[{}]: {}", i++, listener);
             try {
                 listener.onEvent(event);
             }
             catch (Throwable t) {
                 log.error("Listener execution failed; ignoring", t);
             }
-            i++;
         }
     }
 }

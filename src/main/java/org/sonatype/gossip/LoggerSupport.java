@@ -35,8 +35,6 @@ public abstract class LoggerSupport
 {
     private static final long serialVersionUID = 1;
 
-    public static final String ROOT="*";
-    
     private final String name;
 
     protected LoggerSupport(final String name) {

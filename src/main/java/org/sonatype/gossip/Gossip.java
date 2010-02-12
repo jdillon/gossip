@@ -26,6 +26,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.slf4j.Logger.*;
+
 /**
  * Factory to produce <em>Gossip</em> {@link org.slf4j.Logger} instances.
  *
@@ -44,11 +46,15 @@ public final class Gossip
     }
 
     /**
-     * Map {@link org.slf4j.Logger} names to {@link org.sonatype.gossip.Gossip.Logger} or {@link ProvisionNode}.
+     * Map {@link org.slf4j.Logger} names to {@link Gossip.Logger} or {@link ProvisionNode}.
      */
     private final Map<String,Loggerish> loggers = new HashMap<String,Loggerish>();
 
-    private final Logger root = new Logger(org.slf4j.Logger.ROOT_LOGGER_NAME, Level.WARN);
+    public static final String ROOT_TOKEN="*";
+
+    public static final String ROOT_NAME=ROOT_LOGGER_NAME;
+
+    private final Logger root = new Logger(ROOT_NAME, Level.WARN);
 
     private final EffectiveProfile effectiveProfile;
 
@@ -77,12 +83,12 @@ public final class Gossip
         loggers.put(root.getName(), root);
 
         // Prime the loggers we have configured
-        for (Map.Entry<String,LoggerNode> entry : effectiveProfile.loggers().entrySet()) {
+        for (Map.Entry<String,LoggerNode> entry : getEffectiveProfile().loggers().entrySet()) {
             String name = entry.getKey();
             LoggerNode node = entry.getValue();
             Logger logger;
 
-            if (LoggerSupport.ROOT.equals(name)) {
+            if (ROOT_TOKEN.equals(name)) {
                 logger = root;
             }
             else {
@@ -132,11 +138,37 @@ public final class Gossip
         }
     }
 
-    private interface Loggerish
+    /**
+     * Gossip logging level.
+     *
+     * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+     * @since 1.4
+     */
+    public static enum Level
     {
-        // Marker
+        TRACE(LocationAwareLogger.TRACE_INT),
+
+        DEBUG(LocationAwareLogger.DEBUG_INT),
+
+        INFO(LocationAwareLogger.INFO_INT),
+
+        WARN(LocationAwareLogger.WARN_INT),
+
+        ERROR(LocationAwareLogger.ERROR_INT);
+
+        public final int id;
+
+        Level(final int id) {
+            this.id = id;
+        }
     }
 
+    /**
+     * Gossip logger.
+     *
+     * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+     * @since 1.4
+     */
     public final class Logger
         extends LoggerSupport
         implements Loggerish
@@ -193,7 +225,7 @@ public final class Gossip
                 }
             }
 
-            // If we don't have antying, then default to the most quiet
+            // If we don't have anything, then default to the most quiet
             return Level.ERROR;
         }
 
@@ -214,7 +246,7 @@ public final class Gossip
 
         @Override
         protected void doLog(final Level level, final String message, final Throwable cause) {
-            effectiveProfile.dispatch(new Event(this, level, message, cause));
+            getEffectiveProfile().dispatch(new Event(this, level, message, cause));
         }
         
         @Override
@@ -226,6 +258,14 @@ public final class Gossip
     //
     // NOTE: The following was borrowed and massaged from Log4j
     //
+
+    /**
+     * Marker interface for the {@link #loggers} map.
+     */
+    private interface Loggerish
+    {
+        // Empty
+    }
 
     private final class ProvisionNode
         extends ArrayList<Object>
@@ -293,31 +333,6 @@ public final class Gossip
                 logger.parent = l.parent;
                 l.parent = logger;
             }
-        }
-    }
-
-    /**
-     * Gossip logging level.
-     *
-     * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
-     * @since 1.4
-     */
-    public static enum Level
-    {
-        TRACE(LocationAwareLogger.TRACE_INT),
-
-        DEBUG(LocationAwareLogger.DEBUG_INT),
-
-        INFO(LocationAwareLogger.INFO_INT),
-
-        WARN(LocationAwareLogger.WARN_INT),
-
-        ERROR(LocationAwareLogger.ERROR_INT);
-
-        public final int id;
-
-        Level(final int id) {
-            this.id = id;
         }
     }
 }
