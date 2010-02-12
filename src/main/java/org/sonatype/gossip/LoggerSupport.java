@@ -16,10 +16,10 @@
 
 package org.sonatype.gossip;
 
-import org.sonatype.gossip.Gossip.Level;
 import org.slf4j.Logger;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
+import org.sonatype.gossip.Gossip.Level;
 
 import java.io.Serializable;
 
