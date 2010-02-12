@@ -26,8 +26,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.slf4j.Logger.*;
-
 /**
  * Factory to produce <em>Gossip</em> {@link org.slf4j.Logger} instances.
  *
@@ -50,11 +48,7 @@ public final class Gossip
      */
     private final Map<String,Loggerish> loggers = new HashMap<String,Loggerish>();
 
-    public static final String ROOT_TOKEN="*";
-
-    public static final String ROOT_NAME=ROOT_LOGGER_NAME;
-
-    private final Logger root = new Logger(ROOT_NAME, Level.WARN);
+    private final Logger root = new Logger(Logger.ROOT_NAME, Level.WARN);
 
     private final EffectiveProfile effectiveProfile;
 
@@ -88,7 +82,7 @@ public final class Gossip
             LoggerNode node = entry.getValue();
             Logger logger;
 
-            if (ROOT_TOKEN.equals(name)) {
+            if (Logger.ROOT_TOKEN.equals(name)) {
                 logger = root;
             }
             else {
@@ -114,10 +108,11 @@ public final class Gossip
                 updateParents(logger);
             }
             else if (obj instanceof ProvisionNode) {
+                ProvisionNode node = (ProvisionNode)obj;
                 logger = new Logger(name);
                 loggers.put(name, logger);
                 log.trace("Replaced provision node with logger: {}", logger);
-                updateChildren((ProvisionNode)obj, logger);
+                updateChildren(node, logger);
                 updateParents(logger);
             }
             else if (obj instanceof Logger) {
@@ -132,6 +127,9 @@ public final class Gossip
         return logger;
     }
 
+    /**
+     * @since 1.4
+     */
     public Collection<String> getLoggerNames() {
         synchronized (loggers) {
             return Collections.unmodifiableSet(loggers.keySet());
@@ -158,7 +156,7 @@ public final class Gossip
 
         public final int id;
 
-        Level(final int id) {
+        private Level(final int id) {
             this.id = id;
         }
     }
@@ -173,6 +171,10 @@ public final class Gossip
         extends LoggerSupport
         implements Loggerish
     {
+        public static final String ROOT_TOKEN="*";
+
+        public static final String ROOT_NAME=ROOT_LOGGER_NAME;
+
         private Level level;
 
         private Level cachedLevel;
@@ -292,13 +294,11 @@ public final class Gossip
 
             // Create a provision node for a future parent.
             if (obj == null) {
-                ProvisionNode pn = new ProvisionNode(logger);
-
-                loggers.put(key, pn);
+                ProvisionNode node = new ProvisionNode(logger);
+                loggers.put(key, node);
             }
             else if (obj instanceof Logger) {
                 parentFound = true;
-
                 logger.parent = (Logger) obj;
 
                 // no need to update the ancestors of the closest ancestor
@@ -318,14 +318,14 @@ public final class Gossip
         }
     }
 
-    private void updateChildren(final ProvisionNode pn, final Logger logger) {
-        assert pn != null;
+    private void updateChildren(final ProvisionNode node, final Logger logger) {
+        assert node != null;
         assert logger != null;
 
-        final int last = pn.size();
+        final int last = node.size();
 
         for (int i = 0; i < last; i++) {
-            Logger l = (Logger) pn.get(i);
+            Logger l = (Logger) node.get(i);
 
             // Unless this child already points to a correct (lower) parent,
             // make cat.parent point to l.parent and l.parent to cat.
