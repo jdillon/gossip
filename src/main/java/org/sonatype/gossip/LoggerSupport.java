@@ -17,6 +17,7 @@
 package org.sonatype.gossip;
 
 import org.slf4j.Logger;
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
 import org.sonatype.gossip.Gossip.Level;
@@ -76,10 +77,8 @@ public abstract class LoggerSupport
 
     protected abstract void doLog(Level level, String message, Throwable cause);
 
-    private void log(final Level level, final String msg, final Throwable cause) {
-        if (isEnabled(level)) {
-            doLog(level, msg, cause);
-        }
+    private void log(final Level level, final FormattingTuple tuple) {
+        doLog(level, tuple.getMessage(), tuple.getThrowable());
     }
 
     private void log(final Level level, final String msg) {
@@ -90,34 +89,19 @@ public abstract class LoggerSupport
 
     private void log(final Level level, final String format, final Object arg) {
         if (isEnabled(level)) {
-            if (arg instanceof Throwable) {
-                doLog(level, MessageFormatter.format(format, arg), (Throwable) arg);
-            }
-            else {
-                doLog(level, MessageFormatter.format(format, arg), null);
-            }
+            log(level, MessageFormatter.format(format, arg));
         }
     }
 
     private void log(final Level level, final String format, final Object arg1, final Object arg2) {
         if (isEnabled(level)) {
-            if (arg2 instanceof Throwable) {
-                doLog(level, MessageFormatter.format(format, arg1, arg2), (Throwable) arg2);
-            }
-            else {
-                doLog(level, MessageFormatter.format(format, arg1, arg2), null);
-            }
+            log(level, MessageFormatter.format(format, arg1, arg2));
         }
     }
 
     private void log(final Level level, final String format, final Object[] args) {
         if (isEnabled(level)) {
-            if (args != null && args.length != 0 && args[args.length - 1] instanceof Throwable) {
-                doLog(level, MessageFormatter.arrayFormat(format, args), (Throwable) args[args.length - 1]);
-            }
-            else {
-                doLog(level, MessageFormatter.arrayFormat(format, args), null);
-            }
+            log(level, MessageFormatter.arrayFormat(format, args));
         }
     }
 
