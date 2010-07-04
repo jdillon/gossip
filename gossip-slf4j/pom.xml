@@ -34,6 +34,18 @@
             <groupId>org.sonatype.gossip</groupId>
             <artifactId>gossip-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
