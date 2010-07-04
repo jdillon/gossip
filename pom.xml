@@ -29,6 +29,7 @@
     <artifactId>gossip</artifactId>
     <name>Gossip</name>
     <version>1.5-SNAPSHOT</version>
+    <packaging>pom</packaging>
     
     <description>
         Gossip is a plugin for SLF4j which has simple and flexible configuration.
@@ -74,18 +75,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.sonatype.gossip</groupId>
+                <artifactId>gossip-core</artifactId>
+                <version>1.5-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.gossip</groupId>
+                <artifactId>gossip-slf4j</artifactId>
+                <version>1.5-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.6.0</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.sonatype.jline</groupId>
-            <artifactId>jline</artifactId>
-            <version>2.3</version>
-            <optional>true</optional>
         </dependency>
         
         <dependency>
@@ -98,7 +108,7 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>1.7.0</version>
+            <version>1.7.3</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -120,6 +130,11 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+    <modules>
+        <module>gossip-core</module>
+        <module>gossip-slf4j</module>
+    </modules>
     
     <build>
         <defaultGoal>install</defaultGoal>
@@ -214,58 +229,17 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.codehaus.modello</groupId>
-                <artifactId>modello-maven-plugin</artifactId>
-                <version>1.2</version>
-                <configuration>
-                    <useJava5>true</useJava5>
-                    <models>
-                        <model>src/main/mdo/gossip.mdo</model>
-                    </models>
-                    <version>1.0.0</version>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                            <goal>xsd</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.0.1</version>
-                <executions>
-                    <execution>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>manifest</goal>
-                        </goals>
-                        <configuration>
-                            <instructions>
-                                <Import-Package>!org.sonatype.gossip*,!org.slf4j.impl*,org.fusesource.jansi*;resolution:=optional,com.sun.jna;resolution:=optional,sun.reflect;resolution:=optional,*</Import-Package>
-                                <DynamicImport-Package>*</DynamicImport-Package>
-                            </instructions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <archive>
-                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                        <addMavenDescriptor>false</addMavenDescriptor>
-                    </archive>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-jar-plugin</artifactId>-->
+                <!--<version>2.2</version>-->
+                <!--<configuration>-->
+                    <!--<archive>-->
+                        <!--<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>-->
+                        <!--<addMavenDescriptor>false</addMavenDescriptor>-->
+                    <!--</archive>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
             
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
