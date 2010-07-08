@@ -22,12 +22,12 @@
     <parent>
         <groupId>org.sonatype.gossip</groupId>
         <artifactId>gossip</artifactId>
-        <version>1.5</version>
+        <version>1.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>gossip-core</artifactId>
     <name>Gossip Core</name>
-    <version>1.5</version>
+    <version>1.6-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
