@@ -6,7 +6,7 @@ Description
 Features
 --------
 
-* Small footprint ~75k (or ~53k shrunk with [ProGuard][5])
+* Small footprint ~75k
 * Profile-based configuration
 * Profile activation triggers
 * Multiple source inputs
@@ -37,7 +37,7 @@ Configuration
 
 Configuration of Gossip is handled via standard property files.
 
-The [bootstrap configuration](http://github.com/jdillon/gossip/blob/master/src/main/resources/org/sonatype/gossip/bootstrap.properties)
+The [bootstrap configuration](http://github.com/jdillon/gossip/blob/master/gossip-core/src/main/resources/org/sonatype/gossip/bootstrap.properties)
 attempts to read:
 
 1. META-INF/org.sonatype.gossip/config.properties (as resource)
@@ -110,16 +110,7 @@ Check out and build:
     cd gossip
     mvn install
 
-To build the jdk14 jar:
-
-    mvn install -Dretro
-
-To build the shrunk jar:
-
-    mvn install -Dshrink
-
 [1]: http://slf4j.org
 [2]: http://logging.apache.org/log4j
 [3]: http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/package-summary.html
 [4]: http://github.com/chirino/jansi
-[5]: http://proguard.sourceforge.net
