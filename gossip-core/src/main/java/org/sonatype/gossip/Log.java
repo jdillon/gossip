@@ -17,11 +17,14 @@
 package org.sonatype.gossip;
 
 import org.slf4j.Logger;
+import org.sonatype.gossip.Gossip.Level;
 import org.sonatype.gossip.render.PatternRenderer;
 
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.sonatype.gossip.Gossip.Level.WARN;
 
 /**
  * Provides internal logging support for Gossip.
@@ -34,17 +37,19 @@ public final class Log
 {
     private final static Map<String,LoggerDelegate> delegates = new HashMap<String,LoggerDelegate>();
 
-    private final static Gossip.Level level;
+    private static final String INTERNAL_PREFIX = "org.sonatype.gossip";
 
-    private final static Gossip.Level internalLevel;
+    private final static Level level;
+
+    private final static Level internalLevel;
 
     private final static PatternRenderer renderer;
 
     private static boolean configured;
 
     static {
-        level = Gossip.Level.valueOf(System.getProperty(Log.class.getName() + ".level", Gossip.Level.WARN.toString()).toUpperCase());
-        internalLevel = Gossip.Level.valueOf(System.getProperty(Log.class.getName() + ".internal.level", Gossip.Level.WARN.toString()).toUpperCase());
+        level = Level.valueOf(System.getProperty(Log.class.getName() + ".level", WARN.toString()).toUpperCase());
+        internalLevel = Level.valueOf(System.getProperty(Log.class.getName() + ".internal.level", WARN.toString()).toUpperCase());
         renderer = new PatternRenderer();
     }
 
@@ -64,7 +69,7 @@ public final class Log
         assert name != null;
 
         // Gossip loggers will always be internal
-        if (name.startsWith("org.sonatype.gossip")) {
+        if (name.startsWith(INTERNAL_PREFIX)) {
             return new LoggerImpl(name);
         }
 
@@ -92,20 +97,20 @@ public final class Log
         }
 
         @Override
-        protected boolean isEnabled(final Gossip.Level l) {
+        protected boolean isEnabled(final Level l) {
             assert l != null;
 
-            Gossip.Level threashold = Log.level;
+            Level threshold = Log.level;
 
-            if (getName().startsWith("org.sonatype.gossip")) {
-                threashold = Log.internalLevel;
+            if (getName().startsWith(INTERNAL_PREFIX)) {
+                threshold = Log.internalLevel;
             }
 
-            return threashold.id <= l.id;
+            return threshold.id <= l.id;
         }
 
         @Override
-        protected void doLog(final Gossip.Level level, final String message, final Throwable cause) {
+        protected void doLog(final Level level, final String message, final Throwable cause) {
             assert message != null;
             // cause may be null
             // level should have been checked already
