@@ -42,7 +42,9 @@ public final class Log
 
     private final static PatternRenderer renderer;
 
-    private static volatile boolean configured;
+    private static PrintStream out = System.out;
+
+    private static boolean configured;
 
     private static ILoggerFactory configuredFactory;
 
@@ -52,12 +54,22 @@ public final class Log
         renderer = new PatternRenderer();
     }
 
-    public static void configure(final ILoggerFactory factory) {
-        if (!configured) {
-            if (factory == null) {
-                throw new NullPointerException();
-            }
+    public synchronized static void setOut(final PrintStream out) {
+        if (out == null) {
+            throw new NullPointerException();
+        }
+        Log.out = out;
+    }
 
+    public synchronized static PrintStream getOut() {
+        return out;
+    }
+
+    public static synchronized void configure(final ILoggerFactory factory) {
+        if (factory == null) {
+            throw new NullPointerException();
+        }
+        if (!configured) {
             configuredFactory = factory;
 
             // Replace all logger delegates with real loggers
@@ -71,7 +83,7 @@ public final class Log
         }
     }
 
-    public static Logger getLogger(final String name) {
+    public static synchronized Logger getLogger(final String name) {
         assert name != null;
 
         // Gossip loggers will always be internal
@@ -80,11 +92,9 @@ public final class Log
         }
 
         if (!configured) {
-            synchronized (delegates) {
-                LoggerDelegate delegate = new LoggerDelegate(new LoggerImpl(name));
-                delegates.put(name, delegate);
-                return delegate;
-            }
+            LoggerDelegate delegate = new LoggerDelegate(new LoggerImpl(name));
+            delegates.put(name, delegate);
+            return delegate;
         }
 
         return configuredFactory.getLogger(name);
@@ -121,8 +131,7 @@ public final class Log
             // cause may be null
             // level should have been checked already
 
-            final PrintStream out = System.out;
-
+            final PrintStream out = getOut();
             synchronized (out) {
                 out.print(renderer.render(new Event(this, level, message, cause)));
                 out.flush();
