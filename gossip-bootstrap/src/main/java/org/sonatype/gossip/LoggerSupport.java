@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.sonatype.gossip;
 
 import org.slf4j.Logger;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
-import org.sonatype.gossip.Gossip.Level;
 
 import java.io.Serializable;
 
 /**
- * Support for the Gossip {@link org.slf4j.Logger} implementation.
+ * Support for the Gossip {@link Logger} implementation.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public abstract class LoggerSupport

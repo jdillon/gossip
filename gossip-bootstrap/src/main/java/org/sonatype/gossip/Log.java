@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.sonatype.gossip;
 
+import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
-import org.sonatype.gossip.Gossip.Level;
 import org.sonatype.gossip.render.PatternRenderer;
 
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.sonatype.gossip.Gossip.Level.WARN;
-
 /**
  * Provides internal logging support for Gossip.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public final class Log
@@ -46,19 +44,24 @@ public final class Log
 
     private static boolean configured;
 
+    private static ILoggerFactory configuredFactory;
+
     static {
-        level = Level.valueOf(System.getProperty(Log.class.getName() + ".level", WARN.toString()).toUpperCase());
-        internalLevel = Level.valueOf(System.getProperty(Log.class.getName() + ".internal.level", WARN.toString()).toUpperCase());
+        level = Level.valueOf(System.getProperty(Log.class.getName() + ".level", Level.WARN.toString()).toUpperCase());
+        internalLevel = Level.valueOf(System.getProperty(Log.class.getName() + ".internal.level", Level.WARN.toString()).toUpperCase());
         renderer = new PatternRenderer();
     }
 
-    static void configure() {
+    static void configure(final ILoggerFactory factory) {
         if (!configured) {
+            configuredFactory = factory;
+
             // Replace all logger delegates with real loggers
             for (Map.Entry<String,LoggerDelegate> entry : delegates.entrySet()) {
-                Logger logger = Gossip.getInstance().getLogger(entry.getKey());
+                Logger logger = configuredFactory.getLogger(entry.getKey());
                 entry.getValue().setDelegate(logger);
             }
+
             delegates.clear();
             configured = true;
         }
@@ -80,7 +83,7 @@ public final class Log
             }
         }
 
-        return Gossip.getInstance().getLogger(name);
+        return configuredFactory.getLogger(name);
     }
     
     public static Logger getLogger(final Class type) {

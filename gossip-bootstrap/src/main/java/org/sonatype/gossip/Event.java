@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.sonatype.gossip;
 
 import org.slf4j.Logger;
@@ -24,7 +25,6 @@ import java.util.Arrays;
  * Gossip logging event container.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public final class Event
@@ -40,7 +40,7 @@ public final class Event
 
     private final Logger logger;
 
-    private final Gossip.Level level;
+    private final Level level;
 
     private final String message;
 
@@ -52,7 +52,7 @@ public final class Event
 
     private final StackTraceElement[] trace;
 
-    public Event(final Logger logger, final Gossip.Level level, final String message, final Throwable cause) {
+    public Event(final Logger logger, final Level level, final String message, final Throwable cause) {
         this.logger = logger;
         this.level = level;
         this.message = message;
@@ -72,7 +72,7 @@ public final class Event
         return logger.getName();
     }
 
-    public Gossip.Level getLevel() {
+    public Level getLevel() {
         return level;
     }
 

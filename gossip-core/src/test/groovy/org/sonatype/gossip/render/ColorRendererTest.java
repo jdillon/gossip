@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.gossip.Event;
-import org.sonatype.gossip.Gossip;
+import org.sonatype.gossip.Level;
 
 /**
  * Tests for the {@link org.sonatype.gossip.render.ColorRenderer} class.
@@ -31,7 +31,7 @@ public class ColorRendererTest
     @Test
     public void test1() throws Exception {
         Logger log = LoggerFactory.getLogger("foo");
-        Event e = new Event(log, Gossip.Level.DEBUG, "foo bar baz", null);
+        Event e = new Event(log, Level.DEBUG, "foo bar baz", null);
 
         ColorRenderer r = new ColorRenderer();
         r.render(e);

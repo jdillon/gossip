@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.sonatype.gossip;
 
 import org.slf4j.Logger;
@@ -22,7 +23,6 @@ import org.slf4j.Marker;
  * A logger which delegates to another logger.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public final class LoggerDelegate

@@ -18,7 +18,7 @@ package org.sonatype.gossip.listener;
 import org.slf4j.Logger;
 import org.sonatype.gossip.Event;
 import org.sonatype.gossip.Gossip;
-import org.sonatype.gossip.Gossip.Level;
+import org.sonatype.gossip.Level;
 import org.sonatype.gossip.Log;
 import org.sonatype.gossip.render.PatternRenderer;
 import org.sonatype.gossip.render.Renderer;
@@ -51,7 +51,7 @@ public abstract class ListenerSupport
         this.renderer = renderer;
     }
 
-    public Gossip.Level getThreshold() {
+    public Level getThreshold() {
         return threshold;
     }
 

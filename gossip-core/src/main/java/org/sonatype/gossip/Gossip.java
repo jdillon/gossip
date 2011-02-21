@@ -16,7 +16,6 @@
 package org.sonatype.gossip;
 
 import org.slf4j.ILoggerFactory;
-import org.slf4j.spi.LocationAwareLogger;
 import org.sonatype.gossip.model.LoggerNode;
 
 import java.util.ArrayList;
@@ -132,33 +131,6 @@ public final class Gossip
     public Collection<String> getLoggerNames() {
         synchronized (loggers) {
             return Collections.unmodifiableSet(loggers.keySet());
-        }
-    }
-
-    /**
-     * Gossip logging level.
-     *
-     * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
-     * @since 1.4
-     */
-    public static enum Level
-    {
-        TRACE(LocationAwareLogger.TRACE_INT),   // 0
-
-        DEBUG(LocationAwareLogger.DEBUG_INT),   // 10
-
-        INFO(LocationAwareLogger.INFO_INT),     // 20
-
-        WARN(LocationAwareLogger.WARN_INT),     // 30
-
-        ERROR(LocationAwareLogger.ERROR_INT),   // 40
-
-        OFF(1000);                              // 1000
-
-        public final int id;
-
-        private Level(final int id) {
-            this.id = id;
         }
     }
 
@@ -304,7 +276,7 @@ public final class Gossip
                 break;
             }
             else if (obj instanceof ProvisionNode) {
-	            ((ProvisionNode) obj).add(logger);
+                ((ProvisionNode) obj).add(logger);
             }
             else {
                 throw new InternalError();

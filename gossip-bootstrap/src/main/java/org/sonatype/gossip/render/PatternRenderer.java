@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.sonatype.gossip.render;
 
 import org.sonatype.gossip.Event;
@@ -96,7 +97,6 @@ import org.sonatype.gossip.Event;
  * </table>
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public class PatternRenderer

@@ -13,29 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.sonatype.gossip;
 
-import org.slf4j.ILoggerFactory;
-import org.slf4j.spi.LoggerFactoryBinder;
+import org.slf4j.spi.LocationAwareLogger;
 
 /**
- * Gossip logger factory binder for SLF4J.
+ * Gossip logging level.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
- * @since 1.0
+ * @since 1.4
  */
-public class LoggerFactoryBinderImpl
-    implements LoggerFactoryBinder
+public enum Level
 {
-    private final ILoggerFactory factory = Gossip.getInstance();
+    ALL(-1000),                             // -1000
 
-    public ILoggerFactory getLoggerFactory() {
-        Log.configure(factory);
-        return factory;
-    }
+    TRACE(LocationAwareLogger.TRACE_INT),   // 0
 
-    public String getLoggerFactoryClassStr() {
-        return Gossip.class.getName();
+    DEBUG(LocationAwareLogger.DEBUG_INT),   // 10
+
+    INFO(LocationAwareLogger.INFO_INT),     // 20
+
+    WARN(LocationAwareLogger.WARN_INT),     // 30
+
+    ERROR(LocationAwareLogger.ERROR_INT),   // 40
+
+    OFF(1000);                              // 1000
+
+    public final int id;
+
+    private Level(final int id) {
+        this.id = id;
     }
 }

@@ -245,8 +245,8 @@
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[
-                        public org.sonatype.gossip.Gossip.Level asLevel() {
-                            return org.sonatype.gossip.Gossip.Level.valueOf(getLevel().toUpperCase());
+                        public org.sonatype.gossip.Level asLevel() {
+                            return org.sonatype.gossip.Level.valueOf(getLevel().toUpperCase());
                         }
                     ]]></code>
                 </codeSegment>
