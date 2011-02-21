@@ -130,10 +130,8 @@ public class FileListener
             }
         }
 
-        synchronized (writer) {
-            writer.write(render(event));
-            writer.flush();
-        }
+        writer.write(render(event));
+        writer.flush();
     }
 
     protected String evaluate(String input) {

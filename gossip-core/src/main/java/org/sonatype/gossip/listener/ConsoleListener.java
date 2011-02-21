@@ -32,7 +32,7 @@ public class ConsoleListener
 {
     public static enum Stream
     {
-        OUT, ERR;
+        OUT, ERR
     }
 
     private Stream stream;
@@ -69,10 +69,8 @@ public class ConsoleListener
                 throw new InternalError();
         }
 
-        synchronized (out) {
-            out.print(render(event));
-            out.flush();
-        }
+        out.print(render(event));
+        out.flush();
     }
 
     @Override
