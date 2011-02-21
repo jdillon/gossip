@@ -42,7 +42,7 @@ public final class Log
 
     private final static PatternRenderer renderer;
 
-    private static boolean configured;
+    private static volatile boolean configured;
 
     private static ILoggerFactory configuredFactory;
 
@@ -52,8 +52,12 @@ public final class Log
         renderer = new PatternRenderer();
     }
 
-    static void configure(final ILoggerFactory factory) {
+    public static void configure(final ILoggerFactory factory) {
         if (!configured) {
+            if (factory == null) {
+                throw new NullPointerException();
+            }
+
             configuredFactory = factory;
 
             // Replace all logger delegates with real loggers
