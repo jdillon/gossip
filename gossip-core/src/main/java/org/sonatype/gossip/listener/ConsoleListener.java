@@ -69,8 +69,10 @@ public class ConsoleListener
                 throw new InternalError();
         }
 
-        out.print(render(event));
-        out.flush();
+        synchronized (out) {
+            out.print(render(event));
+            out.flush();
+        }
     }
 
     @Override
