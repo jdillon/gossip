@@ -36,33 +36,45 @@ public final class Log
 
     private static final String INTERNAL_PREFIX = "org.sonatype.gossip";
 
-    private final static Level level;
-
-    private final static Level internalLevel;
-
     private final static PatternRenderer renderer;
 
-    private static PrintStream out = System.out;
+    private static volatile PrintStream out;
+
+    private static volatile Level level;
+
+    private static final Level internalLevel;
 
     private static boolean configured;
 
     private static ILoggerFactory configuredFactory;
 
     static {
+        out = System.out;
         level = Level.valueOf(System.getProperty(Log.class.getName() + ".level", Level.WARN.toString()).toUpperCase());
         internalLevel = Level.valueOf(System.getProperty(Log.class.getName() + ".internal.level", Level.WARN.toString()).toUpperCase());
         renderer = new PatternRenderer();
     }
 
-    public synchronized static void setOut(final PrintStream out) {
+    public static PrintStream getOut() {
+        return out;
+    }
+
+    public static void setOut(final PrintStream out) {
         if (out == null) {
             throw new NullPointerException();
         }
         Log.out = out;
     }
 
-    public synchronized static PrintStream getOut() {
-        return out;
+    public static Level getLevel() {
+        return level;
+    }
+
+    public static void setLevel(final Level level) {
+        if (level == null) {
+            throw new NullPointerException();
+        }
+        Log.level = level;
     }
 
     public static synchronized void configure(final ILoggerFactory factory) {
@@ -116,8 +128,7 @@ public final class Log
         protected boolean isEnabled(final Level l) {
             assert l != null;
 
-            Level threshold = Log.level;
-
+            Level threshold = getLevel();
             if (getName().startsWith(INTERNAL_PREFIX)) {
                 threshold = Log.internalLevel;
             }
