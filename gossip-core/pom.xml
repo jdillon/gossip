@@ -28,7 +28,6 @@
 
     <artifactId>gossip-core</artifactId>
     <name>Gossip Core</name>
-    <version>1.6-SNAPSHOT</version>
 
     <dependencies>
         <dependency>

@@ -28,7 +28,6 @@
 
     <artifactId>gossip-slf4j</artifactId>
     <name>Gossip SLF4j</name>
-    <version>1.6-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
