@@ -18,6 +18,7 @@ package org.sonatype.gossip;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
+import org.sonatype.gossip.LoggerDelegateFactory.LoggerDelegateAware;
 import org.sonatype.gossip.render.PatternRenderer;
 
 import java.io.PrintStream;
@@ -32,7 +33,7 @@ import java.util.Map;
  */
 public final class Log
 {
-    private final static Map<String,LoggerDelegate> delegates = new HashMap<String,LoggerDelegate>();
+    private final static Map<String,LoggerDelegateAware> delegates = new HashMap<String,LoggerDelegateAware>();
 
     private static final String INTERNAL_PREFIX = "org.sonatype.gossip";
 
@@ -85,7 +86,7 @@ public final class Log
             configuredFactory = factory;
 
             // Replace all logger delegates with real loggers
-            for (Map.Entry<String,LoggerDelegate> entry : delegates.entrySet()) {
+            for (Map.Entry<String,LoggerDelegateAware> entry : delegates.entrySet()) {
                 Logger logger = configuredFactory.getLogger(entry.getKey());
                 entry.getValue().setDelegate(logger);
             }
@@ -104,8 +105,8 @@ public final class Log
         }
 
         if (!configured) {
-            LoggerDelegate delegate = new LoggerDelegate(new LoggerImpl(name));
-            delegates.put(name, delegate);
+            Logger delegate = LoggerDelegateFactory.create(new LoggerImpl(name));
+            delegates.put(name, (LoggerDelegateAware)delegate);
             return delegate;
         }
 
