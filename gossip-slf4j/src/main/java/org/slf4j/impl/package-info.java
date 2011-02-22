@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * Slf4j binders.
+ * Gossip SLF4j bindings.
  *
  * @since 1.0
  */

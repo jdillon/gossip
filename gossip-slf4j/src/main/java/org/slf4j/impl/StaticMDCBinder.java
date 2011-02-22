@@ -15,18 +15,27 @@
  */
 package org.slf4j.impl;
 
-import org.sonatype.gossip.MdcAdapterImpl;
+import org.slf4j.helpers.BasicMDCAdapter;
+import org.slf4j.spi.MDCAdapter;
 
 /**
  * Gossip MDC binder for SLF4J.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 @SuppressWarnings({"UnusedDeclaration"})
 public final class StaticMDCBinder
-    extends MdcAdapterImpl
 {
     public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
+
+    private final BasicMDCAdapter adapter = new BasicMDCAdapter();
+
+    public MDCAdapter getMDCA() {
+        return adapter;
+    }
+
+    public String getMDCAdapterClassStr() {
+        return adapter.getClass().getName();
+    }
 }
