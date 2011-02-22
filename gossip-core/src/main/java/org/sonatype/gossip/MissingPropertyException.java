@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.sonatype.gossip;
 
-import java.text.MessageFormat;
+package org.sonatype.gossip;
 
 /**
  * Thrown to indicate a required configuration property is missing.
@@ -31,6 +30,6 @@ public class MissingPropertyException
     private static final long serialVersionUID = 1;
 
     public MissingPropertyException(final String name) {
-        super(MessageFormat.format("Missing required configuration property: {0}", name));
+        super(String.format("Missing required configuration property: %s", name));
     }
 }
