@@ -16,36 +16,37 @@
 package org.slf4j.impl;
 
 import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
 import org.slf4j.spi.LoggerFactoryBinder;
-import org.sonatype.gossip.Gossip;
 import org.sonatype.gossip.Log;
 
 /**
- * Gossip logger binder for SLF4J.
+ * Gossip Bootstrap logger binder for SLF4J.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- * @since 1.0
+ * @since 1.6
  */
 @SuppressWarnings({"UnusedDeclaration"})
 public final class StaticLoggerBinder
     implements LoggerFactoryBinder
 {
-    /**
-     * @since 1.1
-     */
     public static String REQUESTED_API_VERSION = "1.6.0";  // to avoid constant folding by the compiler, this field must *not* be final
 
     private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
     /**
-     * @since 1.1
      * @return {@link #SINGLETON}
      */
     public static StaticLoggerBinder getSingleton() {
         return SINGLETON;
     }
 
-    private final ILoggerFactory factory = Gossip.getInstance();
+    private final ILoggerFactory factory = new ILoggerFactory()
+    {
+        public Logger getLogger(final String name) {
+            return Log.getLogger(name);
+        }
+    };
 
     public ILoggerFactory getLoggerFactory() {
         Log.configure(factory);
@@ -53,6 +54,6 @@ public final class StaticLoggerBinder
     }
 
     public String getLoggerFactoryClassStr() {
-        return Gossip.class.getName();
+        return factory.getClass().getName();
     }
 }
