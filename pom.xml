@@ -132,6 +132,12 @@
 
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
+                <artifactId>gossip-support</artifactId>
+                <version>1.6-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip-core</artifactId>
                 <version>1.6-SNAPSHOT</version>
             </dependency>
@@ -147,6 +153,7 @@
     <modules>
         <module>gossip-bootstrap</module>
         <module>gossip-bootstrap-slf4j</module>
+        <module>gossip-support</module>
         <module>gossip-core</module>
         <module>gossip-slf4j</module>
     </modules>

@@ -41,25 +41,30 @@ public abstract class LoggerSupport
 {
     private static final long serialVersionUID = 1;
 
-    private final String name;
-
     protected LoggerSupport(final String name) {
-        assert name != null;
         this.name = name;
     }
 
-    @Override
-    public final String getName() {
-        return name;
+    protected LoggerSupport() {
+        // nop
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[" + getName() + "]@" + System.identityHashCode(this);
+        StringBuilder buff = new StringBuilder();
+        buff.append(getClass().getSimpleName());
+        if (name != null) {
+            buff.append("[").append(name).append("]");
+        }
+        buff.append(String.format("@%x", System.identityHashCode(this)));
+        return buff.toString();
     }
 
     @Override
     public final int hashCode() {
+        if (name == null) {
+            return System.identityHashCode(this);
+        }
         return name.hashCode();
     }
 
