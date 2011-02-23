@@ -13,23 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.sonatype.gossip.model.io.props
+package org.sonatype.gossip.model.io.props;
 
-import org.junit.Test
-import org.sonatype.gossip.model.Model
+import org.junit.Test;
+import org.sonatype.gossip.model.Model;
+
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Tests for {@link GossipPropertiesReader}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-class GossipPropertiesReaderTest
+public class GossipPropertiesReaderTest
 {
     @Test
-    void testLoad() {
-        URL url = getClass().getResource("gossip1.properties")
-        GossipPropertiesReader reader = new GossipPropertiesReader()
-        Model model = reader.read(url)
-        println(model)
+    void testLoad() throws IOException {
+        URL url = getClass().getResource("gossip1.properties");
+        GossipPropertiesReader reader = new GossipPropertiesReader();
+        Model model = reader.read(url);
+        System.out.println(model);
     }
 }
