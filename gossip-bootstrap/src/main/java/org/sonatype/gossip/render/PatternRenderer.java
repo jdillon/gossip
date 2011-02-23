@@ -146,8 +146,6 @@ public class PatternRenderer
                 }
                 char t = _pattern.charAt(++i);
 
-                // TODO: Maybe try and add MDC support here?
-
                 switch (t) {
                     case '%':
                         buff.append(t);
@@ -196,6 +194,8 @@ public class PatternRenderer
                     case 'x':
                         renderCause(event, buff);
                         break;
+
+                    // TODO: Maybe try and add MDC support here?  Probably %X{foo}
 
                     case 'n':
                         renderNewLine(buff);
