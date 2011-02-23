@@ -56,6 +56,8 @@ public final class Log
         threshold = Level.valueOf(System.getProperty(baseName + ".threshold", defaultThreshold).toUpperCase());
         internalThreshold = Level.valueOf(System.getProperty(baseName + ".internalThreshold", defaultThreshold).toUpperCase());
         renderer = new PatternRenderer();
+        String pattern = System.getProperty(baseName + ".pattern", PatternRenderer.DEFAULT_PATTERN);
+        renderer.setPattern(pattern);
     }
 
     /**

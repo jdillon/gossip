@@ -104,7 +104,10 @@ public class PatternRenderer
 {
     private static final String NEWLINE = System.getProperty("line.separator");
 
-    private static final String DEFAULT_PATTERN = "[%l] %c - %m%n%x";
+    /**
+     * @since 1.6
+     */
+    public static final String DEFAULT_PATTERN = "[%l] %c - %m%n%x";
 
     private String pattern = DEFAULT_PATTERN;
 
