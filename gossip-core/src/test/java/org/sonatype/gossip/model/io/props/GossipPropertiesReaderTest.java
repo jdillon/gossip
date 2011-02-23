@@ -29,7 +29,7 @@ import java.net.URL;
 public class GossipPropertiesReaderTest
 {
     @Test
-    void testLoad() throws IOException {
+    public void testLoad() throws IOException {
         URL url = getClass().getResource("gossip1.properties");
         GossipPropertiesReader reader = new GossipPropertiesReader();
         Model model = reader.read(url);

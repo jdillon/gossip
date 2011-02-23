@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.sonatype.gossip.listener
+package org.sonatype.gossip.listener;
 
-import org.junit.Test
-import org.sonatype.gossip.Event
-import org.sonatype.gossip.Gossip
-import org.sonatype.gossip.render.PatternRenderer
-import static org.junit.Assert.assertEquals
-import org.junit.Ignore
-import org.sonatype.gossip.Level
+import org.junit.Test;
+import org.sonatype.gossip.Event;
+import org.sonatype.gossip.Gossip;
+import org.sonatype.gossip.render.PatternRenderer;
+import static org.junit.Assert.assertEquals;
+import org.junit.Ignore;
+import org.sonatype.gossip.Level;
 
 /**
  * Tests for {@link FileSizeRollingStrategy}.
@@ -29,9 +29,12 @@ import org.sonatype.gossip.Level
  * @author <a href="mailto:jason@planet57.com'>Jason Dillon</a>
  */
 @Ignore
-class FileSizeRollingStrategyTest
+public class FileSizeRollingStrategyTest
 {
     private static final int NEWLINE_LENGTH = System.getProperty("line.separator").length();
+
+    /*
+    // FIXME: Port to Java
 
     private File getBaseDir() {
         File dir
@@ -132,4 +135,5 @@ class FileSizeRollingStrategyTest
         assertEquals(11 + 10 + NEWLINE_LENGTH, new File("${getBaseDir()}/target", "test3.log.1").text.size())
         assertEquals(11 + 10 + NEWLINE_LENGTH, new File("${getBaseDir()}/target", "test3.log.2").text.size())
     }
+    */
 }
