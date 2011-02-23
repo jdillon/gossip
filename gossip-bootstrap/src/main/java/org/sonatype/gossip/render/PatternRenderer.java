@@ -241,16 +241,20 @@ public class PatternRenderer
         assert buff != null;
 
         String name = event.getName();
+        if (name != null) {
+            if (shortName) {
+                int i = name.lastIndexOf(".");
 
-        if (shortName) {
-            int i = name.lastIndexOf(".");
-
-            if (i != -1) {
-                name = name.substring(i + 1, name.length());
+                if (i != -1) {
+                    name = name.substring(i + 1, name.length());
+                }
             }
-        }
 
-        buff.append(name);
+            buff.append(name);
+        }
+        else {
+            buff.append("<anonymous>");
+        }
     }
 
     protected void renderThreadName(final Event event, final StringBuilder buff) {

@@ -84,7 +84,11 @@ public abstract class LoggerSupport
 
     protected abstract boolean isEnabled(final Level level);
 
-    protected abstract void doLog(Level level, String message, Throwable cause);
+    protected abstract void doLog(Event event);
+
+    protected void doLog(final Level level, final String message, final Throwable cause) {
+        doLog(new Event(this, level, message, cause));
+    }
 
     private void log(final Level level, final FormattingTuple tuple) {
         doLog(level, tuple.getMessage(), tuple.getThrowable());

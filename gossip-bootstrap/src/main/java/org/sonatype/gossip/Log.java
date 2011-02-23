@@ -196,15 +196,13 @@ public final class Log
             return threshold.id <= l.id;
         }
 
-        @Override
-        protected void doLog(final Level level, final String message, final Throwable cause) {
-            assert message != null;
-            // cause may be null
-            // level should have been checked already
 
+        @Override
+        protected void doLog(final Event event) {
+            assert event != null;
             final PrintStream out = getOut();
             synchronized (out) {
-                out.print(getRenderer().render(new Event(this, level, message, cause)));
+                out.print(getRenderer().render(event));
                 out.flush();
             }
         }

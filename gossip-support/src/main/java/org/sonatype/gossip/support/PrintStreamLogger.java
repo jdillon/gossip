@@ -17,8 +17,11 @@
 package org.sonatype.gossip.support;
 
 import org.slf4j.Logger;
+import org.sonatype.gossip.Event;
 import org.sonatype.gossip.Level;
 import org.sonatype.gossip.LoggerSupport;
+import org.sonatype.gossip.render.PatternRenderer;
+import org.sonatype.gossip.render.Renderer;
 
 import java.io.PrintStream;
 
@@ -33,12 +36,18 @@ public class PrintStreamLogger
 {
     private final PrintStream stream;
 
-    private Level level;
+    private volatile Level threshold;
 
-    public PrintStreamLogger(final PrintStream stream, final Level level) {
-        assert stream != null;
+    private volatile Renderer renderer;
+
+    public PrintStreamLogger(final PrintStream stream, final Level threshold) {
+        if (stream == null) {
+            throw new NullPointerException();
+        }
+        // threshold can be null
         this.stream = stream;
-        this.level = level;
+        this.threshold = threshold;
+        this.renderer = new PatternRenderer();
     }
 
     public PrintStreamLogger(final PrintStream stream) {
@@ -49,16 +58,27 @@ public class PrintStreamLogger
         return stream;
     }
 
-    public Level getLevel() {
-        if (level == null) {
+    public Level getThreshold() {
+        if (threshold == null) {
             return Level.TRACE;
         }
-        return level;
+        return threshold;
     }
 
-    public void setLevel(final Level level) {
+    public void setThreshold(final Level threshold) {
         // null will reset to default
-        this.level = level;
+        this.threshold = threshold;
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
+    }
+
+    public void setRenderer(final Renderer renderer) {
+        if (renderer == null) {
+            throw new NullPointerException();
+        }
+        this.renderer = renderer;
     }
 
     public void setName(final String name) {
@@ -68,24 +88,17 @@ public class PrintStreamLogger
 
     protected boolean isEnabled(final Level level) {
         assert level != null;
-        return getLevel().id <= level.id;
+        return getThreshold().id <= level.id;
     }
 
     @Override
-    protected void doLog(final Level level, final String message, final Throwable cause) {
-        synchronized (stream) {
-            stream.print("[");
-            stream.print(level);
-            stream.print("] ");
-            if (name != null) {
-                stream.print(name);
-                stream.print(": ");
-            }
-            stream.println(message);
-            if (cause != null) {
-                cause.printStackTrace(stream);
-            }
-            stream.flush();
+    protected void doLog(final Event event) {
+        assert event != null;
+
+        final PrintStream out = getStream();
+        synchronized (out) {
+            out.print(getRenderer().render(event));
+            out.flush();
         }
     }
 }

@@ -46,7 +46,7 @@ public class PrintStreamLoggerTest
     @Test
     public void testWithLevel() {
         PrintStreamLogger log = new PrintStreamLogger(System.out);
-        log.setLevel(Level.WARN);
+        log.setThreshold(Level.WARN);
         System.out.println("LOG: " + log);
 
         log.info("Test");

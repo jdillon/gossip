@@ -60,6 +60,7 @@ public final class Event
         this.timeStamp = System.currentTimeMillis();
         this.threadName = Thread.currentThread().getName();
 
+        // FIXME: WTF is this for?
         if (traceEnable) {
             this.trace = new Throwable().getStackTrace();
         }
