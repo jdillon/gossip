@@ -17,12 +17,12 @@ package org.sonatype.gossip.render;
 
 import org.junit.Test;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonatype.gossip.Event;
+import org.sonatype.gossip.Gossip;
 import org.sonatype.gossip.Level;
 
 /**
- * Tests for the {@link org.sonatype.gossip.render.ColorRenderer} class.
+ * Tests for the {@link ColorRenderer} class.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
@@ -30,10 +30,10 @@ public class ColorRendererTest
 {
     @Test
     public void test1() throws Exception {
-        Logger log = LoggerFactory.getLogger("foo");
+        Logger log = Gossip.getInstance().getLogger("foo");
         Event e = new Event(log, Level.DEBUG, "foo bar baz", null);
-
         ColorRenderer r = new ColorRenderer();
-        r.render(e);
+        String text = r.render(e);
+        System.out.println(text);
     }
 }
