@@ -41,9 +41,9 @@ public final class Log
 
     private static volatile PrintStream out;
 
-    private static volatile Level level;
+    private static volatile Level threshold;
 
-    private static final Level internalLevel;
+    private static final Level internalThreshold;
 
     private static boolean configured;
 
@@ -51,15 +51,23 @@ public final class Log
 
     static {
         out = System.out;
-        level = Level.valueOf(System.getProperty(Log.class.getName() + ".level", Level.WARN.toString()).toUpperCase());
-        internalLevel = Level.valueOf(System.getProperty(Log.class.getName() + ".internal.level", Level.WARN.toString()).toUpperCase());
+        String baseName = Log.class.getName();
+        String defaultThreshold = Level.WARN.toString();
+        threshold = Level.valueOf(System.getProperty(baseName + ".threshold", defaultThreshold).toUpperCase());
+        internalThreshold = Level.valueOf(System.getProperty(baseName + ".internalThreshold", defaultThreshold).toUpperCase());
         renderer = new PatternRenderer();
     }
 
+    /**
+     * @since 1.6
+     */
     public static PrintStream getOut() {
         return out;
     }
 
+    /**
+     * @since 1.6
+     */
     public static void setOut(final PrintStream out) {
         if (out == null) {
             throw new NullPointerException();
@@ -67,15 +75,21 @@ public final class Log
         Log.out = out;
     }
 
-    public static Level getLevel() {
-        return level;
+    /**
+     * @since 1.6
+     */
+    public static Level getThreshold() {
+        return threshold;
     }
 
-    public static void setLevel(final Level level) {
-        if (level == null) {
+    /**
+     * @since 1.6
+     */
+    public static void setThreshold(final Level threshold) {
+        if (threshold == null) {
             throw new NullPointerException();
         }
-        Log.level = level;
+        Log.threshold = threshold;
     }
 
     public static synchronized void configure(final ILoggerFactory factory) {
@@ -129,9 +143,9 @@ public final class Log
         protected boolean isEnabled(final Level l) {
             assert l != null;
 
-            Level threshold = getLevel();
+            Level threshold = getThreshold();
             if (getName().startsWith(INTERNAL_PREFIX)) {
-                threshold = Log.internalLevel;
+                threshold = Log.internalThreshold;
             }
 
             return threshold.id <= l.id;
