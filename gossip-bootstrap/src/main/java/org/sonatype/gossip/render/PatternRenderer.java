@@ -146,6 +146,8 @@ public class PatternRenderer
                 }
                 char t = _pattern.charAt(++i);
 
+                // TODO: Maybe try and add MDC support here?
+
                 switch (t) {
                     case '%':
                         buff.append(t);
