@@ -13,32 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.sonatype.gossip.source;
+
+package org.sonatype.gossip.render;
 
 import org.junit.Test;
-import org.sonatype.gossip.model.Model;
-
-import java.net.URL;
-
-import static org.junit.Assert.*;
+import org.slf4j.Logger;
+import org.sonatype.gossip.Event;
+import org.sonatype.gossip.Gossip;
+import org.sonatype.gossip.Level;
 
 /**
- * Tests for the {@link org.sonatype.gossip.source.URLSource} class.
+ * Tests for the {@link ColorRenderer} class.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public class URLSourceTest
+public class ColorRendererTest
 {
     @Test
     public void test1() throws Exception {
-        URLSource s = new URLSource();
-
-        URL url = getClass().getResource("config1.properties");
-        assertNotNull(url);
-
-        s.setUrl(url);
-
-        Model model = s.load();
-        assertNotNull(model);
+        Logger log = Gossip.getInstance().getLogger("foo");
+        Event e = new Event(log, Level.DEBUG, "foo bar baz", null);
+        ColorRenderer r = new ColorRenderer();
+        String text = r.render(e);
+        System.out.println(text);
     }
 }
