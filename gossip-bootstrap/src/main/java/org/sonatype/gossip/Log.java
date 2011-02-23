@@ -146,14 +146,11 @@ public final class Log
             configuredFactory = factory;
 
             // Replace all logger delegates with real loggers
-            synchronized (delegates) {
-                for (Map.Entry<String,LoggerDelegateAware> entry : delegates.entrySet()) {
-                    Logger logger = configuredFactory.getLogger(entry.getKey());
-                    entry.getValue().setDelegate(logger);
-                }
-                delegates.clear();
+            for (Map.Entry<String,LoggerDelegateAware> entry : delegates.entrySet()) {
+                Logger logger = configuredFactory.getLogger(entry.getKey());
+                entry.getValue().setDelegate(logger);
             }
-
+            delegates.clear();
             configured = true;
         }
     }
@@ -168,9 +165,7 @@ public final class Log
 
         if (!configured) {
             Logger delegate = LoggerDelegateFactory.create(new LoggerImpl(name));
-            synchronized (delegates) {
-                delegates.put(name, (LoggerDelegateAware)delegate);
-            }
+            delegates.put(name, (LoggerDelegateAware)delegate);
             return delegate;
         }
 
