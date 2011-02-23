@@ -44,7 +44,7 @@ public final class Log
 
     private static volatile Renderer renderer;
 
-    private static volatile PrintStream out;
+    private static volatile PrintStream stream;
 
     private static boolean configured;
 
@@ -78,11 +78,11 @@ public final class Log
         }
         switch (streamType) {
             case ERR:
-                out = System.err;
+                stream = System.err;
                 break;
             default:
             case OUT:
-                out = System.out;
+                stream = System.out;
                 break;
         }
     }
@@ -124,18 +124,18 @@ public final class Log
     /**
      * @since 1.6
      */
-    public static PrintStream getOut() {
-        return out;
+    public static PrintStream getStream() {
+        return stream;
     }
 
     /**
      * @since 1.6
      */
-    public static void setOut(final PrintStream out) {
-        if (out == null) {
+    public static void setStream(final PrintStream stream) {
+        if (stream == null) {
             throw new NullPointerException();
         }
-        Log.out = out;
+        Log.stream = stream;
     }
 
     public static synchronized void configure(final ILoggerFactory factory) {
@@ -199,7 +199,7 @@ public final class Log
 
         @Override
         protected void doLog(final Event event) {
-            final PrintStream out = getOut();
+            final PrintStream out = getStream();
             synchronized (out) {
                 out.print(getRenderer().render(event));
                 out.flush();
