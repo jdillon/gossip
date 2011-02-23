@@ -15,25 +15,29 @@
  */
 package org.sonatype.gossip;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
- * Tests for the {@link org.sonatype.gossip.Gossip} class.
+ * Tests for the {@link Gossip} class.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class GossipTest
-    extends TestCase
 {
+    @Test
     public void testBasic() throws Exception {
         ILoggerFactory factory = LoggerFactory.getILoggerFactory();
 
         assertNotNull(factory);
         assertEquals(Gossip.class.getName(), factory.getClass().getName());
         
-        org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
+        Logger log = LoggerFactory.getLogger(getClass());
         assertNotNull(log);
 
         log.trace("trace");
