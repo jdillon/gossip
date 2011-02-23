@@ -20,6 +20,7 @@ import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.sonatype.gossip.LoggerDelegateFactory.LoggerDelegateAware;
 import org.sonatype.gossip.render.PatternRenderer;
+import org.sonatype.gossip.render.Renderer;
 
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -37,44 +38,53 @@ public final class Log
 
     private static final String INTERNAL_PREFIX = "org.sonatype.gossip";
 
-    private final static PatternRenderer renderer;
-
-    private static volatile PrintStream out;
-
     private static volatile Level threshold;
 
     private static final Level internalThreshold;
+
+    private static volatile Renderer renderer;
+
+    private static volatile PrintStream out;
 
     private static boolean configured;
 
     private static ILoggerFactory configuredFactory;
 
+    private static enum StreamType
+    {
+        OUT,
+        ERR
+    }
+
     static {
-        out = System.out;
-        String baseName = Log.class.getName();
-        String defaultThreshold = Level.WARN.toString();
-        threshold = Level.valueOf(System.getProperty(baseName + ".threshold", defaultThreshold).toUpperCase());
-        internalThreshold = Level.valueOf(System.getProperty(baseName + ".internalThreshold", defaultThreshold).toUpperCase());
-        renderer = new PatternRenderer();
+        final String baseName = Log.class.getName();
+
+        String thresholdName = System.getProperty(baseName + ".threshold");
+        threshold = thresholdName != null ? Level.valueOf(thresholdName.toUpperCase()) : Level.WARN;
+
+        String internalThresholdName = System.getProperty(baseName + ".internalThreshold");
+        internalThreshold = internalThresholdName != null ? Level.valueOf(internalThresholdName.toUpperCase()) : Level.WARN;
+
+        // Use a pattern renderer by default, user can install whatever they want later
+        PatternRenderer renderer = new PatternRenderer();
         String pattern = System.getProperty(baseName + ".pattern", PatternRenderer.DEFAULT_PATTERN);
         renderer.setPattern(pattern);
-    }
+        Log.renderer = renderer;
 
-    /**
-     * @since 1.6
-     */
-    public static PrintStream getOut() {
-        return out;
-    }
-
-    /**
-     * @since 1.6
-     */
-    public static void setOut(final PrintStream out) {
-        if (out == null) {
-            throw new NullPointerException();
+        StreamType streamType = StreamType.OUT;
+        String streamName = System.getProperty(baseName + ".stream");
+        if (streamName != null) {
+            streamType = StreamType.valueOf(streamName.toUpperCase());
         }
-        Log.out = out;
+        switch (streamType) {
+            case ERR:
+                out = System.err;
+                break;
+            default:
+            case OUT:
+                out = System.out;
+                break;
+        }
     }
 
     /**
@@ -92,6 +102,40 @@ public final class Log
             throw new NullPointerException();
         }
         Log.threshold = threshold;
+    }
+
+    /**
+     * @since 1.6
+     */
+    public static Renderer getRenderer() {
+        return renderer;
+    }
+
+    /**
+     * @since 1.6
+     */
+    public static void setRenderer(final Renderer renderer) {
+        if (renderer == null) {
+            throw new NullPointerException();
+        }
+        Log.renderer = renderer;
+    }
+
+    /**
+     * @since 1.6
+     */
+    public static PrintStream getOut() {
+        return out;
+    }
+
+    /**
+     * @since 1.6
+     */
+    public static void setOut(final PrintStream out) {
+        if (out == null) {
+            throw new NullPointerException();
+        }
+        Log.out = out;
     }
 
     public static synchronized void configure(final ILoggerFactory factory) {
