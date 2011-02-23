@@ -91,31 +91,6 @@
                 <scope>test</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy</artifactId>
-                <version>1.7.3</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>jline</groupId>
-                        <artifactId>jline</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.ant</groupId>
-                        <artifactId>ant</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.ant</groupId>
-                        <artifactId>ant-launcher</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
             <!-- INTERNAL -->
 
             <dependency>
@@ -249,23 +224,6 @@
                     <source>1.5</source>
                     <target>1.5</target>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.3</version>
-                <configuration>
-                    <providerSelection>1.7</providerSelection>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generateTestStubs</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
