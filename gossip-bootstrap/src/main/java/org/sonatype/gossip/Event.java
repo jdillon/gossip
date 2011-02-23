@@ -60,13 +60,8 @@ public final class Event
         this.timeStamp = System.currentTimeMillis();
         this.threadName = Thread.currentThread().getName();
 
-        // FIXME: WTF is this for?
-        if (traceEnable) {
-            this.trace = new Throwable().getStackTrace();
-        }
-        else {
-            this.trace = null;
-        }
+        // Trace here is for where the log message came from, not where the optional cause came from
+        this.trace = traceEnable ? new Throwable().getStackTrace() : null;
     }
 
     public String getName() {
