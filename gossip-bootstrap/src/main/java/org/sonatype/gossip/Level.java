@@ -22,7 +22,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * Gossip logging level.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- * @since 1.4
+ * @since 1.6
  */
 public enum Level
 {
