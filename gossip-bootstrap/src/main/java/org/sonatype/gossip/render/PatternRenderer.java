@@ -130,7 +130,9 @@ public class PatternRenderer
     }
 
     public String render(final Event event) {
-        assert event != null;
+        if (event == null) {
+            throw new NullPointerException();
+        }
 
         final String _pattern = getPattern();
         final StringBuilder buff = new StringBuilder();
