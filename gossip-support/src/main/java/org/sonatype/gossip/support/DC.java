@@ -31,7 +31,7 @@ import java.util.Stack;
 public class DC
 {
     /** The key in which we <em>publish</em> our contents to in the Slf4j MDC. */
-    public static final String SLF4J_KEY = "DC";
+    public static final String KEY = System.getProperty(DC.class.getName() + ".key", "DC");
 
     private static InheritableThreadLocal<Map<String,String>> contextHolder = new InheritableThreadLocal<Map<String,String>>()
     {
@@ -78,11 +78,11 @@ public class DC
         // If we have something to publish, then do it
         if (buff.length() != 0) {
             buff.insert(0, ",");
-            MDC.put(SLF4J_KEY, buff.toString());
+            MDC.put(KEY, buff.toString());
         }
         else {
             // Else remove what was their before
-            MDC.remove(SLF4J_KEY);
+            MDC.remove(KEY);
         }
     }
 
