@@ -218,8 +218,8 @@ public final class Gossip
         }
 
         @Override
-        protected void doLog(final Level level, final String message, final Throwable cause) {
-            getEffectiveProfile().dispatch(new Event(this, level, message, cause));
+        protected void doLog(final Event event) {
+            getEffectiveProfile().dispatch(event);
         }
         
         @Override
