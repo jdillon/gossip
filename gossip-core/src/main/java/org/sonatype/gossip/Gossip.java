@@ -16,6 +16,7 @@
 package org.sonatype.gossip;
 
 import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
 import org.sonatype.gossip.model.LoggerNode;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Factory to produce <em>Gossip</em> {@link org.slf4j.Logger} instances.
+ * Factory to produce <em>Gossip</em> {@link Logger} instances.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 1.0
@@ -33,7 +34,7 @@ import java.util.Map;
 public final class Gossip
     implements ILoggerFactory
 {
-    private static final org.slf4j.Logger log = Log.getLogger(Gossip.class);
+    private static final Logger log = Log.getLogger(Gossip.class);
 
     private static final Gossip INSTANCE = new Gossip();
 
@@ -42,7 +43,7 @@ public final class Gossip
     }
 
     /**
-     * Map {@link org.slf4j.Logger} names to {@link LoggerImpl} or {@link ProvisionNode}.
+     * Map {@link Logger} names to {@link LoggerImpl} or {@link ProvisionNode}.
      */
     private final Map<String,Loggerish> loggers = new HashMap<String,Loggerish>();
 
