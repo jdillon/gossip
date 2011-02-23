@@ -123,24 +123,26 @@ public class PatternRenderer
     }
 
     public void setPattern(final String pattern) {
-        assert pattern != null;
+        if (pattern == null) {
+            throw new NullPointerException();
+        }
         this.pattern = pattern;
     }
 
     public String render(final Event event) {
         assert event != null;
-        assert pattern != null;
 
-        StringBuilder buff = new StringBuilder();
+        final String _pattern = getPattern();
+        final StringBuilder buff = new StringBuilder();
 
-        int len = pattern.length();
+        int len = _pattern.length();
         for (int i=0; i < len; i++) {
-            char c = pattern.charAt(i);
+            char c = _pattern.charAt(i);
             if (c == '%') {
                 if (i + 1 >= len) {
-                    throw new IllegalArgumentException("Invalid pattern: " + pattern);
+                    throw new IllegalArgumentException("Invalid pattern: " + _pattern);
                 }
-                char t = pattern.charAt(++i);
+                char t = _pattern.charAt(++i);
 
                 switch (t) {
                     case '%':
@@ -168,27 +170,19 @@ public class PatternRenderer
                         break;
 
                     case 'T':
-                        if (event.getTrace() != null) {
-                            renderTraceClass(event, buff);
-                        }
+                        renderTraceClass(event, buff);
                         break;
 
                     case 'F':
-                        if (event.getTrace() != null) {
-                            renderTraceFile(event, buff);
-                        }
+                        renderTraceFile(event, buff);
                         break;
 
                     case 'M':
-                        if (event.getTrace() != null) {
-                            renderTraceMethod(event, buff);
-                        }
+                        renderTraceMethod(event, buff);
                         break;
 
                     case 'L':
-                        if (event.getTrace() != null) {
-                            renderTraceLine(event, buff);
-                        }
+                        renderTraceLine(event, buff);
                         break;
 
                     case 'm':
@@ -196,9 +190,7 @@ public class PatternRenderer
                         break;
 
                     case 'x':
-                        if (event.getCause() != null) {
-                            renderCause(event, buff);
-                        }
+                        renderCause(event, buff);
                         break;
 
                     case 'n':
@@ -276,22 +268,23 @@ public class PatternRenderer
         assert buff != null;
 
         Throwable cause = event.getCause();
+        if (cause != null) {
+            buff.append(cause);
+            buff.append(NEWLINE);
 
-        buff.append(cause);
-        buff.append(NEWLINE);
+            while (cause != null) {
+                for (StackTraceElement e : cause.getStackTrace()) {
+                    buff.append("    at ").append(e.getClassName()).append(".").append(e.getMethodName());
+                    buff.append(" (").append(getLocation(e)).append(")");
+                    buff.append(NEWLINE);
+                }
 
-        while (cause != null) {
-            for (StackTraceElement e : cause.getStackTrace()) {
-                buff.append("    at ").append(e.getClassName()).append(".").append(e.getMethodName());
-                buff.append(" (").append(getLocation(e)).append(")");
-                buff.append(NEWLINE);
-            }
-
-            cause = cause.getCause();
-            if (cause != null) {
-                buff.append("Caused by ").append(cause.getClass().getName()).append(": ");
-                buff.append(cause.getMessage());
-                buff.append(NEWLINE);
+                cause = cause.getCause();
+                if (cause != null) {
+                    buff.append("Caused by ").append(cause.getClass().getName()).append(": ");
+                    buff.append(cause.getMessage());
+                    buff.append(NEWLINE);
+                }
             }
         }
     }
@@ -301,8 +294,9 @@ public class PatternRenderer
         assert buff != null;
 
         StackTraceElement[] trace = event.getTrace();
-        assert trace != null;
-        buff.append(trace[0].getFileName());
+        if (trace != null) {
+            buff.append(trace[0].getFileName());
+        }
     }
 
     protected void renderTraceClass(final Event event, final StringBuilder buff) {
@@ -310,8 +304,9 @@ public class PatternRenderer
         assert buff != null;
 
         StackTraceElement[] trace = event.getTrace();
-        assert trace != null;
-        buff.append(trace[0].getClassName());
+        if (trace != null) {
+            buff.append(trace[0].getClassName());
+        }
     }
 
     protected void renderTraceMethod(final Event event, final StringBuilder buff) {
@@ -319,8 +314,9 @@ public class PatternRenderer
         assert buff != null;
 
         StackTraceElement[] trace = event.getTrace();
-        assert trace != null;
-        buff.append(trace[0].getMethodName());
+        if (trace != null) {
+            buff.append(trace[0].getMethodName());
+        }
     }
 
     protected void renderTraceLine(final Event event, final StringBuilder buff) {
@@ -328,8 +324,9 @@ public class PatternRenderer
         assert buff != null;
 
         StackTraceElement[] trace = event.getTrace();
-        assert trace != null;
-        buff.append(trace[0].getLineNumber());
+        if (trace != null) {
+            buff.append(trace[0].getLineNumber());
+        }
     }
 
     protected String getLocation(final StackTraceElement e) {
