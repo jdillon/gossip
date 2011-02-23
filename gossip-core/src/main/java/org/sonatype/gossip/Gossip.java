@@ -137,7 +137,7 @@ public final class Gossip
         }
     }
 
-    private final class LoggerImpl
+    public final class LoggerImpl
         extends LoggerSupport
         implements Loggerish
     {
