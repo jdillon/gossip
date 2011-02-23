@@ -69,6 +69,9 @@ public class ColorRenderer
         assert buff != null;
 
         Throwable cause = event.getCause();
+        if (cause == null) {
+            return;
+        }
 
         buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getClass().getName()).reset());
         if (cause.getMessage() != null) {
