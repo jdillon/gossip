@@ -93,7 +93,9 @@ public final class Gossip
     }
 
     public LoggerImpl getLogger(final String name) {
-        assert name != null;
+        if (name == null) {
+            throw new NullPointerException();
+        }
 
         LoggerImpl logger;
 
