@@ -199,7 +199,6 @@ public final class Log
 
         @Override
         protected void doLog(final Event event) {
-            assert event != null;
             final PrintStream out = getOut();
             synchronized (out) {
                 out.print(getRenderer().render(event));
