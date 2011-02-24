@@ -155,5 +155,5 @@ Check out and build:
 [1]: http://slf4j.org
 [2]: http://logging.apache.org/log4j
 [3]: http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/package-summary.html
-[4]: http://github.com/chirino/jansi
+[4]: http://jansi.fusesource.org/
 [5]: http://logback.qos.ch
