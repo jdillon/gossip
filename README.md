@@ -22,6 +22,9 @@ Hate [JUL][3]?
 
 If you answered yes to any (or all) of the questions above, then Gossip might be the logging provider for you!
 
+If you don't mind some additional byte-code weight, then you should probably look at [LOGBack][5].  This
+is the recommended SLF4j provider when byte-code size is not an issue.
+
 License
 -------
 
@@ -114,3 +117,4 @@ Check out and build:
 [2]: http://logging.apache.org/log4j
 [3]: http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/package-summary.html
 [4]: http://github.com/chirino/jansi
+[5]: http://logback.qos.ch
