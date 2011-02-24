@@ -6,7 +6,7 @@ Description
 Features
 --------
 
-* Small footprint ~75k (event smaller for gossip-bootstrap-slf4j ~20k)
+* Small footprint ~75k (even smaller for gossip-bootstrap-slf4j ~20k)
 * Profile-based configuration
 * Profile activation triggers
 * Multiple source inputs
