@@ -118,9 +118,9 @@ are delegates, so once the "real" SLF4j provider is configured they will be upda
 systems Logger implementations.
 
 For users that want to use standard SLF4j but need a little more control over the logging system than slf4j-simple provides,
-the gossip-bootstrap-slf4j module provides bindings to use the internally Log as a real SLF4j binding.
+the gossip-bootstrap-slf4j module provides bindings to use the internal Log as a real SLF4j binding.
 
-org.sonatype.gossip.Log has a few parameters controlled by system properties:
+[org.sonatype.gossip.Log](https://github.com/jdillon/gossip/blob/master/gossip-bootstrap/src/main/java/org/sonatype/gossip/Log.java) has a few parameters controlled by system properties:
 
 * org.sonatype.gossip.Log.threshold = [TRACE|DEBUG|INFO|WARN|ERROR]
 * org.sonatype.gossip.Log.stream = [OUT|ERR]
