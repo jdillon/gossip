@@ -103,8 +103,8 @@ Need your log file rolled when it gets too big?  Then use something like:
 When the log file exceed 10mb the file will be rolled.  At anyone time only 5 files will be preserved.
 Older files will be renamed myapp.log-1, myapp.log-2, etc.
 
-Bootstrap or Internally Logging
--------------------------------
+Bootstrap or Internal Logging
+-----------------------------
 
 Gossip provides some minimal SLF4j components to be used:
 
@@ -122,9 +122,9 @@ the gossip-bootstrap-slf4j module provides bindings to use the internally Log as
 
 org.sonatype.gossip.Log has a few parameters controlled by system properties:
 
-* org.sonatype.gossip.Log.threshold
-* org.sonatype.gossip.Log.stream
-* org.sonatype.gossip.Log.pattern
+* org.sonatype.gossip.Log.threshold = [TRACE|DEBUG|INFO|WARN|ERROR]
+* org.sonatype.gossip.Log.stream = [OUT|ERR]
+* org.sonatype.gossip.Log.pattern (see PatternRenderer for details)
 
 In addition, these are configurable runtime via method calls.
 
