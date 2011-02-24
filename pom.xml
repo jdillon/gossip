@@ -209,10 +209,10 @@
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
-                    <properties>
-                        <org.sonatype.gossip.Log.level>TRACE</org.sonatype.gossip.Log.level>
-                        <org.sonatype.gossip.Log.internal.level>TRACE</org.sonatype.gossip.Log.internal.level>
-                    </properties>
+                    <systemPropertyVariables>
+                        <org.sonatype.gossip.Log.threshold>TRACE</org.sonatype.gossip.Log.threshold>
+                        <org.sonatype.gossip.Log.internalThreshold>TRACE</org.sonatype.gossip.Log.internalThreshold>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
 
