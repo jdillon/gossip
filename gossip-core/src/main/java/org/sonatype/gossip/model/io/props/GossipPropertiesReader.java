@@ -33,7 +33,6 @@ import java.util.Arrays;
  * Reads a Gossip {@link Model} from a properties file.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public class GossipPropertiesReader

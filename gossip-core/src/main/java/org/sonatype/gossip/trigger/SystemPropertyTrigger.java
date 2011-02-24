@@ -19,7 +19,6 @@ package org.sonatype.gossip.trigger;
  * Triggers activation when a system property is set.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public class SystemPropertyTrigger

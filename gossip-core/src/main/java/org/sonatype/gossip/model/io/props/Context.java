@@ -29,7 +29,6 @@ import java.util.Set;
  * Container for Gossip configuration details.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public final class Context

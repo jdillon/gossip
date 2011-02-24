@@ -24,7 +24,6 @@ import java.io.File;
  * Home-directory configuration source.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public class HomeDirectorySource

@@ -28,7 +28,6 @@ import java.io.File;
  * A file-size {@link RollingStrategy}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.6
  */
 public class FileSizeRollingStrategy

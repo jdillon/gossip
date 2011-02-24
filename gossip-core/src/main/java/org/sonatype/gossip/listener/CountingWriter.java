@@ -23,7 +23,6 @@ import java.io.Writer;
  * Writer which counts the number of bytes written.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public class CountingWriter

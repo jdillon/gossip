@@ -19,7 +19,6 @@ package org.sonatype.gossip.trigger;
  * Triggers activation based on a environment variable.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public class EnvironmentVariableTrigger

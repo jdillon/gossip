@@ -23,7 +23,6 @@ import java.io.PrintStream;
  * Writes events to console.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public class ConsoleListener

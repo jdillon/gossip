@@ -21,7 +21,6 @@ import org.sonatype.gossip.model.Model;
  * Model source.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.0
  */
 public interface Source

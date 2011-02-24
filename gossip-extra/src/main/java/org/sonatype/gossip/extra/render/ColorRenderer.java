@@ -27,7 +27,6 @@ import static org.fusesource.jansi.Ansi.*;
  * Renders events with ANSI colors.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- *
  * @since 1.6
  */
 public class ColorRenderer
