@@ -124,7 +124,7 @@ org.sonatype.gossip.Log has a few parameters controlled by system properties:
 
 * org.sonatype.gossip.Log.threshold = [TRACE|DEBUG|INFO|WARN|ERROR]
 * org.sonatype.gossip.Log.stream = [OUT|ERR]
-* org.sonatype.gossip.Log.pattern (see PatternRenderer for details)
+* org.sonatype.gossip.Log.pattern (see [PatternRenderer](https://github.com/jdillon/gossip/blob/master/gossip-bootstrap/src/main/java/org/sonatype/gossip/render/PatternRenderer.java) for details)
 
 In addition, these are configurable runtime via method calls.
 
