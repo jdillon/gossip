@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.sonatype.gossip.render;
+
+package org.sonatype.gossip.extra.render;
 
 import org.sonatype.gossip.Event;
+import org.sonatype.gossip.render.PatternRenderer;
 
 import static org.fusesource.jansi.Ansi.Attribute.*;
 import static org.fusesource.jansi.Ansi.Color.*;
@@ -26,7 +28,7 @@ import static org.fusesource.jansi.Ansi.*;
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
- * @since 1.0
+ * @since 1.6
  */
 public class ColorRenderer
     extends PatternRenderer

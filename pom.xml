@@ -122,6 +122,12 @@
                 <artifactId>gossip-slf4j</artifactId>
                 <version>1.6-SNAPSHOT</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.gossip</groupId>
+                <artifactId>gossip-extra</artifactId>
+                <version>1.6-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     
@@ -131,6 +137,7 @@
         <module>gossip-support</module>
         <module>gossip-core</module>
         <module>gossip-slf4j</module>
+        <module>gossip-extra</module>
     </modules>
     
     <build>

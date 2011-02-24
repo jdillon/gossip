@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonatype.gossip.render;
+package org.sonatype.gossip.extra.render;
 
 
 import org.junit.Test;

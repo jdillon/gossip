@@ -26,13 +26,13 @@
         <version>1.6-SNAPSHOT</version>
     </parent>
 
-    <artifactId>gossip-core</artifactId>
-    <name>Gossip Core</name>
+    <artifactId>gossip-extra</artifactId>
+    <name>Gossip Extra</name>
 
     <dependencies>
         <dependency>
             <groupId>org.sonatype.gossip</groupId>
-            <artifactId>gossip-bootstrap</artifactId>
+            <artifactId>gossip-core</artifactId>
         </dependency>
 
         <dependency>
@@ -40,29 +40,13 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>1.5</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.modello</groupId>
-                <artifactId>modello-maven-plugin</artifactId>
-                <configuration>
-                    <models>
-                        <model>src/main/mdo/gossip.mdo</model>
-                    </models>
-                    <version>1.0.0</version>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                            <goal>xsd</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

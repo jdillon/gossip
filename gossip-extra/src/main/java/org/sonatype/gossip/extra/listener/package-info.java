@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 /**
- * Event renderers.
+ * Extra Event listeners.
  *
- * @since 1.0
+ * @since 1.6
  */
-package org.sonatype.gossip.render;
+
+package org.sonatype.gossip.extra.listener;

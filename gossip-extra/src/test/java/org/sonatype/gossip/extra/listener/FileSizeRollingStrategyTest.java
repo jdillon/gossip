@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.sonatype.gossip.listener;
 
-import org.junit.Test;
-import org.sonatype.gossip.Event;
-import org.sonatype.gossip.Gossip;
-import org.sonatype.gossip.render.PatternRenderer;
+package org.sonatype.gossip.extra.listener;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Ignore;
-import org.sonatype.gossip.Level;
 
 /**
  * Tests for {@link FileSizeRollingStrategy}.

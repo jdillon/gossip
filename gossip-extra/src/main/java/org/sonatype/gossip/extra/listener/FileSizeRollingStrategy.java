@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.sonatype.gossip.listener;
+
+package org.sonatype.gossip.extra.listener;
 
 import org.slf4j.Logger;
 import org.sonatype.gossip.Log;
+import org.sonatype.gossip.listener.CountingWriter;
+import org.sonatype.gossip.listener.FileListener;
+import org.sonatype.gossip.listener.FileListener.RollingStrategy;
 
 import java.io.File;
 
 /**
- * A file-size {@link FileListener.RollingStrategy}.
+ * A file-size {@link RollingStrategy}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  *
- * @since 1.0
+ * @since 1.6
  */
 public class FileSizeRollingStrategy
-    implements FileListener.RollingStrategy
+    implements RollingStrategy
 {
     private static final Logger log = Log.getLogger(FileSizeRollingStrategy.class);
 
