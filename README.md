@@ -79,6 +79,12 @@ In addition, these are configurable runtime via method calls.
 
 Gossip uses this internal logging system when booting up to provide its gossip-slf4j bindings.
 
+Extra Components
+----------------
+
+To avoid bloating out core with optional/extra components, [gossip-extra](https://github.com/jdillon/gossip/blob/master/gossip-extra)
+is here to hold on to stuff which you might want, but which is not required by the core.
+
 General Support and Helpers
 ---------------------------
 
