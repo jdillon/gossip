@@ -6,12 +6,14 @@ Description
 Features
 --------
 
-* Small footprint ~75k
+* Small footprint ~75k (event smaller for gossip-bootstrap-slf4j ~15k)
 * Profile-based configuration
 * Profile activation triggers
 * Multiple source inputs
 * Console and rolling file listeners
 * ANSI color rendering
+* Internal logging
+* SLF4j support, helpers and utilities
 
 Synopsis
 --------
@@ -24,6 +26,8 @@ If you answered yes to any (or all) of the questions above, then Gossip might be
 
 If you don't mind some additional byte-code weight, then you should probably look at [LOGBack][5].  This
 is the recommended SLF4j provider when byte-code size is not an issue.
+
+If you think that [JUL][3] is the best logging system ever, please exit the universe as soon as possible.
 
 License
 -------
@@ -98,7 +102,41 @@ Need your log file rolled when it gets too big?  Then use something like:
 
 When the log file exceed 10mb the file will be rolled.  At anyone time only 5 files will be preserved.
 Older files will be renamed myapp.log-1, myapp.log-2, etc.
-    
+
+Bootstrap or Internally Logging
+-------------------------------
+
+Gossip provides some minimal SLF4j components to be used:
+
+* Before the proper logging was created
+* In environments where only the basic control over logging is required
+
+The gossip-bootstrap artifact contains, org.sonatype.gossip.Log which is a SLF4j LoggerFactory-like class that produces
+real SLF4j Logger instances.  This can be used in cases where the configuration/installation of SLF4j is not ready yet,
+and can be converted to use the desired SLF4j provider using Log.configure(ILoggerFactory).  Gossip internal loggers
+are delegates, so once the "real" SLF4j provider is configured they will be updated to use the target logging
+systems Logger implementations.
+
+For users that want to use standard SLF4j but need a little more control over the logging system than slf4j-simple provides,
+the gossip-bootstrap-slf4j module provides bindings to use the internally Log as a real SLF4j binding.
+
+org.sonatype.gossip.Log has a few parameters controlled by system properties:
+
+* org.sonatype.gossip.Log.threshold
+* org.sonatype.gossip.Log.stream
+* org.sonatype.gossip.Log.pattern
+
+In addition, these are configurable runtime via method calls.
+
+Gossip uses this internal logging system when booting up to provide its gossip-slf4j bindings.
+
+General Support and Helpers
+---------------------------
+
+In addition to providing SLF4j bindings, Gossip also contains some helpers classes for using SLF4j in general.
+
+These can be found in gossip-support.
+
 Building
 --------
 
