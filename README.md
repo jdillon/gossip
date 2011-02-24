@@ -109,10 +109,11 @@ Bootstrap or Internal Logging
 Gossip provides some minimal SLF4j components to be used:
 
 * Before the proper logging was created
-* In environments where only the basic control over logging is required
+* In environments where only the very basic control over logging is required
 
-The gossip-bootstrap artifact contains, org.sonatype.gossip.Log which is a SLF4j LoggerFactory-like class that produces
-real SLF4j Logger instances.  This can be used in cases where the configuration/installation of SLF4j is not ready yet,
+The gossip-bootstrap artifact contains, [org.sonatype.gossip.Log](https://github.com/jdillon/gossip/blob/master/gossip-bootstrap/src/main/java/org/sonatype/gossip/Log.java)
+which is a SLF4j LoggerFactory-like class that produces real SLF4j Logger instances.
+This can be used in cases where the configuration/installation of SLF4j is not ready yet,
 and can be converted to use the desired SLF4j provider using Log.configure(ILoggerFactory).  Gossip internal loggers
 are delegates, so once the "real" SLF4j provider is configured they will be updated to use the target logging
 systems Logger implementations.
@@ -120,7 +121,7 @@ systems Logger implementations.
 For users that want to use standard SLF4j but need a little more control over the logging system than slf4j-simple provides,
 the gossip-bootstrap-slf4j module provides bindings to use the internal Log as a real SLF4j binding.
 
-[org.sonatype.gossip.Log](https://github.com/jdillon/gossip/blob/master/gossip-bootstrap/src/main/java/org/sonatype/gossip/Log.java) has a few parameters controlled by system properties:
+Log has a few parameters controlled by system properties:
 
 * org.sonatype.gossip.Log.threshold = [TRACE|DEBUG|INFO|WARN|ERROR]
 * org.sonatype.gossip.Log.stream = [OUT|ERR]
@@ -135,7 +136,7 @@ General Support and Helpers
 
 In addition to providing SLF4j bindings, Gossip also contains some helpers classes for using SLF4j in general.
 
-These can be found in gossip-support.
+These can be found in [gossip-support](https://github.com/jdillon/gossip/blob/master/gossip-support).
 
 Building
 --------
