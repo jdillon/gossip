@@ -57,6 +57,10 @@ public class ComponentFactory
         try {
             ClassLoader cl = Thread.currentThread().getContextClassLoader();
             log.trace("Using class-loader: {}", cl);
+            if (cl == null) {
+                // HACK: Sometimes the TCL is null (ick) but this probably not right either
+                cl = ClassLoader.getSystemClassLoader();
+            }
             type = cl.loadClass(className);
         }
         catch (ClassNotFoundException e) {
