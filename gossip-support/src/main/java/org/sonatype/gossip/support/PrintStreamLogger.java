@@ -47,11 +47,18 @@ public class PrintStreamLogger
         // threshold can be null
         this.stream = stream;
         this.threshold = threshold;
-        this.renderer = new PatternRenderer();
+        setRenderer(createRenderer());
     }
 
     public PrintStreamLogger(final PrintStream stream) {
         this(stream, null);
+    }
+
+    /**
+     * Returns a default {@link PatternRenderer}.
+     */
+    protected Renderer createRenderer() {
+        return new PatternRenderer();
     }
 
     public PrintStream getStream() {
