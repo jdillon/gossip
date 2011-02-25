@@ -109,7 +109,15 @@ public class PatternRenderer
      */
     public static final String DEFAULT_PATTERN = "[%l] %c - %m%n%x";
 
-    private String pattern = DEFAULT_PATTERN;
+    private String pattern;
+
+    public PatternRenderer() {
+        this(DEFAULT_PATTERN);
+    }
+
+    public PatternRenderer(final String pattern) {
+        setPattern(pattern);
+    }
 
     @Override
     public String toString() {
