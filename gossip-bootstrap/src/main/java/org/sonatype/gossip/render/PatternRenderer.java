@@ -115,6 +115,9 @@ public class PatternRenderer
         this(DEFAULT_PATTERN);
     }
 
+    /**
+     * @since 1.6
+     */
     public PatternRenderer(final String pattern) {
         setPattern(pattern);
     }
