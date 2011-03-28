@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sonatype.forge</groupId>
         <artifactId>forge-parent</artifactId>
-        <version>6</version>
+        <version>7-SNAPSHOT</version>
     </parent>
 
     <groupId>org.sonatype.gossip</groupId>
@@ -179,30 +179,10 @@
             </testResource>
         </testResources>
 
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.modello</groupId>
-                    <artifactId>modello-maven-plugin</artifactId>
-                    <version>1.4</version>
-                    <configuration>
-                        <useJava5>true</useJava5>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.1.0</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.7.2</version>
                 <configuration>
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
                     <forkMode>once</forkMode>
@@ -226,7 +206,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.1</version>
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
@@ -236,7 +215,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
-                <version>1.6</version>
                 <executions>
                     <execution>
                         <goals>
@@ -256,19 +234,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.0</version>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <useReleaseProfile>false</useReleaseProfile>
                     <goals>deploy</goals>
                     <arguments>-B -Prelease</arguments>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-scm-plugin</artifactId>
-                <version>1.4</version>
             </plugin>
 
             <!--
@@ -278,7 +249,6 @@
             <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
-                <version>1.9.0</version>
                 <configuration>
                     <aggregate>true</aggregate>
                     <strictCheck>true</strictCheck>
