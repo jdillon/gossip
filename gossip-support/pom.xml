@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sonatype.gossip</groupId>
         <artifactId>gossip</artifactId>
-        <version>1.6</version>
+        <version>1.7-SNAPSHOT</version>
     </parent>
 
     <artifactId>gossip-support</artifactId>
