@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sonatype.forge</groupId>
         <artifactId>forge-parent</artifactId>
-        <version>7-SNAPSHOT</version>
+        <version>7</version>
     </parent>
 
     <groupId>org.sonatype.gossip</groupId>
