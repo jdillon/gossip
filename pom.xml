@@ -49,6 +49,8 @@
         </license>
     </licenses>
 
+    <url>http://github.com/jdillon/gossip</url>
+
     <scm>
         <connection>scm:git:git://github.com/jdillon/gossip.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/jdillon/gossip.git</developerConnection>
@@ -57,7 +59,7 @@
     
     <ciManagement>
         <system>Hudson</system>
-        <url>https://grid.sonatype.org/ci/job/Gossip</url>
+        <url>https://builds.sonatype.org/job/gossip/</url>
     </ciManagement>
     
     <developers>
