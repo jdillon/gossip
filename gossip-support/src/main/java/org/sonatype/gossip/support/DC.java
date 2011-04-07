@@ -18,7 +18,7 @@ package org.sonatype.gossip.support;
 
 import org.slf4j.MDC;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
@@ -33,13 +33,20 @@ public class DC
     /** The key in which we <em>publish</em> our contents to in the Slf4j MDC. */
     public static final String KEY = System.getProperty(DC.class.getName() + ".key", "DC");
 
-    // NOTE: Collections returned still must be thread-safe since they are inherited by child-threads
+    public static final String SEP = ",";
 
     private static InheritableThreadLocal<Map<String,String>> contextHolder = new InheritableThreadLocal<Map<String,String>>()
     {
         @Override
         protected Map<String, String> initialValue() {
-            return new Hashtable<String,String>();
+            return new HashMap<String,String>();
+        }
+
+        @Override
+        protected Map<String, String> childValue(Map<String, String> parentValue) {
+            HashMap<String,String> child = new HashMap<String,String>();
+            child.putAll(parentValue);
+            return child;
         }
     };
 
@@ -53,16 +60,28 @@ public class DC
         protected Stack<String> initialValue() {
             return new Stack<String>();
         }
+
+        @Override
+        protected Stack<String> childValue(final Stack<String> parentValue) {
+            Stack<String> child = new Stack<String>();
+            child.addAll(parentValue);
+            return child;
+        }
     };
     
     private static Stack<String> stack() {
         return stackHolder.get();
     }
 
+    public static void clear() {
+        context().clear();
+        stack().clear();
+    }
+
     /**
-     * Updates and <em>publishes</em> our context+stack to the Slf4j MDC.
+     * Render the context+stack.
      */
-    private static void update() {
+    public static StringBuilder render() {
         StringBuilder buff = new StringBuilder();
 
         // Append the stack if there is one
@@ -75,14 +94,21 @@ public class DC
         if (!context.isEmpty()) {
             // Append the context if there is some
             if (buff.length() != 0) {
-                buff.append(",");
+                buff.append(SEP);
             }
             buff.append(context);
         }
 
-        // If we have something to publish, then do it
+        return buff;
+    }
+
+    /**
+     * Updates and <em>publishes</em> our context+stack to the Slf4j MDC.
+     */
+    private static void update() {
+        StringBuilder buff = render();
         if (buff.length() != 0) {
-            buff.insert(0, ",");
+            buff.insert(0, SEP);
             MDC.put(KEY, buff.toString());
         }
         else {
@@ -91,44 +117,51 @@ public class DC
         }
     }
 
+    private static <T> T checkNotNull(final T reference) {
+        if (reference == null) {
+            throw new NullPointerException();
+        }
+        return reference;
+    }
+
     // Context operations
 
     public static void put(final Object key, final Object value) {
-        assert key != null;
+        checkNotNull(key);
         context().put(key.toString(), String.valueOf(value));
         update();
     }
 
     public static void put(final Class key, final Object value) {
-        assert key != null;
+        checkNotNull(key);
         put(key.getSimpleName(), value);
     }
 
     public static String get(final Object key) {
-        assert key != null;
+        checkNotNull(key);
         return context().get(key.toString());
     }
 
     public static String get(final Class key) {
-        assert key != null;
+        checkNotNull(key);
         return get(key.getSimpleName());
     }
 
     public static void remove(final Object key) {
-        assert key != null;
+        checkNotNull(key);
         context().remove(key.toString());
         update();
     }
 
     public static void remove(final Class key) {
-        assert key != null;
+        checkNotNull(key);
         remove(key.getSimpleName());
     }
 
     // Stack Operations
     
     public static void push(final Object value) {
-        assert value != null;
+        checkNotNull(value);
         stack().push(value.toString());
         update();
     }
