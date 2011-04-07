@@ -31,21 +31,21 @@ import java.util.Map;
 public class DC
 {
     /** The key in which we <em>publish</em> our contents to in the Slf4j MDC. */
-    public static final String KEY = System.getProperty(DC.class.getName() + ".key", "DC");
+    public static final String KEY = getProperty("key", "DC");
 
     /**
      * String prefixed to MDC value when there is content to publish.
      *
      * @since 1.7
      */
-    public static final String PREFIX = System.getProperty(DC.class.getName() + ".prefix", ",");
+    public static final String PREFIX = getProperty("prefix", ",");
 
     /**
      * String used to separate the stack and context values when both are present.
      *
      * @since 1.7
      */
-    public static final String SEPARATOR = System.getProperty(DC.class.getName() + ".separator", ",");
+    public static final String SEPARATOR = getProperty("separator", ",");
 
     private static class State
     {
@@ -206,6 +206,10 @@ public class DC
     }
 
     // Misc Helpers
+
+    private static String getProperty(final String name, final String defaultValue) {
+        return System.getProperty(DC.class.getName() + "." + name, defaultValue);
+    }
 
     private static <T> T checkNotNull(final T reference) {
         if (reference == null) {
