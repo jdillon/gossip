@@ -47,7 +47,7 @@ public class DC
      */
     public static final String SEPARATOR = getProperty("separator", ",");
 
-    private static class State
+    public static class State
     {
         private final Map<String, String> context;
 
@@ -81,6 +81,25 @@ public class DC
 
     private static State state() {
         return stateHolder.get();
+    }
+
+    /**
+     * Get a copy of the state for the current thread.
+     *
+     * @since 1.7
+     */
+    public static State getState() {
+        return new State(state());
+    }
+
+    /**
+     * Set the state for the current thread.
+     *
+     * @since 1.7
+     */
+    public static void setState(final State state) {
+        checkNotNull(state);
+        stateHolder.set(state);
     }
 
     private static Map<String,String> context() {
