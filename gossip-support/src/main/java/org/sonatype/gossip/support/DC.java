@@ -110,7 +110,6 @@ public class DC
      * @since 1.7
      */
     public static void reset() {
-        clear();
         stateHolder.remove();
     }
 
@@ -148,8 +147,8 @@ public class DC
             MDC.put(KEY, buff.toString());
         }
         else {
-            // Else remove what was their before
             MDC.remove(KEY);
+            reset();
         }
     }
 
