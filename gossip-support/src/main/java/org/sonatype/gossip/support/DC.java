@@ -19,6 +19,7 @@ package org.sonatype.gossip.support;
 import org.slf4j.MDC;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Stack;
 
@@ -33,11 +34,13 @@ public class DC
     /** The key in which we <em>publish</em> our contents to in the Slf4j MDC. */
     public static final String KEY = System.getProperty(DC.class.getName() + ".key", "DC");
 
+    // NOTE: Collections returned still must be thread-safe since they are inherited by child-threads
+
     private static InheritableThreadLocal<Map<String,String>> contextHolder = new InheritableThreadLocal<Map<String,String>>()
     {
         @Override
         protected Map<String, String> initialValue() {
-            return new HashMap<String,String>();
+            return new Hashtable<String,String>();
         }
     };
 
@@ -63,16 +66,19 @@ public class DC
     private static void update() {
         StringBuilder buff = new StringBuilder();
 
-        // Append the stack if their is one
-        if (!stack().isEmpty()) {
-            buff.append(stack());
+        // Append the stack if there is one
+        Stack stack = stack();
+        if (!stack.isEmpty()) {
+            buff.append(stack);
         }
-        if (!context().isEmpty()) {
-            // Append the context if their is some
+
+        Map context = context();
+        if (!context.isEmpty()) {
+            // Append the context if there is some
             if (buff.length() != 0) {
                 buff.append(",");
             }
-            buff.append(context());
+            buff.append(context);
         }
 
         // If we have something to publish, then do it
