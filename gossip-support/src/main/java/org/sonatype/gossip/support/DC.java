@@ -64,6 +64,14 @@ public class DC
             this.context.putAll(source.context);
             this.stack.addAll(source.stack);
         }
+
+        @Override
+        public String toString() {
+            return "State{" +
+                "context=" + context +
+                ", stack=" + stack +
+                '}';
+        }
     }
 
     private static InheritableThreadLocal<State> stateHolder = new InheritableThreadLocal<State>()
