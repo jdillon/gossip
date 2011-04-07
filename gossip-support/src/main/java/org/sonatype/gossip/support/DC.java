@@ -19,8 +19,8 @@ package org.sonatype.gossip.support;
 import org.slf4j.MDC;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.Stack;
 
 /**
  * Diagnostic context; provides map and stack facilities.
@@ -33,59 +33,95 @@ public class DC
     /** The key in which we <em>publish</em> our contents to in the Slf4j MDC. */
     public static final String KEY = System.getProperty(DC.class.getName() + ".key", "DC");
 
-    public static final String SEP = ",";
+    /**
+     * String prefixed to MDC value when there is content to publish.
+     *
+     * @since 1.7
+     */
+    public static final String PREFIX = System.getProperty(DC.class.getName() + ".prefix", ",");
 
-    private static InheritableThreadLocal<Map<String,String>> contextHolder = new InheritableThreadLocal<Map<String,String>>()
+    /**
+     * String used to separate the stack and context values when both are present.
+     *
+     * @since 1.7
+     */
+    public static final String SEPARATOR = System.getProperty(DC.class.getName() + ".separator", ",");
+
+    private static class State
+    {
+        private final Map<String, String> context;
+
+        private final LinkedList<String> stack;
+
+        private State() {
+            this.context = new HashMap<String,String>();
+            this.stack = new LinkedList<String>();
+        }
+
+        private State(final State source) {
+            this();
+            checkNotNull(source);
+            this.context.putAll(source.context);
+            this.stack.addAll(source.stack);
+        }
+    }
+
+    private static InheritableThreadLocal<State> stateHolder = new InheritableThreadLocal<State>()
     {
         @Override
-        protected Map<String, String> initialValue() {
-            return new HashMap<String,String>();
+        protected State initialValue() {
+            return new State();
         }
 
         @Override
-        protected Map<String, String> childValue(Map<String, String> parentValue) {
-            HashMap<String,String> child = new HashMap<String,String>();
-            child.putAll(parentValue);
-            return child;
+        protected State childValue(final State parentValue) {
+            return new State(parentValue);
         }
     };
+
+    private static State state() {
+        return stateHolder.get();
+    }
 
     private static Map<String,String> context() {
-        return contextHolder.get();
-    }
-    
-    private static InheritableThreadLocal<Stack<String>> stackHolder = new InheritableThreadLocal<Stack<String>>()
-    {
-        @Override
-        protected Stack<String> initialValue() {
-            return new Stack<String>();
-        }
-
-        @Override
-        protected Stack<String> childValue(final Stack<String> parentValue) {
-            Stack<String> child = new Stack<String>();
-            child.addAll(parentValue);
-            return child;
-        }
-    };
-    
-    private static Stack<String> stack() {
-        return stackHolder.get();
+        return state().context;
     }
 
+    private static LinkedList<String> stack() {
+        return state().stack;
+    }
+
+    /**
+     * @since 1.7
+     */
+    public static boolean isEmpty() {
+        return context().isEmpty() && stack().isEmpty();
+    }
+
+    /**
+     * @since 1.7
+     */
     public static void clear() {
         context().clear();
         stack().clear();
     }
 
     /**
-     * Render the context+stack.
+     * @since 1.7
+     */
+    public static void reset() {
+        clear();
+        stateHolder.remove();
+    }
+
+    /**
+     * @since 1.7
      */
     public static StringBuilder render() {
         StringBuilder buff = new StringBuilder();
 
         // Append the stack if there is one
-        Stack stack = stack();
+        LinkedList stack = stack();
         if (!stack.isEmpty()) {
             buff.append(stack);
         }
@@ -94,7 +130,7 @@ public class DC
         if (!context.isEmpty()) {
             // Append the context if there is some
             if (buff.length() != 0) {
-                buff.append(SEP);
+                buff.append(SEPARATOR);
             }
             buff.append(context);
         }
@@ -108,20 +144,13 @@ public class DC
     private static void update() {
         StringBuilder buff = render();
         if (buff.length() != 0) {
-            buff.insert(0, SEP);
+            buff.insert(0, PREFIX);
             MDC.put(KEY, buff.toString());
         }
         else {
             // Else remove what was their before
             MDC.remove(KEY);
         }
-    }
-
-    private static <T> T checkNotNull(final T reference) {
-        if (reference == null) {
-            throw new NullPointerException();
-        }
-        return reference;
     }
 
     // Context operations
@@ -162,17 +191,26 @@ public class DC
     
     public static void push(final Object value) {
         checkNotNull(value);
-        stack().push(value.toString());
+        stack().addFirst(value.toString());
         update();
     }
     
     public static String pop() {
-        String value = stack().pop();
+        String value = stack().removeFirst();
         update();
         return value;
     }
     
     public static String peek() {
         return stack().peek();
+    }
+
+    // Misc Helpers
+
+    private static <T> T checkNotNull(final T reference) {
+        if (reference == null) {
+            throw new NullPointerException();
+        }
+        return reference;
     }
 }
