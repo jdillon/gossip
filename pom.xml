@@ -29,7 +29,7 @@
     <groupId>org.sonatype.gossip</groupId>
     <artifactId>gossip</artifactId>
     <name>Gossip</name>
-    <version>1.7</version>
+    <version>1.8-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <description>
@@ -98,37 +98,37 @@
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip-bootstrap</artifactId>
-                <version>1.7</version>
+                <version>1.8-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip-bootstrap-slf4j</artifactId>
-                <version>1.7</version>
+                <version>1.8-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip-support</artifactId>
-                <version>1.7</version>
+                <version>1.8-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip-core</artifactId>
-                <version>1.7</version>
+                <version>1.8-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip-slf4j</artifactId>
-                <version>1.7</version>
+                <version>1.8-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip-extra</artifactId>
-                <version>1.7</version>
+                <version>1.8-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
