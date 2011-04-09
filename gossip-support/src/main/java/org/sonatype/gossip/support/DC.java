@@ -99,6 +99,20 @@ public class DC
     }
 
     /**
+     * Helper to get {@link State#map}.
+     */
+    private static Map<String,String> map() {
+        return state().map;
+    }
+
+    /**
+     * Helper to get {@link State#stack}.
+     */
+    private static LinkedList<String> stack() {
+        return state().stack;
+    }
+
+    /**
      * Get a copy of the state for the current thread.
      *
      * @since 1.7
@@ -116,14 +130,6 @@ public class DC
         checkNotNull(state);
         stateHolder.set(state);
         update();
-    }
-
-    private static Map<String,String> map() {
-        return state().map;
-    }
-
-    private static LinkedList<String> stack() {
-        return state().stack;
     }
 
     /**
