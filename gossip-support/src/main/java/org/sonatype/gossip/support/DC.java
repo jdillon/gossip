@@ -30,7 +30,9 @@ import java.util.Map;
  */
 public class DC
 {
-    /** The key in which we <em>publish</em> our contents to in the Slf4j MDC. */
+    /**
+     * The key in which we <em>publish</em> our contents to in the Slf4j MDC.
+     */
     public static final String KEY = getProperty("key", "DC");
 
     /**
@@ -47,28 +49,33 @@ public class DC
      */
     public static final String SEPARATOR = getProperty("separator", ",");
 
+    /**
+     * Container for thread diagnostic context state.
+     *
+     * @since 1.7
+     */
     public static class State
     {
-        private final Map<String, String> context;
+        private final Map<String, String> map;
 
         private final LinkedList<String> stack;
 
         private State() {
-            this.context = new HashMap<String,String>();
+            this.map = new HashMap<String,String>();
             this.stack = new LinkedList<String>();
         }
 
         private State(final State source) {
             this();
             checkNotNull(source);
-            this.context.putAll(source.context);
+            this.map.putAll(source.map);
             this.stack.addAll(source.stack);
         }
 
         @Override
         public String toString() {
             return "State{" +
-                "context=" + context +
+                "map=" + map +
                 ", stack=" + stack +
                 '}';
         }
@@ -108,10 +115,11 @@ public class DC
     public static void setState(final State state) {
         checkNotNull(state);
         stateHolder.set(state);
+        update();
     }
 
-    private static Map<String,String> context() {
-        return state().context;
+    private static Map<String,String> map() {
+        return state().map;
     }
 
     private static LinkedList<String> stack() {
@@ -119,53 +127,42 @@ public class DC
     }
 
     /**
-     * @since 1.7
-     */
-    public static boolean isEmpty() {
-        return context().isEmpty() && stack().isEmpty();
-    }
-
-    /**
-     * @since 1.7
-     */
-    public static void clear() {
-        context().clear();
-        stack().clear();
-    }
-
-    /**
+     * Reset the current threads state.
+     *
      * @since 1.7
      */
     public static void reset() {
         stateHolder.remove();
+        MDC.remove(KEY);
     }
 
     /**
+     * Render the current threads state.
+     *
      * @since 1.7
      */
     public static StringBuilder render() {
+        State state = state();
         StringBuilder buff = new StringBuilder();
 
         // Append the stack if there is one
-        LinkedList stack = stack();
-        if (!stack.isEmpty()) {
-            buff.append(stack);
+        if (!state.stack.isEmpty()) {
+            buff.append(state.stack);
         }
 
-        Map context = context();
-        if (!context.isEmpty()) {
+        if (!state.map.isEmpty()) {
             // Append the context if there is some
             if (buff.length() != 0) {
                 buff.append(SEPARATOR);
             }
-            buff.append(context);
+            buff.append(state.map);
         }
 
         return buff;
     }
 
     /**
-     * Updates and <em>publishes</em> our context+stack to the Slf4j MDC.
+     * Updates and <em>publishes</em> the rendered state to the Slf4j MDC.
      */
     private static void update() {
         StringBuilder buff = render();
@@ -174,7 +171,6 @@ public class DC
             MDC.put(KEY, buff.toString());
         }
         else {
-            MDC.remove(KEY);
             reset();
         }
     }
@@ -183,7 +179,7 @@ public class DC
 
     public static void put(final Object key, final Object value) {
         checkNotNull(key);
-        context().put(key.toString(), String.valueOf(value));
+        map().put(key.toString(), String.valueOf(value));
         update();
     }
 
@@ -194,7 +190,7 @@ public class DC
 
     public static String get(final Object key) {
         checkNotNull(key);
-        return context().get(key.toString());
+        return map().get(key.toString());
     }
 
     public static String get(final Class key) {
@@ -204,7 +200,7 @@ public class DC
 
     public static void remove(final Object key) {
         checkNotNull(key);
-        context().remove(key.toString());
+        map().remove(key.toString());
         update();
     }
 
