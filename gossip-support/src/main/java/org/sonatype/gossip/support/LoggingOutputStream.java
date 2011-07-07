@@ -68,10 +68,10 @@ public class LoggingOutputStream
 
     public LoggingOutputStream(final Logger logger, final Level level) {
         if (logger == null) {
-            throw new IllegalArgumentException("cat == null");
+            throw new NullPointerException();
         }
         if (level == null) {
-            throw new IllegalArgumentException("priority == null");
+            throw new NullPointerException();
         }
 
         this.level = level;
