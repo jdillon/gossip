@@ -194,6 +194,49 @@ public class DC
         put(key.getSimpleName(), value);
     }
 
+    /**
+     * @since 1.8
+     */
+    public static interface RestoreHandle
+    {
+        /**
+         * Restore previously set value or remove if previously unset.
+         */
+        void restore();
+    }
+
+    /**
+     * @since 1.8
+     */
+    public static RestoreHandle install(final Object key, final Object value) {
+        checkNotNull(key);
+        final String _key = String.valueOf(key);
+        final Map<String,String> map = map();
+        final boolean exists = map.containsKey(_key);
+        final Object prev = map().put(_key, String.valueOf(value));
+        update();
+        return new RestoreHandle()
+        {
+            public void restore() {
+                if (exists) {
+                    map.put(_key, String.valueOf(prev));
+                }
+                else {
+                    map.remove(_key);
+                }
+                update();
+            }
+        };
+    }
+
+    /**
+     * @since 1.8
+     */
+    public static RestoreHandle install(final Class key, final Object value) {
+        checkNotNull(key);
+        return install(key.getSimpleName(), value);
+    }
+
     public static String get(final Object key) {
         checkNotNull(key);
         return map().get(key.toString());
