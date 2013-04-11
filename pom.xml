@@ -146,42 +146,6 @@
     <build>
         <defaultGoal>install</defaultGoal>
 
-        <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-
-            <resource>
-                <directory>${project.basedir}/src/main/filtered-resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
-
-        <testResources>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
-
-            <testResource>
-                <directory>${project.basedir}/src/test/filtered-resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
-        </testResources>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -257,43 +221,6 @@
                     <useReleaseProfile>false</useReleaseProfile>
                     <goals>deploy</goals>
                     <arguments>-B -Prelease</arguments>
-                </configuration>
-            </plugin>
-
-            <!--
-            mvn license:format -N
-            If its a new year, update the year range in the header.txt file
-            -->
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <aggregate>true</aggregate>
-                    <strictCheck>true</strictCheck>
-                    <header>${project.basedir}/header.txt</header>
-                    <useDefaultExcludes>false</useDefaultExcludes>
-                    <includes>
-                        <include>**/pom.xml</include>
-                        <include>**/*.xml</include>
-                        <include>**/*.xsd</include>
-                        <include>**/*.xjb</include>
-                        <include>**/*.mdo</include>
-                        <include>**/*.properties</include>
-                        <include>**/*.java</include>
-                        <include>**/*.groovy</include>
-                        <include>**/*.scala</include>
-                        <include>**/*.aj</include>
-                        <include>**/*.js</include>
-                        <include>**/*.css</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/target/**</exclude>
-                    </excludes>
-                    <mapping>
-                        <scala>JAVADOC_STYLE</scala>
-                        <xjb>XML_STYLE</xjb>
-                        <mdo>XML_STYLE</mdo>
-                    </mapping>
                 </configuration>
             </plugin>
         </plugins>
