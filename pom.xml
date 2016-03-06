@@ -21,9 +21,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.forge</groupId>
-        <artifactId>forge-parent</artifactId>
-        <version>32</version>
+        <groupId>org.sonatype.buildsupport</groupId>
+        <artifactId>public-parent</artifactId>
+        <version>9</version>
+        <relativePath/>
     </parent>
 
     <groupId>org.sonatype.gossip</groupId>
@@ -56,27 +57,18 @@
         <developerConnection>scm:git:ssh://git@github.com/jdillon/gossip.git</developerConnection>
         <url>http://github.com/jdillon/gossip</url>
     </scm>
-    
-    <ciManagement>
-        <system>Hudson</system>
-        <url>https://builds.sonatype.org/job/gossip/</url>
-    </ciManagement>
-    
+
     <developers>
         <developer>
             <id>jdillon</id>
             <name>Jason Dillon</name>
             <email>jason@planet57.com</email>
-            <roles>
-                <role>Build Master</role>
-                <role>Developer</role>
-            </roles>
         </developer>
     </developers>
-    
+
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.5</maven.compiler.source>
+        <maven.compiler.target>1.5</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
@@ -168,30 +160,6 @@
                         <org.sonatype.gossip.Log.internalThreshold>TRACE</org.sonatype.gossip.Log.internalThreshold>
                     </systemPropertyVariables>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                        <configuration>
-                            <includePom>true</includePom>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
