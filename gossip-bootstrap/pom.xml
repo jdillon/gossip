@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>gossip-bootstrap</artifactId>
-    <name>Gossip Bootstrap</name>
+    <name>${project.groupId}:${project.artifactId}</name>
 
     <description>
         Contains just enough Gossip to allow the internal org.sonatype.gossip.Log to function.

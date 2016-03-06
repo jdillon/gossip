@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>gossip-support</artifactId>
-    <name>Gossip Support</name>
+    <name>${project.groupId}:${project.artifactId}</name>
 
     <description>
         Support, helper and utilities.

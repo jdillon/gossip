@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>gossip-bootstrap-slf4j</artifactId>
-    <name>Gossip Bootstrap SLF4j</name>
+    <name>${project.groupId}:${project.artifactId}</name>
 
     <description>
         SLF4j bindings for Gossip Bootstrap.
