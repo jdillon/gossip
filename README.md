@@ -89,6 +89,7 @@ the gossip-bootstrap-slf4j module provides bindings to use the internal Log as a
 Log has a few parameters controlled by system properties:
 
 * org.sonatype.gossip.Log.threshold = [TRACE|DEBUG|INFO|WARN|ERROR]
+* org.sonatype.gossip.Log.internalThreshold = [TRACE|DEBUG|INFO|WARN|ERROR]
 * org.sonatype.gossip.Log.stream = [OUT|ERR]
 * org.sonatype.gossip.Log.pattern (see [PatternRenderer](https://github.com/jdillon/gossip/blob/master/gossip-bootstrap/src/main/java/org/sonatype/gossip/render/PatternRenderer.java) for details)
 
