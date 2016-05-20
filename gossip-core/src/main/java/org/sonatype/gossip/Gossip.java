@@ -175,10 +175,15 @@ public final class Gossip
             invalidateCache();
         }
 
+        /**
+         * Update any children's cached level, forcing them to re-evaluate and cache if needed.
+         *
+         * If this logger is root then all loggers will be forced to re-evalaute and cache.
+         */
         private void invalidateCache() {
-            // Update any children's cached level, forcing them to re-evaluate and cache if needed
+            boolean root = name.equals(ROOT_NAME);
             for (Map.Entry<String, Loggerish> entry : loggers.entrySet()) {
-                if (entry.getKey().startsWith(getName() + ".")) {
+                if (root || entry.getKey().startsWith(getName() + ".")) {
                     Object obj = entry.getValue();
                     if (obj instanceof LoggerImpl) {
                         LoggerImpl logger = (LoggerImpl)obj;
@@ -294,9 +299,6 @@ public final class Gossip
 
         for (int i = 0; i < last; i++) {
             LoggerImpl l = (LoggerImpl) node.get(i);
-
-            // Unless this child already points to a correct (lower) parent,
-            // make cat.parent point to l.parent and l.parent to cat.
             if (!l.parent.getName().startsWith(logger.getName())) {
                 logger.parent = l.parent;
                 l.parent = logger;
