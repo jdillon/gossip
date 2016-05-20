@@ -90,7 +90,7 @@ public class ColorRenderer
 
             cause = cause.getCause();
             if (cause != null) {
-                buff.append(ansi().a(INTENSITY_BOLD).a("Caused by").reset().a(" ").a(cause.getClass().getName()));
+                buff.append(ansi().a(INTENSITY_BOLD).a("Caused by").reset().a(": ").a(cause.getClass().getName()));
                 if (cause.getMessage() != null) {
                     buff.append(": ");
                     buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());

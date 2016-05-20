@@ -295,7 +295,7 @@ public class PatternRenderer
 
                 cause = cause.getCause();
                 if (cause != null) {
-                    buff.append("Caused by ").append(cause.getClass().getName()).append(": ");
+                    buff.append("Caused by: ").append(cause.getClass().getName()).append(": ");
                     buff.append(cause.getMessage());
                     buff.append(NEWLINE);
                 }
