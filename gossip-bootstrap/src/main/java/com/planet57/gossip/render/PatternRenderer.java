@@ -123,8 +123,8 @@ public class PatternRenderer
 
   @Override
   public String toString() {
-    return "PatternRenderer{" +
-        "pattern=" + pattern +
+    return getClass().getSimpleName() +
+        "{pattern=" + pattern +
         '}';
   }
 
