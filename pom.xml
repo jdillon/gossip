@@ -150,8 +150,8 @@
             <include>**/*Test.java</include>
           </includes>
           <systemPropertyVariables>
-            <org.sonatype.gossip.Log.threshold>TRACE</org.sonatype.gossip.Log.threshold>
-            <org.sonatype.gossip.Log.internalThreshold>TRACE</org.sonatype.gossip.Log.internalThreshold>
+            <com.planet57.gossip.Log.threshold>TRACE</com.planet57.gossip.Log.threshold>
+            <com.planet57.gossip.Log.internalThreshold>TRACE</com.planet57.gossip.Log.internalThreshold>
           </systemPropertyVariables>
         </configuration>
       </plugin>

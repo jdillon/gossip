@@ -18,7 +18,7 @@ package org.slf4j.impl;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.spi.LoggerFactoryBinder;
-import org.sonatype.gossip.Log;
+import com.planet57.gossip.Log;
 
 /**
  * Gossip Bootstrap logger binder for SLF4J.

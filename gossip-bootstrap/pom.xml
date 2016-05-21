@@ -31,7 +31,7 @@
   <name>${project.groupId}:${project.artifactId}</name>
 
   <description>
-    Contains just enough Gossip to allow the internal org.sonatype.gossip.Log to function.
+    Contains just enough Gossip to allow the internal com.planet57.gossip.Log to function.
   </description>
 
   <dependencies>

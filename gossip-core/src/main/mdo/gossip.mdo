@@ -19,8 +19,8 @@
 <model xmlns="http://modello.codehaus.org/MODELLO/1.1.0"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://modello.codehaus.org/MODELLO/1.1.0 http://modello.codehaus.org/xsd/modello-1.1.0.xsd"
-       xml.namespace="http://sonatype.org/gossip/${version}"
-       xml.schemaLocation="http://sonatype.org/xsd/gossip-${version}.xsd">
+       xml.namespace="http://planet57.com/gossip/${version}"
+       xml.schemaLocation="http://planet57.com/xsd/gossip-${version}.xsd">
 
     <id>gossip</id>
     <name>Gossip</name>
@@ -29,7 +29,7 @@
     <defaults>
         <default>
             <key>package</key>
-            <value>org.sonatype.gossip.model</value>
+            <value>com.planet57.gossip.model</value>
         </default>
     </defaults>
 
@@ -245,8 +245,8 @@
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[
-                        public org.sonatype.gossip.Level asLevel() {
-                            return org.sonatype.gossip.Level.valueOf(getLevel().toUpperCase());
+                        public com.planet57.gossip.Level asLevel() {
+                            return com.planet57.gossip.Level.valueOf(getLevel().toUpperCase());
                         }
                     ]]></code>
                 </codeSegment>
@@ -344,7 +344,7 @@
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[
-                        public org.sonatype.gossip.source.Source create() throws Exception {
+                        public com.planet57.gossip.source.Source create() throws Exception {
                             return ComponentFactory.create(this);
                         }
                     ]]></code>
@@ -361,7 +361,7 @@
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[
-                        public org.sonatype.gossip.trigger.Trigger create() throws Exception {
+                        public com.planet57.gossip.trigger.Trigger create() throws Exception {
                             return ComponentFactory.create(this);
                         }
                     ]]></code>
@@ -378,7 +378,7 @@
                 <codeSegment>
                     <version>1.0.0+</version>
                     <code><![CDATA[
-                        public org.sonatype.gossip.listener.Listener create() throws Exception {
+                        public com.planet57.gossip.listener.Listener create() throws Exception {
                             return ComponentFactory.create(this);
                         }
                     ]]></code>
