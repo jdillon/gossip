@@ -127,5 +127,5 @@ Check out and build:
 [1]: http://slf4j.org
 [2]: http://logging.apache.org/log4j
 [3]: http://download.oracle.com/javase/1.5.0/docs/api/java/util/logging/package-summary.html
-[4]: http://jansi.fusesource.org/
+[4]: https://github.com/fusesource/jansi
 [5]: http://logback.qos.ch
