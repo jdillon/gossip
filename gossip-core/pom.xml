@@ -43,27 +43,4 @@
     </dependency>
   </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.modello</groupId>
-        <artifactId>modello-maven-plugin</artifactId>
-        <configuration>
-          <models>
-            <model>src/main/mdo/gossip.mdo</model>
-          </models>
-          <version>1.0.0</version>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>java</goal>
-              <goal>xsd</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-
 </project>
