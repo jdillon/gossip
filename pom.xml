@@ -16,194 +16,195 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <parent>
-        <groupId>com.planet57.buildsupport</groupId>
-        <artifactId>buildsupport</artifactId>
-        <version>1-SNAPSHOT</version>
-        <relativePath/>
-    </parent>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.planet57.gossip</groupId>
-    <artifactId>gossip</artifactId>
-    <name>${project.groupId}:${project.artifactId}</name>
-    <version>1.9-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    
-    <description>
-        Gossip is a SLF4j backend provider which has simple and flexible configuration.
-    </description>
+  <parent>
+    <groupId>com.planet57.buildsupport</groupId>
+    <artifactId>buildsupport</artifactId>
+    <version>1-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
 
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+  <groupId>com.planet57.gossip</groupId>
+  <artifactId>gossip</artifactId>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <version>1.9-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
+  <description>
+    Gossip is a SLF4j backend provider which has simple and flexible configuration.
+  </description>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <url>http://github.com/jdillon/gossip</url>
+
+  <scm>
+    <connection>scm:git:git://github.com/jdillon/gossip.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jdillon/gossip.git</developerConnection>
     <url>http://github.com/jdillon/gossip</url>
+  </scm>
 
-    <scm>
-        <connection>scm:git:git://github.com/jdillon/gossip.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jdillon/gossip.git</developerConnection>
-        <url>http://github.com/jdillon/gossip</url>
-    </scm>
+  <developers>
+    <developer>
+      <id>jdillon</id>
+      <name>Jason Dillon</name>
+      <email>jason@planet57.com</email>
+    </developer>
+  </developers>
 
-    <developers>
-        <developer>
-            <id>jdillon</id>
-            <name>Jason Dillon</name>
-            <email>jason@planet57.com</email>
-        </developer>
-    </developers>
+  <properties>
+    <maven.compiler.source>1.5</maven.compiler.source>
+    <maven.compiler.target>1.5</maven.compiler.target>
+  </properties>
 
-    <properties>
-        <maven.compiler.source>1.5</maven.compiler.source>
-        <maven.compiler.target>1.5</maven.compiler.target>
-    </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.6.1</version>
+      </dependency>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>1.6.1</version>
-            </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.8.2</version>
+        <scope>test</scope>
+      </dependency>
 
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.8.2</version>
-                <scope>test</scope>
-            </dependency>
+      <!-- INTERNAL -->
 
-            <!-- INTERNAL -->
+      <dependency>
+        <groupId>com.planet57.gossip</groupId>
+        <artifactId>gossip-bootstrap</artifactId>
+        <version>1.9-SNAPSHOT</version>
+      </dependency>
 
-            <dependency>
-                <groupId>com.planet57.gossip</groupId>
-                <artifactId>gossip-bootstrap</artifactId>
-                <version>1.9-SNAPSHOT</version>
-            </dependency>
+      <dependency>
+        <groupId>com.planet57.gossip</groupId>
+        <artifactId>gossip-bootstrap-slf4j</artifactId>
+        <version>1.9-SNAPSHOT</version>
+      </dependency>
 
-            <dependency>
-                <groupId>com.planet57.gossip</groupId>
-                <artifactId>gossip-bootstrap-slf4j</artifactId>
-                <version>1.9-SNAPSHOT</version>
-            </dependency>
+      <dependency>
+        <groupId>com.planet57.gossip</groupId>
+        <artifactId>gossip-support</artifactId>
+        <version>1.9-SNAPSHOT</version>
+      </dependency>
 
-            <dependency>
-                <groupId>com.planet57.gossip</groupId>
-                <artifactId>gossip-support</artifactId>
-                <version>1.9-SNAPSHOT</version>
-            </dependency>
+      <dependency>
+        <groupId>com.planet57.gossip</groupId>
+        <artifactId>gossip-core</artifactId>
+        <version>1.9-SNAPSHOT</version>
+      </dependency>
 
-            <dependency>
-                <groupId>com.planet57.gossip</groupId>
-                <artifactId>gossip-core</artifactId>
-                <version>1.9-SNAPSHOT</version>
-            </dependency>
+      <dependency>
+        <groupId>com.planet57.gossip</groupId>
+        <artifactId>gossip-slf4j</artifactId>
+        <version>1.9-SNAPSHOT</version>
+      </dependency>
 
-            <dependency>
-                <groupId>com.planet57.gossip</groupId>
-                <artifactId>gossip-slf4j</artifactId>
-                <version>1.9-SNAPSHOT</version>
-            </dependency>
+      <dependency>
+        <groupId>com.planet57.gossip</groupId>
+        <artifactId>gossip-extra</artifactId>
+        <version>1.9-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-            <dependency>
-                <groupId>com.planet57.gossip</groupId>
-                <artifactId>gossip-extra</artifactId>
-                <version>1.9-SNAPSHOT</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-    
-    <modules>
-        <module>gossip-bootstrap</module>
-        <module>gossip-bootstrap-slf4j</module>
-        <module>gossip-support</module>
-        <module>gossip-core</module>
-        <module>gossip-slf4j</module>
-        <module>gossip-extra</module>
-    </modules>
-    
-    <build>
+  <modules>
+    <module>gossip-bootstrap</module>
+    <module>gossip-bootstrap-slf4j</module>
+    <module>gossip-support</module>
+    <module>gossip-core</module>
+    <module>gossip-slf4j</module>
+    <module>gossip-extra</module>
+  </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <redirectTestOutputToFile>true</redirectTestOutputToFile>
+          <forkMode>once</forkMode>
+          <argLine>-ea</argLine>
+          <failIfNoTests>false</failIfNoTests>
+          <workingDirectory>${project.build.directory}</workingDirectory>
+          <excludes>
+            <exclude>**/Abstract*.java</exclude>
+            <exclude>**/Test*.java</exclude>
+          </excludes>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <systemPropertyVariables>
+            <org.sonatype.gossip.Log.threshold>TRACE</org.sonatype.gossip.Log.threshold>
+            <org.sonatype.gossip.Log.internalThreshold>TRACE</org.sonatype.gossip.Log.internalThreshold>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <signature>
+                <groupId>org.codehaus.mojo.signature</groupId>
+                <artifactId>java15</artifactId>
+                <version>1.0</version>
+              </signature>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <useReleaseProfile>false</useReleaseProfile>
+          <goals>deploy</goals>
+          <arguments>-B -Prelease</arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>no-maven-descriptor</id>
+      <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
-                    <forkMode>once</forkMode>
-                    <argLine>-ea</argLine>
-                    <failIfNoTests>false</failIfNoTests>
-                    <workingDirectory>${project.build.directory}</workingDirectory>
-                    <excludes>
-                        <exclude>**/Abstract*.java</exclude>
-                        <exclude>**/Test*.java</exclude>
-                    </excludes>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
-                    <systemPropertyVariables>
-                        <org.sonatype.gossip.Log.threshold>TRACE</org.sonatype.gossip.Log.threshold>
-                        <org.sonatype.gossip.Log.internalThreshold>TRACE</org.sonatype.gossip.Log.internalThreshold>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>animal-sniffer-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <signature>
-                                <groupId>org.codehaus.mojo.signature</groupId>
-                                <artifactId>java15</artifactId>
-                                <version>1.0</version>
-                            </signature>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <goals>deploy</goals>
-                    <arguments>-B -Prelease</arguments>
-                </configuration>
-            </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+              <archive>
+                <addMavenDescriptor>false</addMavenDescriptor>
+              </archive>
+            </configuration>
+          </plugin>
         </plugins>
-    </build>
+      </build>
+    </profile>
+  </profiles>
 
-    <profiles>
-        <profile>
-            <id>no-maven-descriptor</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <configuration>
-                            <archive>
-                                <addMavenDescriptor>false</addMavenDescriptor>
-                            </archive>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-    
 </project>
