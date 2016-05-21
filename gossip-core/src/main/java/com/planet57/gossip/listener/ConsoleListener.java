@@ -66,9 +66,10 @@ public class ConsoleListener
       return;
     }
 
+    String line = render(event);
     PrintStream out = getOut();
     synchronized (out) {
-      out.print(render(event));
+      out.print(line);
       out.flush();
     }
   }
