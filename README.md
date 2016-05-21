@@ -115,14 +115,14 @@ Building
 
 ### Requirements
 
-* [Maven](http://maven.apache.org) 3+
+* [Maven](http://maven.apache.org) 3+ (recommend using Maven wrapper scripts provided)
 * [Java](http://java.sun.com/) 5+
 
 Check out and build:
 
     git clone git://github.com/jdillon/gossip.git
     cd gossip
-    mvn install
+    ./mvnw install
 
 [1]: http://slf4j.org
 [2]: http://logging.apache.org/log4j
