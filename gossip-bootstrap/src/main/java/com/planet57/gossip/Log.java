@@ -35,6 +35,9 @@ public final class Log
 {
   private final static Map<String, LoggerDelegateAware> delegates = new HashMap<String, LoggerDelegateAware>();
 
+  /**
+   * Prefix of logger-names that are considered internal.
+   */
   private static final String INTERNAL_PREFIX = "com.planet57.gossip";
 
   private static volatile Level threshold;
