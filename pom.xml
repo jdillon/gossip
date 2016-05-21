@@ -69,6 +69,9 @@
 
   <dependencyManagement>
     <dependencies>
+      <!--
+      TODO: Update version; need to check what the Java requirements are; and perhaps change minimum requirements?
+      -->
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
@@ -84,7 +87,7 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.8.2</version>
+        <version>4.12</version>
       </dependency>
 
       <!-- INTERNAL -->
