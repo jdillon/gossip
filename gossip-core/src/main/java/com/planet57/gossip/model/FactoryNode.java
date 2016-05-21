@@ -16,72 +16,37 @@
 
 package com.planet57.gossip.model;
 
+import java.io.Serializable;
+
 /**
- * Class FactoryNode.
+ * Factory node.
  *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 1.0
  */
-@SuppressWarnings("all")
 public abstract class FactoryNode
     extends Node
-    implements java.io.Serializable
+    implements Serializable
 {
-
-  //--------------------------/
-  //- Class/Member Variables -/
-  //--------------------------/
-
-  /**
-   * Field type.
-   */
   private String type;
 
-  /**
-   * Field configuration.
-   */
   private Object configuration;
 
+  public Object getConfiguration() {
+    return configuration;
+  }
 
-  //-----------/
-  //- Methods -/
-  //-----------/
+  public String getType() {
+    return type;
+  }
 
-  /**
-   * Get the configuration field.
-   *
-   * @return Object
-   */
-  public Object getConfiguration()
-  {
-    return this.configuration;
-  } //-- Object getConfiguration()
-
-  /**
-   * Get the type field.
-   *
-   * @return String
-   */
-  public String getType()
-  {
-    return this.type;
-  } //-- String getType()
-
-  /**
-   * Set the configuration field.
-   */
-  public void setConfiguration(Object configuration)
-  {
+  public void setConfiguration(final Object configuration) {
     this.configuration = configuration;
-  } //-- void setConfiguration( Object )
+  }
 
-  /**
-   * Set the type field.
-   */
-  public void setType(String type)
-  {
+  public void setType(final String type) {
     this.type = type;
-  } //-- void setType( String )
-
+  }
 
   public String toString() {
     return getClass().getSimpleName() +
@@ -90,11 +55,9 @@ public abstract class FactoryNode
         " }";
   }
 
-
   public void setType(final Class type) {
     setType(type.getName());
   }
-
 
   public String getId() {
     String id = super.getId();
@@ -103,5 +66,4 @@ public abstract class FactoryNode
     }
     return id;
   }
-
 }

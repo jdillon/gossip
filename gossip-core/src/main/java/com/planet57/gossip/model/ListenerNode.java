@@ -16,19 +16,21 @@
 
 package com.planet57.gossip.model;
 
+import java.io.Serializable;
+
+import com.planet57.gossip.listener.Listener;
+
 /**
- * Class ListenerNode.
+ * Listener node.
  *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 1.0
  */
-@SuppressWarnings("all")
 public class ListenerNode
     extends FactoryNode
-    implements java.io.Serializable
+    implements Serializable
 {
-
-  public com.planet57.gossip.listener.Listener create() throws Exception {
+  public Listener create() throws Exception {
     return ComponentFactory.create(this);
   }
-
 }

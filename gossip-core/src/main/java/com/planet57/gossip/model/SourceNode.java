@@ -16,19 +16,21 @@
 
 package com.planet57.gossip.model;
 
+import java.io.Serializable;
+
+import com.planet57.gossip.source.Source;
+
 /**
- * Class SourceNode.
+ * Source node.
  *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 1.0
  */
-@SuppressWarnings("all")
 public class SourceNode
     extends FactoryNode
-    implements java.io.Serializable
+    implements Serializable
 {
-
-  public com.planet57.gossip.source.Source create() throws Exception {
+  public Source create() throws Exception {
     return ComponentFactory.create(this);
   }
-
 }

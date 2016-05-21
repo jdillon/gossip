@@ -16,19 +16,21 @@
 
 package com.planet57.gossip.model;
 
+import java.io.Serializable;
+
+import com.planet57.gossip.trigger.Trigger;
+
 /**
- * Class TriggerNode.
+ * Trigger node.
  *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 1.0
  */
-@SuppressWarnings("all")
 public class TriggerNode
     extends FactoryNode
-    implements java.io.Serializable
+    implements Serializable
 {
-
-  public com.planet57.gossip.trigger.Trigger create() throws Exception {
+  public Trigger create() throws Exception {
     return ComponentFactory.create(this);
   }
-
 }

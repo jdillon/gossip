@@ -16,191 +16,101 @@
 
 package com.planet57.gossip.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
 /**
- * Class ProfileNode.
+ * Profile node.
  *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 1.0
  */
-@SuppressWarnings("all")
 public class ProfileNode
     extends Node
-    implements java.io.Serializable
+    implements Serializable
 {
-
-  //--------------------------/
-  //- Class/Member Variables -/
-  //--------------------------/
-
-  /**
-   * Field name.
-   */
   private String name;
 
-  /**
-   * Field properties.
-   */
-  private java.util.Properties properties;
+  private Properties properties;
 
-  /**
-   * Field includes.
-   */
-  private java.util.List<String> includes;
+  private List<String> includes;
 
-  /**
-   * Field loggers.
-   */
-  private java.util.List<LoggerNode> loggers;
+  private List<LoggerNode> loggers;
 
-  /**
-   * Field triggers.
-   */
-  private java.util.List<TriggerNode> triggers;
+  private List<TriggerNode> triggers;
 
-  /**
-   * Field listeners.
-   */
-  private java.util.List<ListenerNode> listeners;
+  private List<ListenerNode> listeners;
 
-
-  //-----------/
-  //- Methods -/
-  //-----------/
-
-  /**
-   * Method getIncludes.
-   *
-   * @return List
-   */
-  public java.util.List<String> getIncludes()
-  {
-    if (this.includes == null) {
-      this.includes = new java.util.ArrayList<String>();
+  public List<String> getIncludes() {
+    if (includes == null) {
+      includes = new ArrayList<String>();
     }
+    return includes;
+  }
 
-    return this.includes;
-  } //-- java.util.List<String> getIncludes()
-
-  /**
-   * Method getListeners.
-   *
-   * @return List
-   */
-  public java.util.List<ListenerNode> getListeners()
-  {
-    if (this.listeners == null) {
-      this.listeners = new java.util.ArrayList<ListenerNode>();
+  public List<ListenerNode> getListeners() {
+    if (listeners == null) {
+      listeners = new ArrayList<ListenerNode>();
     }
+    return listeners;
+  }
 
-    return this.listeners;
-  } //-- java.util.List<ListenerNode> getListeners()
-
-  /**
-   * Method getLoggers.
-   *
-   * @return List
-   */
-  public java.util.List<LoggerNode> getLoggers()
-  {
-    if (this.loggers == null) {
-      this.loggers = new java.util.ArrayList<LoggerNode>();
+  public List<LoggerNode> getLoggers() {
+    if (loggers == null) {
+      loggers = new ArrayList<LoggerNode>();
     }
+    return loggers;
+  }
 
-    return this.loggers;
-  } //-- java.util.List<LoggerNode> getLoggers()
+  public String getName() {
+    return name;
+  }
 
-  /**
-   * Get the name field.
-   *
-   * @return String
-   */
-  public String getName()
-  {
-    return this.name;
-  } //-- String getName()
-
-  /**
-   * Method getProperties.
-   *
-   * @return Properties
-   */
-  public java.util.Properties getProperties()
-  {
-    if (this.properties == null) {
-      this.properties = new java.util.Properties();
+  public Properties getProperties() {
+    if (properties == null) {
+      properties = new Properties();
     }
+    return properties;
+  }
 
-    return this.properties;
-  } //-- java.util.Properties getProperties()
-
-  /**
-   * Method getTriggers.
-   *
-   * @return List
-   */
-  public java.util.List<TriggerNode> getTriggers()
-  {
-    if (this.triggers == null) {
-      this.triggers = new java.util.ArrayList<TriggerNode>();
+  public List<TriggerNode> getTriggers() {
+    if (triggers == null) {
+      triggers = new ArrayList<TriggerNode>();
     }
+    return triggers;
+  }
 
-    return this.triggers;
-  } //-- java.util.List<TriggerNode> getTriggers()
-
-  /**
-   * Set the includes field.
-   */
-  public void setIncludes(java.util.List<String> includes)
-  {
+  public void setIncludes(final List<String> includes) {
     this.includes = includes;
-  } //-- void setIncludes( java.util.List )
+  }
 
-  /**
-   * Set the listeners field.
-   */
-  public void setListeners(java.util.List<ListenerNode> listeners)
-  {
+  public void setListeners(final List<ListenerNode> listeners) {
     this.listeners = listeners;
-  } //-- void setListeners( java.util.List )
+  }
 
-  /**
-   * Set the loggers field.
-   */
-  public void setLoggers(java.util.List<LoggerNode> loggers)
-  {
+  public void setLoggers(final List<LoggerNode> loggers) {
     this.loggers = loggers;
-  } //-- void setLoggers( java.util.List )
+  }
 
-  /**
-   * Set the name field.
-   */
-  public void setName(String name)
-  {
+  public void setName(final String name) {
     this.name = name;
-  } //-- void setName( String )
+  }
 
-  /**
-   * Set the properties field.
-   */
-  public void setProperties(java.util.Properties properties)
-  {
+  public void setProperties(final Properties properties) {
     this.properties = properties;
-  } //-- void setProperties( java.util.Properties )
+  }
 
-  /**
-   * Set the triggers field.
-   */
-  public void setTriggers(java.util.List<TriggerNode> triggers)
-  {
+  public void setTriggers(final List<TriggerNode> triggers) {
     this.triggers = triggers;
-  } //-- void setTriggers( java.util.List )
-
+  }
 
   public String toString() {
     return getClass().getSimpleName() +
         "{name=" + getName() +
         "}";
   }
-
 
   public String getId() {
     String id = super.getId();
@@ -209,5 +119,4 @@ public class ProfileNode
     }
     return id;
   }
-
 }

@@ -16,77 +16,43 @@
 
 package com.planet57.gossip.model;
 
+import java.io.Serializable;
+
+import com.planet57.gossip.Level;
+
 /**
- * Class LoggerNode.
+ * Logger node.
  *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 1.0
  */
-@SuppressWarnings("all")
 public class LoggerNode
     extends Node
-    implements java.io.Serializable
+    implements Serializable
 {
-
-  //--------------------------/
-  //- Class/Member Variables -/
-  //--------------------------/
-
-  /**
-   * Field name.
-   */
   private String name;
 
-  /**
-   * Field level.
-   */
   private String level;
 
-
-  //-----------/
-  //- Methods -/
-  //-----------/
-
-  /**
-   * Get the level field.
-   *
-   * @return String
-   */
-  public String getLevel()
-  {
-    return this.level;
-  } //-- String getLevel()
-
-  /**
-   * Get the name field.
-   *
-   * @return String
-   */
-  public String getName()
-  {
-    return this.name;
-  } //-- String getName()
-
-  /**
-   * Set the level field.
-   */
-  public void setLevel(String level)
-  {
-    this.level = level;
-  } //-- void setLevel( String )
-
-  /**
-   * Set the name field.
-   */
-  public void setName(String name)
-  {
-    this.name = name;
-  } //-- void setName( String )
-
-
-  public com.planet57.gossip.Level asLevel() {
-    return com.planet57.gossip.Level.valueOf(getLevel().toUpperCase());
+  public String getLevel() {
+    return level;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setLevel(final String level) {
+    this.level = level;
+  }
+
+  public void setName(final String name) {
+    this.name = name;
+  }
+
+  public Level asLevel() {
+    return Level.valueOf(getLevel().toUpperCase());
+  }
 
   public String toString() {
     return getClass().getSimpleName() +
@@ -95,7 +61,6 @@ public class LoggerNode
         "}";
   }
 
-
   public String getId() {
     String id = super.getId();
     if (id == null) {
@@ -103,5 +68,4 @@ public class LoggerNode
     }
     return id;
   }
-
 }

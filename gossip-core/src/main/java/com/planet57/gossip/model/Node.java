@@ -16,53 +16,30 @@
 
 package com.planet57.gossip.model;
 
+import java.io.Serializable;
+
 /**
- * Class Node.
+ * Node.
  *
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 1.0
  */
-@SuppressWarnings("all")
 public abstract class Node
-    implements java.io.Serializable
+    implements Serializable
 {
-
-  //--------------------------/
-  //- Class/Member Variables -/
-  //--------------------------/
-
-  /**
-   * Field id.
-   */
   private String id;
 
+  public String getId() {
+    return id;
+  }
 
-  //-----------/
-  //- Methods -/
-  //-----------/
-
-  /**
-   * Get the id field.
-   *
-   * @return String
-   */
-  public String getId()
-  {
-    return this.id;
-  } //-- String getId()
-
-  /**
-   * Set the id field.
-   */
-  public void setId(String id)
-  {
+  public void setId(final String id) {
     this.id = id;
-  } //-- void setId( String )
-
+  }
 
   public int hashCode() {
     return getId().hashCode();
   }
-
 
   public boolean equals(final Object target) {
     if (target instanceof Node) {
@@ -70,5 +47,4 @@ public abstract class Node
     }
     return false;
   }
-
 }
