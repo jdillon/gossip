@@ -52,7 +52,7 @@ public final class Log
 
   private static ILoggerFactory configuredFactory;
 
-  private static enum StreamType
+  private enum StreamType
   {
     OUT,
     ERR
