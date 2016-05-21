@@ -24,8 +24,6 @@ package com.planet57.gossip;
 public class MissingPropertyException
     extends ConfigurationException
 {
-  ///CLOVER:OFF
-
   private static final long serialVersionUID = 1;
 
   public MissingPropertyException(final String name) {
