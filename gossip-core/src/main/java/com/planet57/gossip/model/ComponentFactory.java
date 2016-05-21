@@ -95,7 +95,7 @@ public class ComponentFactory
         new ContextConfigurator().configure(obj, (Context) config);
       }
       else {
-        log.error("Unsupported configuration type: " + config.getClass().getName());
+        log.error("Unsupported configuration type: {}", config.getClass().getName());
       }
     }
 
