@@ -28,7 +28,7 @@ import java.io.PrintStream;
 public class ConsoleListener
     extends ListenerSupport
 {
-  public static enum Stream
+  public enum Stream
   {
     OUT, ERR
   }
@@ -48,6 +48,17 @@ public class ConsoleListener
     this.stream = stream;
   }
 
+  protected PrintStream getOut() {
+    switch (stream) {
+      case OUT:
+        return System.out;
+      case ERR:
+        return System.err;
+      default:
+        throw new InternalError();
+    }
+  }
+
   public void onEvent(final Event event) {
     assert event != null;
 
@@ -55,20 +66,7 @@ public class ConsoleListener
       return;
     }
 
-    Stream stream = getStream();
-    PrintStream out;
-
-    switch (stream) {
-      case OUT:
-        out = System.out;
-        break;
-      case ERR:
-        out = System.err;
-        break;
-      default:
-        throw new InternalError();
-    }
-
+    PrintStream out = getOut();
     synchronized (out) {
       out.print(render(event));
       out.flush();
