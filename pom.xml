@@ -137,18 +137,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <redirectTestOutputToFile>true</redirectTestOutputToFile>
-          <forkMode>once</forkMode>
-          <argLine>-ea</argLine>
-          <failIfNoTests>false</failIfNoTests>
-          <workingDirectory>${project.build.directory}</workingDirectory>
-          <excludes>
-            <exclude>**/Abstract*.java</exclude>
-            <exclude>**/Test*.java</exclude>
-          </excludes>
-          <includes>
-            <include>**/*Test.java</include>
-          </includes>
           <systemPropertyVariables>
             <com.planet57.gossip.Log.threshold>TRACE</com.planet57.gossip.Log.threshold>
             <com.planet57.gossip.Log.internalThreshold>TRACE</com.planet57.gossip.Log.internalThreshold>
@@ -189,6 +177,9 @@
   </build>
 
   <profiles>
+    <!--
+    Maven descriptors in artifacts add additional bloat of jars; this will strip those out.
+    -->
     <profile>
       <id>no-maven-descriptor</id>
       <build>
