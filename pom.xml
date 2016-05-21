@@ -23,7 +23,7 @@
 
   <parent>
     <groupId>com.planet57.buildsupport</groupId>
-    <artifactId>buildsupport</artifactId>
+    <artifactId>public-parent</artifactId>
     <version>1-SNAPSHOT</version>
     <relativePath/>
   </parent>
