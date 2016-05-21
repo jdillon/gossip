@@ -106,7 +106,7 @@ public final class Configurator
         ProfileNode includedProfile = model.findProfile(include);
 
         if (includedProfile == null) {
-          log.warn("Unable to include non-existent profile: {}", includedProfile);
+          log.warn("Unable to include non-existent profile: {}", include);
           continue;
         }
 
