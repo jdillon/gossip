@@ -87,10 +87,6 @@ public class ComponentFactory
     Object obj = type.newInstance();
 
     if (config != null) {
-      //
-      // TODO: Support the Xpp3 configuration... w/o requiring it on the classpath for this class to function
-      //
-
       if (config instanceof Context) {
         new ContextConfigurator().configure(obj, (Context) config);
       }
