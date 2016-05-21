@@ -53,9 +53,9 @@ public abstract class LoggerSupport
     StringBuilder buff = new StringBuilder();
     buff.append(getClass().getSimpleName());
     if (name != null) {
-      buff.append("[").append(name).append("]");
+      buff.append('[').append(name).append(']');
     }
-    buff.append(String.format("@%x", System.identityHashCode(this)));
+    buff.append('@').append(System.identityHashCode(this));
     return buff.toString();
   }
 
