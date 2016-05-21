@@ -89,8 +89,8 @@ public final class Event
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + "{" +
-        "logger=" + logger +
+    return getClass().getSimpleName() +
+        "{logger=" + logger +
         ", level=" + level +
         ", message='" + message + '\'' +
         ", cause=" + cause +
