@@ -31,11 +31,7 @@ public final class Event
 {
   private static final long serialVersionUID = 1;
 
-  private static final boolean traceEnable;
-
-  static {
-    traceEnable = Boolean.getBoolean(Event.class.getName() + ".traceEnable");
-  }
+  private static final boolean traceEnable = Boolean.getBoolean(Event.class.getName() + ".traceEnable");
 
   private final Logger logger;
 
