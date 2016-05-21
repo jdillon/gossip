@@ -71,6 +71,7 @@
     <dependencies>
       <!--
       TODO: Update version; need to check what the Java requirements are; and perhaps change minimum requirements?
+      TODO: various bits to update, including remove some Object[] params and use varags
       -->
       <dependency>
         <groupId>org.slf4j</groupId>
