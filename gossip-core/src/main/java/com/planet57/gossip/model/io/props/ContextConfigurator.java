@@ -163,10 +163,8 @@ public class ContextConfigurator
   private String getSetterName(final String name) {
     assert name != null && name.length() != 0;
 
-    return new StringBuilder(name.length() + 3)
-        .append("set")
-        .append(Character.toTitleCase(name.charAt(0)))
-        .append(name.substring(1))
-        .toString();
+    return "set" +
+        Character.toTitleCase(name.charAt(0)) +
+        name.substring(1);
   }
 }
