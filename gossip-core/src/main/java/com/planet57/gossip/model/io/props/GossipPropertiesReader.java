@@ -63,10 +63,6 @@ public class GossipPropertiesReader
 
   private static final Logger log = Log.getLogger(GossipPropertiesReader.class);
 
-  //
-  // TODO: Support XML properties format
-  //
-
   public Model read(final URL url) throws IOException {
     assert url != null;
 
