@@ -27,6 +27,6 @@ public class MissingPropertyException
   private static final long serialVersionUID = 1;
 
   public MissingPropertyException(final String name) {
-    super(String.format("Missing required configuration property: %s", name));
+    super("Missing required configuration property: " + name);
   }
 }
