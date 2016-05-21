@@ -89,7 +89,7 @@ public final class Event
 
   @Override
   public String toString() {
-    return "Event{" +
+    return getClass().getSimpleName() + "{" +
         "logger=" + logger +
         ", level=" + level +
         ", message='" + message + '\'' +
