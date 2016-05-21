@@ -30,30 +30,30 @@ import com.planet57.gossip.Log;
 public final class StaticLoggerBinder
     implements LoggerFactoryBinder
 {
-    public static String REQUESTED_API_VERSION = "1.6.0";  // to avoid constant folding by the compiler, this field must *not* be final
+  public static String REQUESTED_API_VERSION = "1.6.0";  // to avoid constant folding by the compiler, this field must *not* be final
 
-    private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+  private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
-    /**
-     * @return {@link #SINGLETON}
-     */
-    public static StaticLoggerBinder getSingleton() {
-        return SINGLETON;
+  /**
+   * @return {@link #SINGLETON}
+   */
+  public static StaticLoggerBinder getSingleton() {
+    return SINGLETON;
+  }
+
+  private final ILoggerFactory factory = new ILoggerFactory()
+  {
+    public Logger getLogger(final String name) {
+      return Log.getLogger(name);
     }
+  };
 
-    private final ILoggerFactory factory = new ILoggerFactory()
-    {
-        public Logger getLogger(final String name) {
-            return Log.getLogger(name);
-        }
-    };
+  public ILoggerFactory getLoggerFactory() {
+    Log.configure(factory);
+    return factory;
+  }
 
-    public ILoggerFactory getLoggerFactory() {
-        Log.configure(factory);
-        return factory;
-    }
-
-    public String getLoggerFactoryClassStr() {
-        return factory.getClass().getName();
-    }
+  public String getLoggerFactoryClassStr() {
+    return factory.getClass().getName();
+  }
 }

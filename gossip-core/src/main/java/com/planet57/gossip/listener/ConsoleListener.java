@@ -28,56 +28,58 @@ import java.io.PrintStream;
 public class ConsoleListener
     extends ListenerSupport
 {
-    public static enum Stream
-    {
-        OUT, ERR
+  public static enum Stream
+  {
+    OUT, ERR
+  }
+
+  private Stream stream;
+
+  public ConsoleListener() {
+    setStream(Stream.OUT);
+  }
+
+  public Stream getStream() {
+    return stream;
+  }
+
+  public void setStream(final Stream stream) {
+    assert stream != null;
+    this.stream = stream;
+  }
+
+  public void onEvent(final Event event) {
+    assert event != null;
+
+    if (!isLoggable(event)) {
+      return;
     }
 
-    private Stream stream;
+    Stream stream = getStream();
+    PrintStream out;
 
-    public ConsoleListener() {
-        setStream(Stream.OUT);
+    switch (stream) {
+      case OUT:
+        out = System.out;
+        break;
+      case ERR:
+        out = System.err;
+        break;
+      default:
+        throw new InternalError();
     }
 
-    public Stream getStream() {
-        return stream;
+    synchronized (out) {
+      out.print(render(event));
+      out.flush();
     }
+  }
 
-    public void setStream(final Stream stream) {
-        assert stream != null;
-        this.stream = stream;
-    }
-
-    public void onEvent(final Event event) {
-        assert event != null;
-
-        if (!isLoggable(event)) return;
-
-        Stream stream = getStream();
-        PrintStream out;
-
-        switch (stream) {
-            case OUT:
-                out = System.out;
-                break;
-            case ERR:
-                out = System.err;
-                break;
-            default:
-                throw new InternalError();
-        }
-
-        synchronized (out) {
-            out.print(render(event));
-            out.flush();
-        }
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-            "stream=" + stream +
-            ", threshold=" + getThreshold() +
-            '}';
-    }
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "stream=" + stream +
+        ", threshold=" + getThreshold() +
+        '}';
+  }
 }

@@ -27,94 +27,94 @@ import com.planet57.gossip.Log;
 public abstract class NameValueTriggerSupport
     implements Trigger
 {
-    protected transient Logger log = Log.getLogger(getClass());
+  protected transient Logger log = Log.getLogger(getClass());
 
-    private String name;
+  private String name;
 
-    private String value;
+  private String value;
 
-    private boolean trim = true;
+  private boolean trim = true;
 
-    private boolean ignoreCase = true;
+  private boolean ignoreCase = true;
 
-    public void setName(final String name) {
-        this.name = name;
+  public void setName(final String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setValue(final String value) {
+    this.value = value;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  public void setTrim(final boolean flag) {
+    this.trim = flag;
+  }
+
+  public boolean isTrim() {
+    return trim;
+  }
+
+  public void setIgnoreCase(final boolean flag) {
+    this.ignoreCase = flag;
+  }
+
+  public boolean isIgnoreCase() {
+    return ignoreCase;
+  }
+
+  protected abstract String resolve();
+
+  public boolean isActive() {
+    assert name != null;
+    // value can be null;
+
+    String have = resolve();
+
+    if (log.isTraceEnabled()) {
+      log.trace("Checking active state; name={}, expect={}, found={}", new Object[]{name, value, have});
     }
 
-    public String getName() {
-        return name;
+    // If not set, its not active
+    if (have == null) {
+      return false;
     }
 
-    public void setValue(final String value) {
-        this.value = value;
+    // We are set, but no value, so set means active
+    if (value == null) {
+      return true;
     }
 
-    public String getValue() {
-        return value;
+    String want = value;
+
+    // Trim if asked
+    if (trim) {
+      want = want.trim();
+      have = have.trim();
     }
 
-    public void setTrim(final boolean flag) {
-        this.trim = flag;
+    // Else value needs to equal our value
+    if (ignoreCase) {
+      return want.equalsIgnoreCase(have);
     }
-
-    public boolean isTrim() {
-        return trim;
+    else {
+      return want.equals(have);
     }
+  }
 
-    public void setIgnoreCase(final boolean flag) {
-        this.ignoreCase = flag;
-    }
-
-    public boolean isIgnoreCase() {
-        return ignoreCase;
-    }
-
-    protected abstract String resolve();
-
-    public boolean isActive() {
-        assert name != null;
-        // value can be null;
-
-        String have = resolve();
-
-        if (log.isTraceEnabled()) {
-            log.trace("Checking active state; name={}, expect={}, found={}", new Object[] { name, value, have });
-        }
-
-        // If not set, its not active
-        if (have == null) {
-            return false;
-        }
-
-        // We are set, but no value, so set means active
-        if (value == null) {
-            return true;
-        }
-
-        String want = value;
-
-        // Trim if asked
-        if (trim) {
-            want = want.trim();
-            have = have.trim();
-        }
-
-        // Else value needs to equal our value
-        if (ignoreCase) {
-            return want.equalsIgnoreCase(have);
-        }
-        else {
-            return want.equals(have);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "name='" + name + '\'' +
-                ", value='" + value + '\'' +
-                ", trim=" + trim +
-                ", ignoreCase=" + ignoreCase +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "name='" + name + '\'' +
+        ", value='" + value + '\'' +
+        ", trim=" + trim +
+        ", ignoreCase=" + ignoreCase +
+        '}';
+  }
 }

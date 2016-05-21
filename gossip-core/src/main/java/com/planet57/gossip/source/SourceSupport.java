@@ -32,26 +32,26 @@ import java.net.URL;
 public abstract class SourceSupport
     implements Source
 {
-    protected final Logger log = Log.getLogger(getClass());
+  protected final Logger log = Log.getLogger(getClass());
 
-    protected Model load(final URL url) throws Exception {
-        assert url != null;
+  protected Model load(final URL url) throws Exception {
+    assert url != null;
 
-        log.debug("Loading model from: {}", url);
+    log.debug("Loading model from: {}", url);
 
-        // HACK: FOr now just assume we are doing properties, support xpp3 optionally in the future
-        GossipPropertiesReader reader = new GossipPropertiesReader();
-        return reader.read(url);
+    // HACK: FOr now just assume we are doing properties, support xpp3 optionally in the future
+    GossipPropertiesReader reader = new GossipPropertiesReader();
+    return reader.read(url);
+  }
+
+  protected Model load(final File file) throws Exception {
+    assert file != null;
+
+    if (!file.exists()) {
+      log.trace("File does not exist; skipping: {}", file);
+      return null;
     }
 
-    protected Model load(final File file) throws Exception {
-        assert file != null;
-
-        if (!file.exists()) {
-            log.trace("File does not exist; skipping: {}", file);
-            return null;
-        }
-
-        return load(file.toURI().toURL());
-    }
+    return load(file.toURI().toURL());
+  }
 }

@@ -31,72 +31,72 @@ import static org.fusesource.jansi.Ansi.*;
 public class ColorRenderer
     extends PatternRenderer
 {
-    @Override
-    protected void renderLevel(final Event event, final StringBuilder buff) {
-        assert event != null;
-        assert buff != null;
+  @Override
+  protected void renderLevel(final Event event, final StringBuilder buff) {
+    assert event != null;
+    assert buff != null;
 
-        switch (event.getLevel()) {
-            case TRACE:
-            case DEBUG:
-                buff.append(ansi().a(INTENSITY_BOLD).fg(YELLOW).a(event.getLevel().name()).reset());
-                break;
+    switch (event.getLevel()) {
+      case TRACE:
+      case DEBUG:
+        buff.append(ansi().a(INTENSITY_BOLD).fg(YELLOW).a(event.getLevel().name()).reset());
+        break;
 
-            case INFO:
-                buff.append(ansi().a(INTENSITY_BOLD).fg(GREEN).a(event.getLevel().name()).reset());
-                break;
+      case INFO:
+        buff.append(ansi().a(INTENSITY_BOLD).fg(GREEN).a(event.getLevel().name()).reset());
+        break;
 
-            case WARN:
-            case ERROR:
-                buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(event.getLevel().name()).reset());
-                break;
+      case WARN:
+      case ERROR:
+        buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(event.getLevel().name()).reset());
+        break;
 
-            default:
-                throw new InternalError();
-        }
+      default:
+        throw new InternalError();
+    }
+  }
+
+  @Override
+  protected void renderName(final Event event, final StringBuilder buff, final boolean shortName) {
+    StringBuilder tmp = new StringBuilder();
+    super.renderName(event, tmp, shortName);
+    buff.append(ansi().fg(GREEN).a(tmp).reset());
+  }
+
+  @Override
+  protected void renderCause(final Event event, final StringBuilder buff) {
+    assert event != null;
+    assert buff != null;
+
+    Throwable cause = event.getCause();
+    if (cause == null) {
+      return;
     }
 
-    @Override
-    protected void renderName(final Event event, final StringBuilder buff, final boolean shortName) {
-        StringBuilder tmp = new StringBuilder();
-        super.renderName(event, tmp, shortName);
-        buff.append(ansi().fg(GREEN).a(tmp).reset());
+    buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getClass().getName()).reset());
+    if (cause.getMessage() != null) {
+      buff.append(": ");
+      buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
     }
+    renderNewLine(buff);
 
-    @Override
-    protected void renderCause(final Event event, final StringBuilder buff) {
-        assert event != null;
-        assert buff != null;
+    while (cause != null) {
+      for (StackTraceElement e : cause.getStackTrace()) {
+        buff.append("    ");
+        buff.append(ansi().a(INTENSITY_BOLD).a("at").reset().a(" ").a(e.getClassName()).a(".").a(e.getMethodName()));
+        buff.append(ansi().a(" (").a(INTENSITY_BOLD).a(getLocation(e)).reset().a(")"));
+        renderNewLine(buff);
+      }
 
-        Throwable cause = event.getCause();
-        if (cause == null) {
-            return;
-        }
-
-        buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getClass().getName()).reset());
+      cause = cause.getCause();
+      if (cause != null) {
+        buff.append(ansi().a(INTENSITY_BOLD).a("Caused by").reset().a(": ").a(cause.getClass().getName()));
         if (cause.getMessage() != null) {
-            buff.append(": ");
-            buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
+          buff.append(": ");
+          buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
         }
         renderNewLine(buff);
-
-        while (cause != null) {
-            for (StackTraceElement e : cause.getStackTrace()) {
-                buff.append("    ");
-                buff.append(ansi().a(INTENSITY_BOLD).a("at").reset().a(" ").a(e.getClassName()).a(".").a(e.getMethodName()));
-                buff.append(ansi().a(" (").a(INTENSITY_BOLD).a(getLocation(e)).reset().a(")"));
-                renderNewLine(buff);
-            }
-
-            cause = cause.getCause();
-            if (cause != null) {
-                buff.append(ansi().a(INTENSITY_BOLD).a("Caused by").reset().a(": ").a(cause.getClass().getName()));
-                if (cause.getMessage() != null) {
-                    buff.append(": ");
-                    buff.append(ansi().a(INTENSITY_BOLD).fg(RED).a(cause.getMessage()).reset());
-                }
-                renderNewLine(buff);
-            }
-        }
+      }
     }
+  }
 }

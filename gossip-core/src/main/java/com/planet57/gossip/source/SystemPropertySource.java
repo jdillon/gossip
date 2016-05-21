@@ -32,57 +32,57 @@ import java.net.URL;
 public class SystemPropertySource
     extends SourceSupport
 {
-    public SystemPropertySource() {}
+  public SystemPropertySource() {}
 
-    public SystemPropertySource(final String name) {
-        setName(name);
+  public SystemPropertySource(final String name) {
+    setName(name);
+  }
+
+  private String name;
+
+  public void setName(final String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public Model load() throws Exception {
+    if (name == null) {
+      throw new MissingPropertyException("name");
     }
 
-    private String name;
+    String value = System.getProperty(name);
 
-    public void setName(final String name) {
-        this.name = name;
+    if (value == null) {
+      log.trace("Unable to load; property not set: {}", name);
+      return null;
     }
 
-    public String getName() {
-        return name;
+    URL url = null;
+    try {
+      url = new URL(value);
+    }
+    catch (MalformedURLException e) {
+      File file = new File(value);
+
+      if (file.exists()) {
+        url = file.toURI().toURL();
+      }
     }
 
-    public Model load() throws Exception {
-        if (name == null) {
-            throw new MissingPropertyException("name");
-        }
-
-        String value = System.getProperty(name);
-
-        if (value == null) {
-            log.trace("Unable to load; property not set: {}", name);
-            return null;
-        }
-
-        URL url = null;
-        try {
-            url = new URL(value);
-        }
-        catch (MalformedURLException e) {
-            File file = new File(value);
-
-            if (file.exists()) {
-                url = file.toURI().toURL();
-            }
-        }
-
-        if (url == null) {
-            throw new ConfigurationException("Unable to load; unable to resolve target: " + value);
-        }
-
-        return load(url);
+    if (url == null) {
+      throw new ConfigurationException("Unable to load; unable to resolve target: " + value);
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "name='" + name + '\'' +
-                '}';
-    }
+    return load(url);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "name='" + name + '\'' +
+        '}';
+  }
 }

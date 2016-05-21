@@ -34,143 +34,145 @@ import java.util.regex.Pattern;
 public class FileListener
     extends ListenerSupport
 {
-    public static final int DEFAULT_BUFFER_SIZE = 8192;
+  public static final int DEFAULT_BUFFER_SIZE = 8192;
 
-    private static final Pattern PATTERN = Pattern.compile("\\$\\{([^}]+)\\}");
+  private static final Pattern PATTERN = Pattern.compile("\\$\\{([^}]+)\\}");
 
-    private File file;
+  private File file;
 
-    private boolean append;
+  private boolean append;
 
-    private int bufferSize = DEFAULT_BUFFER_SIZE;
+  private int bufferSize = DEFAULT_BUFFER_SIZE;
 
-    private RollingStrategy rollingStrategy;
+  private RollingStrategy rollingStrategy;
 
-    private CountingWriter writer;
+  private CountingWriter writer;
 
-    public File getFile() {
-        return file;
+  public File getFile() {
+    return file;
+  }
+
+  public void setFile(final File file) {
+    this.file = file;
+  }
+
+  public void setFile(final String fileName) {
+    assert fileName != null;
+    setFile(new File(evaluate(fileName.trim())));
+  }
+
+  public boolean isAppend() {
+    return append;
+  }
+
+  public void setAppend(final boolean append) {
+    this.append = append;
+  }
+
+  public int getBufferSize() {
+    return bufferSize;
+  }
+
+  public void setBufferSize(final int n) {
+    this.bufferSize = n;
+  }
+
+  public RollingStrategy getRollingStrategy() {
+    return rollingStrategy;
+  }
+
+  public void setRollingStrategy(final RollingStrategy s) {
+    this.rollingStrategy = s;
+  }
+
+  public CountingWriter getWriter() {
+    return writer;
+  }
+
+  protected CountingWriter createWriter() throws IOException {
+    if (writer != null) {
+      writer.close();
     }
 
-    public void setFile(final File file) {
-        this.file = file;
+    File file = getFile();
+    File dir = file.getParentFile();
+    if (dir != null && !dir.isDirectory() && !dir.mkdirs()) {
+      log.warn("Unable to create directory structure for: {}", file);
     }
 
-    public void setFile(final String fileName) {
-        assert fileName != null;
-        setFile(new File(evaluate(fileName.trim())));
+    log.trace("Creating writer for file: {}", file);
+    Writer writer = new FileWriter(file, isAppend());
+
+    // Maybe buffer
+    if (bufferSize > 0) {
+      log.trace("Using buffer size: {}", bufferSize);
+      writer = new BufferedWriter(writer, bufferSize);
     }
 
-    public boolean isAppend() {
-        return append;
+    return new CountingWriter(writer);
+  }
+
+  public void onEvent(final Event event) throws Exception {
+    assert event != null;
+
+    if (!isLoggable(event)) {
+      return;
     }
 
-    public void setAppend(final boolean append) {
-        this.append = append;
+    if (writer == null) {
+      writer = createWriter();
+    }
+    else {
+      // Maybe roll the file
+      if (rollingStrategy != null && rollingStrategy.roll(this)) {
+        // Rebuild the writer after a roll
+        writer = createWriter();
+      }
     }
 
-    public int getBufferSize() {
-        return bufferSize;
+    synchronized (writer) {
+      writer.write(render(event));
+      writer.flush();
     }
+  }
 
-    public void setBufferSize(final int n) {
-        this.bufferSize = n;
-    }
+  protected String evaluate(String input) {
+    if (input != null) {
+      Matcher matcher = PATTERN.matcher(input);
 
-    public RollingStrategy getRollingStrategy() {
-        return rollingStrategy;
-    }
-
-    public void setRollingStrategy(final RollingStrategy s) {
-        this.rollingStrategy = s;
-    }
-
-    public CountingWriter getWriter() {
-        return writer;
-    }
-
-    protected CountingWriter createWriter() throws IOException {
-        if (writer != null) {
-            writer.close();
+      while (matcher.find()) {
+        Object rep = getProperty(matcher.group(1));
+        if (rep != null) {
+          input = input.replace(matcher.group(0), rep.toString());
+          matcher.reset(input);
         }
-        
-        File file = getFile();
-        File dir = file.getParentFile();
-        if (dir != null && !dir.isDirectory() && !dir.mkdirs()) {
-            log.warn("Unable to create directory structure for: {}", file);
-        }
-
-        log.trace("Creating writer for file: {}", file);
-        Writer writer = new FileWriter(file, isAppend());
-
-        // Maybe buffer
-        if (bufferSize > 0) {
-            log.trace("Using buffer size: {}", bufferSize);
-            writer = new BufferedWriter(writer, bufferSize);
-        }
-
-        return new CountingWriter(writer);
+      }
     }
 
-    public void onEvent(final Event event) throws Exception {
-        assert event != null;
+    return input;
+  }
 
-        if (!isLoggable(event)) return;
+  protected Object getProperty(final String name) {
+    assert name != null;
+    return System.getProperty(name);
+  }
 
-        if (writer == null) {
-            writer = createWriter();
-        }
-        else {
-            // Maybe roll the file
-            if (rollingStrategy != null && rollingStrategy.roll(this)) {
-                // Rebuild the writer after a roll
-                writer = createWriter();
-            }
-        }
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "append=" + append +
+        ", bufferSize=" + bufferSize +
+        ", file=" + file +
+        ", rollingStrategy=" + rollingStrategy +
+        ", threshold=" + getThreshold() +
+        '}';
+  }
 
-        synchronized (writer) {
-            writer.write(render(event));
-            writer.flush();
-        }
-    }
-
-    protected String evaluate(String input) {
-        if (input != null) {
-            Matcher matcher = PATTERN.matcher(input);
-
-            while (matcher.find()) {
-                Object rep = getProperty(matcher.group(1));
-                if (rep != null) {
-                    input = input.replace(matcher.group(0), rep.toString());
-                    matcher.reset(input);
-                }
-            }
-        }
-
-        return input;
-    }
-
-    protected Object getProperty(final String name) {
-        assert name != null;
-        return System.getProperty(name);
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "append=" + append +
-                ", bufferSize=" + bufferSize +
-                ", file=" + file +
-                ", rollingStrategy=" + rollingStrategy +
-                ", threshold=" + getThreshold() +
-                '}';
-    }
-
-    /**
-     * Interface for file rolling strategy's.
-     */
-    public static interface RollingStrategy
-    {
-        boolean roll(FileListener listener);
-    }
+  /**
+   * Interface for file rolling strategy's.
+   */
+  public static interface RollingStrategy
+  {
+    boolean roll(FileListener listener);
+  }
 }

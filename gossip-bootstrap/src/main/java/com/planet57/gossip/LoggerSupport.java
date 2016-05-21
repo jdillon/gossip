@@ -38,222 +38,222 @@ public abstract class LoggerSupport
     extends MarkerIgnoringBase
     implements org.slf4j.Logger, Serializable
 {
-    private static final long serialVersionUID = 1;
+  private static final long serialVersionUID = 1;
 
-    protected LoggerSupport(final String name) {
-        this.name = name;
+  protected LoggerSupport(final String name) {
+    this.name = name;
+  }
+
+  protected LoggerSupport() {
+    // nop
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder buff = new StringBuilder();
+    buff.append(getClass().getSimpleName());
+    if (name != null) {
+      buff.append("[").append(name).append("]");
+    }
+    buff.append(String.format("@%x", System.identityHashCode(this)));
+    return buff.toString();
+  }
+
+  @Override
+  public final int hashCode() {
+    if (name == null) {
+      return System.identityHashCode(this);
+    }
+    return name.hashCode();
+  }
+
+  @Override
+  public final boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
     }
 
-    protected LoggerSupport() {
-        // nop
+    Logger that = (Logger) obj;
+
+    return !(name != null ? !name.equals(that.getName()) : that.getName() != null);
+  }
+
+  protected abstract boolean isEnabled(final Level level);
+
+  protected abstract void doLog(Event event);
+
+  protected void doLog(final Level level, final String message, final Throwable cause) {
+    doLog(new Event(this, level, message, cause));
+  }
+
+  private void log(final Level level, final FormattingTuple tuple) {
+    doLog(level, tuple.getMessage(), tuple.getThrowable());
+  }
+
+  private void log(final Level level, final String msg) {
+    if (isEnabled(level)) {
+      doLog(level, msg, null);
     }
+  }
 
-    @Override
-    public String toString() {
-        StringBuilder buff = new StringBuilder();
-        buff.append(getClass().getSimpleName());
-        if (name != null) {
-            buff.append("[").append(name).append("]");
-        }
-        buff.append(String.format("@%x", System.identityHashCode(this)));
-        return buff.toString();
+  private void log(final Level level, final String format, final Object arg) {
+    if (isEnabled(level)) {
+      log(level, MessageFormatter.format(format, arg));
     }
+  }
 
-    @Override
-    public final int hashCode() {
-        if (name == null) {
-            return System.identityHashCode(this);
-        }
-        return name.hashCode();
+  private void log(final Level level, final String format, final Object arg1, final Object arg2) {
+    if (isEnabled(level)) {
+      log(level, MessageFormatter.format(format, arg1, arg2));
     }
+  }
 
-    @Override
-    public final boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-
-        Logger that = (Logger) obj;
-
-        return !(name != null ? !name.equals(that.getName()) : that.getName() != null);
+  private void log(final Level level, final String format, final Object[] args) {
+    if (isEnabled(level)) {
+      log(level, MessageFormatter.arrayFormat(format, args));
     }
+  }
 
-    protected abstract boolean isEnabled(final Level level);
+  //
+  // TRACE
+  //
 
-    protected abstract void doLog(Event event);
+  public final boolean isTraceEnabled() {
+    return isEnabled(TRACE);
+  }
 
-    protected void doLog(final Level level, final String message, final Throwable cause) {
-        doLog(new Event(this, level, message, cause));
-    }
+  public final void trace(final String msg) {
+    log(TRACE, msg);
+  }
 
-    private void log(final Level level, final FormattingTuple tuple) {
-        doLog(level, tuple.getMessage(), tuple.getThrowable());
-    }
+  public final void trace(final String format, final Object arg) {
+    log(TRACE, format, arg);
+  }
 
-    private void log(final Level level, final String msg) {
-        if (isEnabled(level)) {
-            doLog(level, msg, null);
-        }
-    }
+  public final void trace(final String format, final Object arg1, final Object arg2) {
+    log(TRACE, format, arg1, arg2);
+  }
 
-    private void log(final Level level, final String format, final Object arg) {
-        if (isEnabled(level)) {
-            log(level, MessageFormatter.format(format, arg));
-        }
-    }
+  public final void trace(final String format, final Object... args) {
+    log(TRACE, format, args);
+  }
 
-    private void log(final Level level, final String format, final Object arg1, final Object arg2) {
-        if (isEnabled(level)) {
-            log(level, MessageFormatter.format(format, arg1, arg2));
-        }
-    }
+  public final void trace(final String msg, final Throwable cause) {
+    log(TRACE, msg, cause);
+  }
 
-    private void log(final Level level, final String format, final Object[] args) {
-        if (isEnabled(level)) {
-            log(level, MessageFormatter.arrayFormat(format, args));
-        }
-    }
+  //
+  // DEBUG
+  //
 
-    //
-    // TRACE
-    //
+  public final boolean isDebugEnabled() {
+    return isEnabled(DEBUG);
+  }
 
-    public final boolean isTraceEnabled() {
-        return isEnabled(TRACE);
-    }
+  public final void debug(final String msg) {
+    log(DEBUG, msg);
+  }
 
-    public final void trace(final String msg) {
-        log(TRACE, msg);
-    }
+  public final void debug(final String format, final Object arg) {
+    log(DEBUG, format, arg);
+  }
 
-    public final void trace(final String format, final Object arg) {
-        log(TRACE, format, arg);
-    }
+  public final void debug(final String format, final Object arg1, final Object arg2) {
+    log(DEBUG, format, arg1, arg2);
+  }
 
-    public final void trace(final String format, final Object arg1, final Object arg2) {
-        log(TRACE, format, arg1, arg2);
-    }
+  public final void debug(final String format, final Object... args) {
+    log(DEBUG, format, args);
+  }
 
-    public final void trace(final String format, final Object... args) {
-        log(TRACE, format, args);
-    }
+  public final void debug(final String msg, final Throwable cause) {
+    log(DEBUG, msg, cause);
+  }
 
-    public final void trace(final String msg, final Throwable cause) {
-        log(TRACE, msg, cause);
-    }
+  //
+  // INFO
+  //
 
-    //
-    // DEBUG
-    //
+  public final boolean isInfoEnabled() {
+    return isEnabled(INFO);
+  }
 
-    public final boolean isDebugEnabled() {
-        return isEnabled(DEBUG);
-    }
+  public final void info(final String msg) {
+    log(INFO, msg);
+  }
 
-    public final void debug(final String msg) {
-        log(DEBUG, msg);
-    }
+  public final void info(final String format, final Object arg) {
+    log(INFO, format, arg);
+  }
 
-    public final void debug(final String format, final Object arg) {
-        log(DEBUG, format, arg);
-    }
+  public final void info(final String format, final Object arg1, final Object arg2) {
+    log(INFO, format, arg1, arg2);
+  }
 
-    public final void debug(final String format, final Object arg1, final Object arg2) {
-        log(DEBUG, format, arg1, arg2);
-    }
+  public final void info(final String format, final Object... args) {
+    log(INFO, format, args);
+  }
 
-    public final void debug(final String format, final Object... args) {
-        log(DEBUG, format, args);
-    }
+  public final void info(final String msg, final Throwable cause) {
+    log(INFO, msg, cause);
+  }
 
-    public final void debug(final String msg, final Throwable cause) {
-        log(DEBUG, msg, cause);
-    }
+  //
+  // WARN
+  //
 
-    //
-    // INFO
-    //
+  public final boolean isWarnEnabled() {
+    return isEnabled(WARN);
+  }
 
-    public final boolean isInfoEnabled() {
-        return isEnabled(INFO);
-    }
+  public final void warn(final String msg) {
+    log(WARN, msg);
+  }
 
-    public final void info(final String msg) {
-        log(INFO, msg);
-    }
+  public final void warn(final String format, final Object arg) {
+    log(WARN, format, arg);
+  }
 
-    public final void info(final String format, final Object arg) {
-        log(INFO, format, arg);
-    }
+  public final void warn(final String format, final Object... args) {
+    log(WARN, format, args);
+  }
 
-    public final void info(final String format, final Object arg1, final Object arg2) {
-        log(INFO, format, arg1, arg2);
-    }
+  public final void warn(final String format, final Object arg1, final Object arg2) {
+    log(WARN, format, arg1, arg2);
+  }
 
-    public final void info(final String format, final Object... args) {
-        log(INFO, format, args);
-    }
+  public final void warn(final String msg, final Throwable cause) {
+    log(WARN, msg, cause);
+  }
 
-    public final void info(final String msg, final Throwable cause) {
-        log(INFO, msg, cause);
-    }
+  //
+  // ERROR
+  //
 
-    //
-    // WARN
-    //
+  public final boolean isErrorEnabled() {
+    return isEnabled(ERROR);
+  }
 
-    public final boolean isWarnEnabled() {
-        return isEnabled(WARN);
-    }
+  public final void error(final String msg) {
+    log(ERROR, msg);
+  }
 
-    public final void warn(final String msg) {
-        log(WARN, msg);
-    }
+  public final void error(final String format, final Object arg) {
+    log(ERROR, format, arg);
+  }
 
-    public final void warn(final String format, final Object arg) {
-        log(WARN, format, arg);
-    }
+  public final void error(final String format, final Object arg1, final Object arg2) {
+    log(ERROR, format, arg1, arg2);
+  }
 
-    public final void warn(final String format, final Object... args) {
-        log(WARN, format, args);
-    }
+  public final void error(final String format, final Object... args) {
+    log(ERROR, format, args);
+  }
 
-    public final void warn(final String format, final Object arg1, final Object arg2) {
-        log(WARN, format, arg1, arg2);
-    }
-
-    public final void warn(final String msg, final Throwable cause) {
-        log(WARN, msg, cause);
-    }
-
-    //
-    // ERROR
-    //
-
-    public final boolean isErrorEnabled() {
-        return isEnabled(ERROR);
-    }
-
-    public final void error(final String msg) {
-        log(ERROR, msg);
-    }
-
-    public final void error(final String format, final Object arg) {
-        log(ERROR, format, arg);
-    }
-
-    public final void error(final String format, final Object arg1, final Object arg2) {
-        log(ERROR, format, arg1, arg2);
-    }
-
-    public final void error(final String format, final Object... args) {
-        log(ERROR, format, args);
-    }
-
-    public final void error(final String msg, final Throwable cause) {
-        log(ERROR, msg, cause);
-    }
+  public final void error(final String msg, final Throwable cause) {
+    log(ERROR, msg, cause);
+  }
 }

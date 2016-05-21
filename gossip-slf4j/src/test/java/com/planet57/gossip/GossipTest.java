@@ -30,20 +30,20 @@ import static org.junit.Assert.assertNotNull;
  */
 public class GossipTest
 {
-    @Test
-    public void testBasic() throws Exception {
-        ILoggerFactory factory = LoggerFactory.getILoggerFactory();
+  @Test
+  public void testBasic() throws Exception {
+    ILoggerFactory factory = LoggerFactory.getILoggerFactory();
 
-        assertNotNull(factory);
-        assertEquals(Gossip.class.getName(), factory.getClass().getName());
-        
-        Logger log = LoggerFactory.getLogger(getClass());
-        assertNotNull(log);
+    assertNotNull(factory);
+    assertEquals(Gossip.class.getName(), factory.getClass().getName());
 
-        log.trace("trace");
-        log.debug("debug");
-        log.info("info");
-        log.warn("warn");
-        log.error("error");
-    }
+    Logger log = LoggerFactory.getLogger(getClass());
+    assertNotNull(log);
+
+    log.trace("trace");
+    log.debug("debug");
+    log.info("info");
+    log.warn("warn");
+    log.error("error");
+  }
 }

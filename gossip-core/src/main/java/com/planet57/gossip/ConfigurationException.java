@@ -24,21 +24,21 @@ package com.planet57.gossip;
 public class ConfigurationException
     extends RuntimeException
 {
-    ///CLOVER:OFF
+  ///CLOVER:OFF
 
-    private static final long serialVersionUID = 1;
+  private static final long serialVersionUID = 1;
 
-    public ConfigurationException() {}
+  public ConfigurationException() {}
 
-    public ConfigurationException(final String message) {
-        super(message);
-    }
+  public ConfigurationException(final String message) {
+    super(message);
+  }
 
-    public ConfigurationException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
+  public ConfigurationException(final String message, final Throwable cause) {
+    super(message, cause);
+  }
 
-    public ConfigurationException(final Throwable cause) {
-        super(cause);
-    }
+  public ConfigurationException(final Throwable cause) {
+    super(cause);
+  }
 }

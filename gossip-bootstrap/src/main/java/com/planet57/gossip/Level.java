@@ -26,176 +26,176 @@ import org.slf4j.spi.LocationAwareLogger;
  */
 public enum Level
 {
-    ALL(-1000),                             // -1000
+  ALL(-1000),                             // -1000
 
-    TRACE(LocationAwareLogger.TRACE_INT),   // 0
+  TRACE(LocationAwareLogger.TRACE_INT),   // 0
 
-    DEBUG(LocationAwareLogger.DEBUG_INT),   // 10
+  DEBUG(LocationAwareLogger.DEBUG_INT),   // 10
 
-    INFO(LocationAwareLogger.INFO_INT),     // 20
+  INFO(LocationAwareLogger.INFO_INT),     // 20
 
-    WARN(LocationAwareLogger.WARN_INT),     // 30
+  WARN(LocationAwareLogger.WARN_INT),     // 30
 
-    ERROR(LocationAwareLogger.ERROR_INT),   // 40
+  ERROR(LocationAwareLogger.ERROR_INT),   // 40
 
-    OFF(1000);                              // 1000
+  OFF(1000);                              // 1000
 
-    public final int id;
+  public final int id;
 
-    private Level(final int id) {
-        this.id = id;
+  private Level(final int id) {
+    this.id = id;
+  }
+
+  /**
+   * @since 1.8
+   */
+  public boolean isEnabled(final Logger logger) {
+    assert logger != null;
+    switch (this) {
+      case ALL:
+        return true;
+      case TRACE:
+        return logger.isTraceEnabled();
+      case DEBUG:
+        return logger.isDebugEnabled();
+      case INFO:
+        return logger.isInfoEnabled();
+      case WARN:
+        return logger.isWarnEnabled();
+      case ERROR:
+        return logger.isErrorEnabled();
+      default:
+        return false;
     }
+  }
 
-    /**
-     * @since 1.8
-     */
-    public boolean isEnabled(final Logger logger) {
-        assert logger != null;
-        switch (this) {
-            case ALL:
-                return true;
-            case TRACE:
-                return logger.isTraceEnabled();
-            case DEBUG:
-                return logger.isDebugEnabled();
-            case INFO:
-                return logger.isInfoEnabled();
-            case WARN:
-                return logger.isWarnEnabled();
-            case ERROR:
-                return logger.isErrorEnabled();
-            default:
-                return false;
-        }
+  /**
+   * @since 1.8
+   */
+  public void log(final Logger logger, final String msg) {
+    assert logger != null;
+    switch (this) {
+      case TRACE:
+        logger.trace(msg);
+        break;
+      case DEBUG:
+        logger.debug(msg);
+        break;
+      case INFO:
+        logger.info(msg);
+        break;
+      case WARN:
+        logger.warn(msg);
+        break;
+      case ERROR:
+        logger.error(msg);
+        break;
+      default:
+        throw new UnsupportedOperationException();
     }
+  }
 
-    /**
-     * @since 1.8
-     */
-    public void log(final Logger logger, final String msg) {
-        assert logger != null;
-        switch (this) {
-            case TRACE:
-                logger.trace(msg);
-                break;
-            case DEBUG:
-                logger.debug(msg);
-                break;
-            case INFO:
-                logger.info(msg);
-                break;
-            case WARN:
-                logger.warn(msg);
-                break;
-            case ERROR:
-                logger.error(msg);
-                break;
-            default:
-                throw new UnsupportedOperationException();
-        }
+  /**
+   * @since 1.8
+   */
+  public void log(final Logger logger, final String format, final Object arg) {
+    assert logger != null;
+    switch (this) {
+      case TRACE:
+        logger.trace(format, arg);
+        break;
+      case DEBUG:
+        logger.debug(format, arg);
+        break;
+      case INFO:
+        logger.info(format, arg);
+        break;
+      case WARN:
+        logger.warn(format, arg);
+        break;
+      case ERROR:
+        logger.error(format, arg);
+        break;
+      default:
+        throw new UnsupportedOperationException();
     }
+  }
 
-    /**
-     * @since 1.8
-     */
-    public void log(final Logger logger, final String format, final Object arg) {
-        assert logger != null;
-        switch (this) {
-            case TRACE:
-                logger.trace(format, arg);
-                break;
-            case DEBUG:
-                logger.debug(format, arg);
-                break;
-            case INFO:
-                logger.info(format, arg);
-                break;
-            case WARN:
-                logger.warn(format, arg);
-                break;
-            case ERROR:
-                logger.error(format, arg);
-                break;
-            default:
-                throw new UnsupportedOperationException();
-        }
+  /**
+   * @since 1.8
+   */
+  public void log(final Logger logger, final String format, final Object arg1, final Object arg2) {
+    assert logger != null;
+    switch (this) {
+      case TRACE:
+        logger.trace(format, arg1, arg2);
+        break;
+      case DEBUG:
+        logger.debug(format, arg1, arg2);
+        break;
+      case INFO:
+        logger.info(format, arg1, arg2);
+        break;
+      case WARN:
+        logger.warn(format, arg1, arg2);
+        break;
+      case ERROR:
+        logger.error(format, arg1, arg2);
+        break;
+      default:
+        throw new UnsupportedOperationException();
     }
+  }
 
-    /**
-     * @since 1.8
-     */
-    public void log(final Logger logger, final String format, final Object arg1, final Object arg2) {
-        assert logger != null;
-        switch (this) {
-            case TRACE:
-                logger.trace(format, arg1, arg2);
-                break;
-            case DEBUG:
-                logger.debug(format, arg1, arg2);
-                break;
-            case INFO:
-                logger.info(format, arg1, arg2);
-                break;
-            case WARN:
-                logger.warn(format, arg1, arg2);
-                break;
-            case ERROR:
-                logger.error(format, arg1, arg2);
-                break;
-            default:
-                throw new UnsupportedOperationException();
-        }
+  /**
+   * @since 1.8
+   */
+  public void log(final Logger logger, final String format, final Object... args) {
+    assert logger != null;
+    switch (this) {
+      case TRACE:
+        logger.trace(format, args);
+        break;
+      case DEBUG:
+        logger.debug(format, args);
+        break;
+      case INFO:
+        logger.info(format, args);
+        break;
+      case WARN:
+        logger.warn(format, args);
+        break;
+      case ERROR:
+        logger.error(format, args);
+        break;
+      default:
+        throw new UnsupportedOperationException();
     }
+  }
 
-    /**
-     * @since 1.8
-     */
-    public void log(final Logger logger, final String format, final Object... args) {
-        assert logger != null;
-        switch (this) {
-            case TRACE:
-                logger.trace(format, args);
-                break;
-            case DEBUG:
-                logger.debug(format, args);
-                break;
-            case INFO:
-                logger.info(format, args);
-                break;
-            case WARN:
-                logger.warn(format, args);
-                break;
-            case ERROR:
-                logger.error(format, args);
-                break;
-            default:
-                throw new UnsupportedOperationException();
-        }
+  /**
+   * @since 1.8
+   */
+  public void log(final Logger logger, final String msg, final Throwable cause) {
+    assert logger != null;
+    switch (this) {
+      case TRACE:
+        logger.trace(msg, cause);
+        break;
+      case DEBUG:
+        logger.debug(msg, cause);
+        break;
+      case INFO:
+        logger.info(msg, cause);
+        break;
+      case WARN:
+        logger.warn(msg, cause);
+        break;
+      case ERROR:
+        logger.error(msg, cause);
+        break;
+      default:
+        throw new UnsupportedOperationException();
     }
-
-    /**
-     * @since 1.8
-     */
-    public void log(final Logger logger, final String msg, final Throwable cause) {
-        assert logger != null;
-        switch (this) {
-            case TRACE:
-                logger.trace(msg, cause);
-                break;
-            case DEBUG:
-                logger.debug(msg, cause);
-                break;
-            case INFO:
-                logger.info(msg, cause);
-                break;
-            case WARN:
-                logger.warn(msg, cause);
-                break;
-            case ERROR:
-                logger.error(msg, cause);
-                break;
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
+  }
 }

@@ -30,58 +30,60 @@ import java.util.Properties;
  */
 public class ModelMerger
 {
-    public void merge(Model target, Model source, boolean sourceDominant, Map<?, ?> hints) {
-        assert target != null;
+  public void merge(Model target, Model source, boolean sourceDominant, Map<?, ?> hints) {
+    assert target != null;
 
-        if (source == null) {
-            return;
-        }
-
-        Map<Object, Object> context = new HashMap<Object, Object>();
-        if (hints != null) {
-            context.putAll(hints);
-        }
-
-        mergeModel(target, source, sourceDominant, context);
+    if (source == null) {
+      return;
     }
 
-    protected void mergeModel(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
-        mergeModel_Properties(target, source, sourceDominant, context);
-        mergeModel_Profiles(target, source, sourceDominant, context);
+    Map<Object, Object> context = new HashMap<Object, Object>();
+    if (hints != null) {
+      context.putAll(hints);
     }
 
-    protected void mergeModel_Properties(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
-        Properties merged = new Properties();
-        if (sourceDominant) {
-            merged.putAll(target.getProperties());
-            merged.putAll(source.getProperties());
-        }
-        else {
-            merged.putAll(source.getProperties());
-            merged.putAll(target.getProperties());
-        }
-        target.setProperties(merged);
+    mergeModel(target, source, sourceDominant, context);
+  }
+
+  protected void mergeModel(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
+    mergeModel_Properties(target, source, sourceDominant, context);
+    mergeModel_Profiles(target, source, sourceDominant, context);
+  }
+
+  protected void mergeModel_Properties(Model target, Model source, boolean sourceDominant,
+                                       Map<Object, Object> context)
+  {
+    Properties merged = new Properties();
+    if (sourceDominant) {
+      merged.putAll(target.getProperties());
+      merged.putAll(source.getProperties());
     }
-
-    protected void mergeModel_Profiles(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
-        List<ProfileNode> src = source.getProfiles();
-        if (!src.isEmpty()) {
-            List<ProfileNode> profiles = target.getProfiles();
-            Map<Object,ProfileNode> merged = new LinkedHashMap<Object,ProfileNode>((src.size() + profiles.size()) * 2);
-
-            for (ProfileNode element : profiles) {
-                Object key = element.getName();
-                merged.put(key, element);
-            }
-
-            for (ProfileNode element : src) {
-                Object key = element.getName();
-                if (sourceDominant || !merged.containsKey(key)) {
-                    merged.put(key, element);
-                }
-            }
-
-            target.setProfiles(new ArrayList<ProfileNode>(merged.values()));
-        }
+    else {
+      merged.putAll(source.getProperties());
+      merged.putAll(target.getProperties());
     }
+    target.setProperties(merged);
+  }
+
+  protected void mergeModel_Profiles(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
+    List<ProfileNode> src = source.getProfiles();
+    if (!src.isEmpty()) {
+      List<ProfileNode> profiles = target.getProfiles();
+      Map<Object, ProfileNode> merged = new LinkedHashMap<Object, ProfileNode>((src.size() + profiles.size()) * 2);
+
+      for (ProfileNode element : profiles) {
+        Object key = element.getName();
+        merged.put(key, element);
+      }
+
+      for (ProfileNode element : src) {
+        Object key = element.getName();
+        if (sourceDominant || !merged.containsKey(key)) {
+          merged.put(key, element);
+        }
+      }
+
+      target.setProfiles(new ArrayList<ProfileNode>(merged.values()));
+    }
+  }
 }

@@ -24,8 +24,8 @@ package com.planet57.gossip.trigger;
 public class SystemPropertyTrigger
     extends NameValueTriggerSupport
 {
-    @Override
-    protected String resolve() {
-        return System.getProperty(getName());
-    }
+  @Override
+  protected String resolve() {
+    return System.getProperty(getName());
+  }
 }

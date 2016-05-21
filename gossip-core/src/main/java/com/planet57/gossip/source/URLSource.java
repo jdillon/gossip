@@ -30,33 +30,33 @@ import java.net.URL;
 public class URLSource
     extends SourceSupport
 {
-    private URL url;
+  private URL url;
 
-    public void setUrl(final URL url) {
-        this.url = url;
-    }
-    
-    public void setUrl(final String location) throws MalformedURLException {
-        assert location != null;
-        setUrl(new URL(location));
-    }
+  public void setUrl(final URL url) {
+    this.url = url;
+  }
 
-    public URL getUrl() {
-        return url;
-    }
+  public void setUrl(final String location) throws MalformedURLException {
+    assert location != null;
+    setUrl(new URL(location));
+  }
 
-    public Model load() throws Exception {
-        if (url == null) {
-            throw new MissingPropertyException("url");
-        }
+  public URL getUrl() {
+    return url;
+  }
 
-        return load(url);
+  public Model load() throws Exception {
+    if (url == null) {
+      throw new MissingPropertyException("url");
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "url=" + url +
-                '}';
-    }
+    return load(url);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "url=" + url +
+        '}';
+  }
 }

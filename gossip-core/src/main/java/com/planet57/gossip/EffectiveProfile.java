@@ -35,81 +35,81 @@ import java.util.Map;
  */
 public final class EffectiveProfile
 {
-    private static final Logger log = Log.getLogger(EffectiveProfile.class);
+  private static final Logger log = Log.getLogger(EffectiveProfile.class);
 
-    private final List<ProfileNode> profiles = new ArrayList<ProfileNode>();
+  private final List<ProfileNode> profiles = new ArrayList<ProfileNode>();
 
-    private Map<String,LoggerNode> loggers;
+  private Map<String, LoggerNode> loggers;
 
-    public List<ProfileNode> getProfiles() {
-        return profiles;
-    }
+  public List<ProfileNode> getProfiles() {
+    return profiles;
+  }
 
-    public void addProfile(final ProfileNode node) {
-        assert node != null;
-        getProfiles().add(node);
-    }
+  public void addProfile(final ProfileNode node) {
+    assert node != null;
+    getProfiles().add(node);
+  }
 
-    public Map<String,LoggerNode> loggers() {
-        if (loggers == null) {
-            log.trace("Loading effective logger table");
+  public Map<String, LoggerNode> loggers() {
+    if (loggers == null) {
+      log.trace("Loading effective logger table");
 
-            Map<String,LoggerNode> map = new HashMap<String,LoggerNode>();
-            for (ProfileNode profile : getProfiles()) {
-                for (LoggerNode node : profile.getLoggers()) {
-                    map.put(node.getName(), node);
-                }
-            }
-            this.loggers = map;
+      Map<String, LoggerNode> map = new HashMap<String, LoggerNode>();
+      for (ProfileNode profile : getProfiles()) {
+        for (LoggerNode node : profile.getLoggers()) {
+          map.put(node.getName(), node);
         }
-
-        return loggers;
+      }
+      this.loggers = map;
     }
 
-    private Listener[] listeners;
+    return loggers;
+  }
 
-    /**
-     * @since 2.5
-     */
-    public Listener[] getListeners() {
-        if (this.listeners == null) {
-            log.trace("Building listener dispatch table");
+  private Listener[] listeners;
 
-            List<Listener> listeners = new ArrayList<Listener>();
-            for (ProfileNode profile : getProfiles()) {
-                for (ListenerNode listener : profile.getListeners()) {
-                    try {
-                        log.trace("Adding listener: {}", listener);
-                        listeners.add(listener.create());
-                    }
-                    catch (Exception e) {
-                        log.error("Failed to create listener: " + listener, e);
-                    }
-                }
-            }
+  /**
+   * @since 2.5
+   */
+  public Listener[] getListeners() {
+    if (this.listeners == null) {
+      log.trace("Building listener dispatch table");
 
-            this.listeners = listeners.toArray(new Listener[listeners.size()]);
+      List<Listener> listeners = new ArrayList<Listener>();
+      for (ProfileNode profile : getProfiles()) {
+        for (ListenerNode listener : profile.getListeners()) {
+          try {
+            log.trace("Adding listener: {}", listener);
+            listeners.add(listener.create());
+          }
+          catch (Exception e) {
+            log.error("Failed to create listener: " + listener, e);
+          }
         }
+      }
 
-        return this.listeners;
+      this.listeners = listeners.toArray(new Listener[listeners.size()]);
     }
 
-    public void dispatch(final Event event) {
-        assert event != null;
+    return this.listeners;
+  }
 
-        Listener[] listeners = getListeners();
-        
-        log.trace("Dispatching event to {} listener(s): {}", listeners.length, event);
+  public void dispatch(final Event event) {
+    assert event != null;
 
-        int i=0;
-        for (Listener listener : listeners) {
-            log.trace("Dispatching to listener[{}]: {}", i++, listener);
-            try {
-                listener.onEvent(event);
-            }
-            catch (Throwable t) {
-                log.error("Listener execution failed; ignoring", t);
-            }
-        }
+    Listener[] listeners = getListeners();
+
+    log.trace("Dispatching event to {} listener(s): {}", listeners.length, event);
+
+    int i = 0;
+    for (Listener listener : listeners) {
+      log.trace("Dispatching to listener[{}]: {}", i++, listener);
+      try {
+        listener.onEvent(event);
+      }
+      catch (Throwable t) {
+        log.error("Listener execution failed; ignoring", t);
+      }
     }
+  }
 }

@@ -25,11 +25,11 @@ import com.planet57.gossip.Event;
  */
 public interface Renderer
 {
-    /**
-     * Render an event as a string.
-     *
-     * @param event The event to render.
-     * @return The rendered event.
-     */
-    String render(Event event);
+  /**
+   * Render an event as a string.
+   *
+   * @param event The event to render.
+   * @return The rendered event.
+   */
+  String render(Event event);
 }

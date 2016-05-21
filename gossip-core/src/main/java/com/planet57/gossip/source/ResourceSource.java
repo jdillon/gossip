@@ -29,95 +29,96 @@ import java.net.URL;
 public class ResourceSource
     extends SourceSupport
 {
-    public static enum ClassLoaderType {
-        TCL, INTERNAL, SYSTEM;
-    }
-    
-    private String name;
+  public static enum ClassLoaderType
+  {
+    TCL, INTERNAL, SYSTEM;
+  }
 
-    private ClassLoaderType classLoaderType = ClassLoaderType.TCL;
+  private String name;
 
-    private ClassLoader classLoader;
+  private ClassLoaderType classLoaderType = ClassLoaderType.TCL;
 
-    public String getName() {
-        return name;
-    }
+  private ClassLoader classLoader;
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setClassLoaderType(final ClassLoaderType type) {
-        assert type != null;
-        this.classLoaderType = type;
-    }
+  public void setName(final String name) {
+    this.name = name;
+  }
 
-    public ClassLoaderType getClassLoaderType() {
-        return classLoaderType;
-    }
+  public void setClassLoaderType(final ClassLoaderType type) {
+    assert type != null;
+    this.classLoaderType = type;
+  }
 
-    public ClassLoader getClassLoader() {
-        if (classLoader == null) {
-            switch (classLoaderType) {
-                case TCL:
-                    classLoader = Thread.currentThread().getContextClassLoader();
-                    break;
+  public ClassLoaderType getClassLoaderType() {
+    return classLoaderType;
+  }
 
-                case INTERNAL:
-                    classLoader = getClass().getClassLoader();
-                    break;
+  public ClassLoader getClassLoader() {
+    if (classLoader == null) {
+      switch (classLoaderType) {
+        case TCL:
+          classLoader = Thread.currentThread().getContextClassLoader();
+          break;
 
-                case SYSTEM:
-                    classLoader = ClassLoader.getSystemClassLoader();
-                    break;
-            }
-        }
+        case INTERNAL:
+          classLoader = getClass().getClassLoader();
+          break;
 
-        return classLoader;
+        case SYSTEM:
+          classLoader = ClassLoader.getSystemClassLoader();
+          break;
+      }
     }
 
-    public void setClassLoader(final ClassLoader cl) {
-        this.classLoader = cl;
+    return classLoader;
+  }
+
+  public void setClassLoader(final ClassLoader cl) {
+    this.classLoader = cl;
+  }
+
+  public Model load() throws Exception {
+    if (name == null) {
+      throw new MissingPropertyException("name");
     }
 
-    public Model load() throws Exception {
-        if (name == null) {
-            throw new MissingPropertyException("name");
-        }
+    Model model = null;
 
-        Model model = null;
+    ClassLoader cl = getClassLoader();
+    assert cl != null;
 
-        ClassLoader cl = getClassLoader();
-        assert cl != null;
-        
-        log.trace("Loading resource for name: {}, CL: {} ({})", new Object[] { name, cl, classLoaderType });
-        
-        URL url = cl.getResource(name);
+    log.trace("Loading resource for name: {}, CL: {} ({})", new Object[]{name, cl, classLoaderType});
 
-        // HACK: This is needed as a fallback on Maven 2.0.x and 2.2.x which does not have the TCL setup as expected
-        if (url == null) {
-            cl = getClass().getClassLoader();
-            log.trace("Configured CL failed, trying {}: {}", ClassLoaderType.INTERNAL, cl);
-            url = cl.getResource(name);
-        }
+    URL url = cl.getResource(name);
 
-        if (url == null) {
-            log.trace("Unable to load; missing resource: {}", name);
-        }
-        else {
-            log.trace("Loaded resource: {}", url);
-            model = load(url);
-        }
-
-        return model;
+    // HACK: This is needed as a fallback on Maven 2.0.x and 2.2.x which does not have the TCL setup as expected
+    if (url == null) {
+      cl = getClass().getClassLoader();
+      log.trace("Configured CL failed, trying {}: {}", ClassLoaderType.INTERNAL, cl);
+      url = cl.getResource(name);
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "name='" + name + '\'' +
-                ", classLoaderType='" + classLoaderType + '\'' +
-                ", classLoader=" + classLoader +
-                '}';
+    if (url == null) {
+      log.trace("Unable to load; missing resource: {}", name);
     }
+    else {
+      log.trace("Loaded resource: {}", url);
+      model = load(url);
+    }
+
+    return model;
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "name='" + name + '\'' +
+        ", classLoaderType='" + classLoaderType + '\'' +
+        ", classLoader=" + classLoader +
+        '}';
+  }
 }

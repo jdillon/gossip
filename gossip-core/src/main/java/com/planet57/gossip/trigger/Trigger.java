@@ -23,10 +23,10 @@ package com.planet57.gossip.trigger;
  */
 public interface Trigger
 {
-    /**
-     * Determine if a profile is active.
-     *
-     * @return True if the profile is active.
-     */
-    boolean isActive();
+  /**
+   * Determine if a profile is active.
+   *
+   * @return True if the profile is active.
+   */
+  boolean isActive();
 }

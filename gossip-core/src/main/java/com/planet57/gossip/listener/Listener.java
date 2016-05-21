@@ -25,11 +25,11 @@ import com.planet57.gossip.Event;
  */
 public interface Listener
 {
-    /**
-     * Handle an event.
-     *
-     * @param event The event to handle.
-     * @throws Exception Failed to handled event.
-     */
-    void onEvent(Event event) throws Exception;
+  /**
+   * Handle an event.
+   *
+   * @param event The event to handle.
+   * @throws Exception Failed to handled event.
+   */
+  void onEvent(Event event) throws Exception;
 }

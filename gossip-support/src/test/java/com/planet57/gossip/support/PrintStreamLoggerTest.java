@@ -23,38 +23,38 @@ import com.planet57.gossip.Level;
  */
 public class PrintStreamLoggerTest
 {
-    // Not really tests, more like helpers for manual verification...
+  // Not really tests, more like helpers for manual verification...
 
-    @Test
-    public void testSimple() {
-        PrintStreamLogger log = new PrintStreamLogger(System.out);
-        System.out.println("LOG: " + log);
+  @Test
+  public void testSimple() {
+    PrintStreamLogger log = new PrintStreamLogger(System.out);
+    System.out.println("LOG: " + log);
 
-        log.info("Test");
-    }
+    log.info("Test");
+  }
 
-    @Test
-    public void testWithName() {
-        PrintStreamLogger log = new PrintStreamLogger(System.out);
-        log.setName("foo");
-        System.out.println("LOG: " + log);
+  @Test
+  public void testWithName() {
+    PrintStreamLogger log = new PrintStreamLogger(System.out);
+    log.setName("foo");
+    System.out.println("LOG: " + log);
 
-        log.info("Test");
-    }
+    log.info("Test");
+  }
 
-    @Test
-    public void testWithLevel() {
-        PrintStreamLogger log = new PrintStreamLogger(System.out);
-        log.setThreshold(Level.WARN);
-        System.out.println("LOG: " + log);
+  @Test
+  public void testWithLevel() {
+    PrintStreamLogger log = new PrintStreamLogger(System.out);
+    log.setThreshold(Level.WARN);
+    System.out.println("LOG: " + log);
 
-        log.info("Test");
-        log.error("Test");
-    }
+    log.info("Test");
+    log.error("Test");
+  }
 
-    @Test
-    public void testWithCause() {
-        PrintStreamLogger log = new PrintStreamLogger(System.out);
-        log.error("oops", new Throwable());
-    }
+  @Test
+  public void testWithCause() {
+    PrintStreamLogger log = new PrintStreamLogger(System.out);
+    log.error("oops", new Throwable());
+  }
 }

@@ -33,78 +33,78 @@ import java.io.PrintStream;
 public class PrintStreamLogger
     extends LoggerSupport
 {
-    private final PrintStream stream;
+  private final PrintStream stream;
 
-    private volatile Level threshold;
+  private volatile Level threshold;
 
-    private volatile Renderer renderer;
+  private volatile Renderer renderer;
 
-    public PrintStreamLogger(final PrintStream stream, final Level threshold) {
-        if (stream == null) {
-            throw new NullPointerException();
-        }
-        // threshold can be null
-        this.stream = stream;
-        this.threshold = threshold;
-        setRenderer(createRenderer());
+  public PrintStreamLogger(final PrintStream stream, final Level threshold) {
+    if (stream == null) {
+      throw new NullPointerException();
     }
+    // threshold can be null
+    this.stream = stream;
+    this.threshold = threshold;
+    setRenderer(createRenderer());
+  }
 
-    public PrintStreamLogger(final PrintStream stream) {
-        this(stream, null);
+  public PrintStreamLogger(final PrintStream stream) {
+    this(stream, null);
+  }
+
+  /**
+   * Returns a default {@link PatternRenderer}.
+   */
+  protected Renderer createRenderer() {
+    return new PatternRenderer();
+  }
+
+  public PrintStream getStream() {
+    return stream;
+  }
+
+  public Level getThreshold() {
+    if (threshold == null) {
+      return Level.TRACE;
     }
+    return threshold;
+  }
 
-    /**
-     * Returns a default {@link PatternRenderer}.
-     */
-    protected Renderer createRenderer() {
-        return new PatternRenderer();
+  public void setThreshold(final Level threshold) {
+    // null will reset to default
+    this.threshold = threshold;
+  }
+
+  public Renderer getRenderer() {
+    return renderer;
+  }
+
+  public void setRenderer(final Renderer renderer) {
+    if (renderer == null) {
+      throw new NullPointerException();
     }
+    this.renderer = renderer;
+  }
 
-    public PrintStream getStream() {
-        return stream;
+  public void setName(final String name) {
+    // null will reset to default
+    this.name = name;
+  }
+
+  protected boolean isEnabled(final Level level) {
+    assert level != null;
+    return getThreshold().id <= level.id;
+  }
+
+  @Override
+  protected void doLog(final Event event) {
+    assert event != null;
+
+    final PrintStream out = getStream();
+    synchronized (out) {
+      out.print(getRenderer().render(event));
+      out.flush();
     }
-
-    public Level getThreshold() {
-        if (threshold == null) {
-            return Level.TRACE;
-        }
-        return threshold;
-    }
-
-    public void setThreshold(final Level threshold) {
-        // null will reset to default
-        this.threshold = threshold;
-    }
-
-    public Renderer getRenderer() {
-        return renderer;
-    }
-
-    public void setRenderer(final Renderer renderer) {
-        if (renderer == null) {
-            throw new NullPointerException();
-        }
-        this.renderer = renderer;
-    }
-
-    public void setName(final String name) {
-        // null will reset to default
-        this.name = name;
-    }
-
-    protected boolean isEnabled(final Level level) {
-        assert level != null;
-        return getThreshold().id <= level.id;
-    }
-
-    @Override
-    protected void doLog(final Event event) {
-        assert event != null;
-
-        final PrintStream out = getStream();
-        synchronized (out) {
-            out.print(getRenderer().render(event));
-            out.flush();
-        }
-    }
+  }
 }

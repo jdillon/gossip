@@ -30,48 +30,49 @@ import java.lang.reflect.Proxy;
  */
 public final class LoggerDelegateFactory
 {
-    /**
-     * Returns {@link Logger} instances delegating to the given logger.  Returned instances also implement {@link LoggerDelegateAware}
-     * to allow inspection/replacement of the delegate logger.
-     */
-    public static Logger create(final Logger target) {
-        return (Logger) Proxy.newProxyInstance(target.getClass().getClassLoader(),
-            new Class[]{ Logger.class, LoggerDelegateAware.class },
-            new DelegateHandler(target));
+  /**
+   * Returns {@link Logger} instances delegating to the given logger.
+   *
+   * Instances also implement {@link LoggerDelegateAware} to allow inspection/replacement of the delegate logger.
+   */
+  public static Logger create(final Logger target) {
+    return (Logger) Proxy.newProxyInstance(target.getClass().getClassLoader(),
+        new Class[]{Logger.class, LoggerDelegateAware.class},
+        new DelegateHandler(target));
+  }
+
+  public static interface LoggerDelegateAware
+  {
+    Logger getDelegate();
+
+    void setDelegate(Logger delegate);
+  }
+
+  private static class DelegateHandler
+      implements InvocationHandler, LoggerDelegateAware
+  {
+    private Logger delegate;
+
+    private DelegateHandler(final Logger delegate) {
+      setDelegate(delegate);
     }
 
-    public static interface LoggerDelegateAware
-    {
-        Logger getDelegate();
-
-        void setDelegate(Logger delegate);
+    public Logger getDelegate() {
+      return delegate;
     }
 
-    private static class DelegateHandler
-        implements InvocationHandler, LoggerDelegateAware
-    {
-        private Logger delegate;
-
-        private DelegateHandler(final Logger delegate) {
-            setDelegate(delegate);
-        }
-
-        public Logger getDelegate() {
-            return delegate;
-        }
-
-        public void setDelegate(final Logger delegate) {
-            if (delegate == null) {
-                throw new NullPointerException();
-            }
-            this.delegate = delegate;
-        }
-
-        public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
-            if (method.getDeclaringClass() == LoggerDelegateAware.class) {
-                return method.invoke(this, args);
-            }
-            return method.invoke(getDelegate(), args);
-        }
+    public void setDelegate(final Logger delegate) {
+      if (delegate == null) {
+        throw new NullPointerException();
+      }
+      this.delegate = delegate;
     }
+
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+      if (method.getDeclaringClass() == LoggerDelegateAware.class) {
+        return method.invoke(this, args);
+      }
+      return method.invoke(getDelegate(), args);
+    }
+  }
 }

@@ -29,44 +29,46 @@ import java.lang.reflect.Proxy;
  */
 public class MuxLoggerFactory
 {
-    /**
-     * @param loggers The first logger will be responsible for all methods which return values, otherwise all loggers are invoked in order.
-     */
-    public static Logger create(final Logger... loggers) {
-        return (Logger) Proxy.newProxyInstance(Logger.class.getClassLoader(), new Class[]{Logger.class}, new Handler(loggers));
+  /**
+   * @param loggers The first logger will be responsible for all methods which return values, otherwise all loggers are
+   *                invoked in order.
+   */
+  public static Logger create(final Logger... loggers) {
+    return (Logger) Proxy
+        .newProxyInstance(Logger.class.getClassLoader(), new Class[]{Logger.class}, new Handler(loggers));
+  }
+
+  private static class Handler
+      implements InvocationHandler
+  {
+    private final Logger[] loggers;
+
+    private Handler(final Logger[] loggers) {
+      assert loggers != null;
+      assert loggers.length > 0;
+      this.loggers = loggers;
     }
 
-    private static class Handler
-        implements InvocationHandler
-    {
-        private final Logger[] loggers;
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+      assert proxy != null;
+      assert method != null;
 
-        private Handler(final Logger[] loggers) {
-            assert loggers != null;
-            assert loggers.length > 0;
-            this.loggers = loggers;
+      if (method.getDeclaringClass().equals(Object.class)) {
+        return method.invoke(this, args);
+      }
+      else {
+        // For methods that return something, pick the first logger (mostly name + isEnabled() muck)
+        if (method.getReturnType() != Void.TYPE) {
+          return method.invoke(loggers[0], args);
         }
 
-        public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
-            assert proxy != null;
-            assert method != null;
-
-            if (method.getDeclaringClass().equals(Object.class)) {
-                return method.invoke(this, args);
-            }
-            else {
-                // For methods that return something, pick the first logger (mostly name + isEnabled() muck)
-                if (method.getReturnType() != Void.TYPE) {
-                    return method.invoke(loggers[0], args);
-                }
-
-                // Else invoke them all
-                for (Logger logger : loggers) {
-                    method.invoke(logger, args);
-                }
-
-                return null; // void
-            }
+        // Else invoke them all
+        for (Logger logger : loggers) {
+          method.invoke(logger, args);
         }
+
+        return null; // void
+      }
     }
+  }
 }

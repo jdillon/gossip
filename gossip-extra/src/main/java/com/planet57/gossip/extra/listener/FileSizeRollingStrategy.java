@@ -32,75 +32,75 @@ import java.io.File;
 public class FileSizeRollingStrategy
     implements RollingStrategy
 {
-    private static final Logger log = Log.getLogger(FileSizeRollingStrategy.class);
+  private static final Logger log = Log.getLogger(FileSizeRollingStrategy.class);
 
-    private long maximumFileSize = 10*1024*1024;
-    
-    private int maximumBackupIndex = 1;
+  private long maximumFileSize = 10 * 1024 * 1024;
 
-    public int getMaximumBackupIndex() {
-        return maximumBackupIndex;
+  private int maximumBackupIndex = 1;
+
+  public int getMaximumBackupIndex() {
+    return maximumBackupIndex;
+  }
+
+  public void setMaximumBackupIndex(final int n) {
+    this.maximumBackupIndex = n;
+  }
+
+  public long getMaximumFileSize() {
+    return maximumFileSize;
+  }
+
+  public void setMaximumFileSize(final long n) {
+    this.maximumFileSize = n;
+  }
+
+  public boolean roll(final FileListener listener) {
+    assert listener != null;
+
+    CountingWriter writer = listener.getWriter();
+    if (writer.size() > maximumFileSize) {
+      return false;
     }
 
-    public void setMaximumBackupIndex(final int n) {
-        this.maximumBackupIndex = n;
-    }
+    //
+    // This was copied from Log4j's RollingFileAppender and massaged a bit, probably needs more work on Windows
+    //
 
-    public long getMaximumFileSize() {
-        return maximumFileSize;
-    }
+    File source = listener.getFile();
+    File target;
+    boolean renameSucceeded = true;
 
-    public void setMaximumFileSize(final long n) {
-        this.maximumFileSize = n;
-    }
+    // If maxBackups <= 0, then there is no file renaming to be done.
+    if (maximumBackupIndex > 0) {
+      // Delete the oldest file, to keep Windows happy.
+      File file = new File(source.getPath() + '.' + maximumBackupIndex);
+      if (file.exists()) {
+        renameSucceeded = file.delete();
+      }
 
-    public boolean roll(final FileListener listener) {
-        assert listener != null;
-
-        CountingWriter writer = listener.getWriter();
-        if (writer.size() > maximumFileSize) {
-            return false;
+      // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
+      for (int i = maximumBackupIndex - 1; i >= 1 && renameSucceeded; i--) {
+        file = new File(source.getPath() + "." + i);
+        if (file.exists()) {
+          target = new File(source.getPath() + '.' + (i + 1));
+          log.debug("Renaming file {} to {}", file, target);
+          renameSucceeded = file.renameTo(target);
         }
+      }
 
-        //
-        // This was copied from Log4j's RollingFileAppender and massaged a bit, probably needs more work on Windows
-        //
-        
-        File source = listener.getFile();
-        File target;
-        boolean renameSucceeded = true;
+      if (renameSucceeded) {
+        // Rename fileName to fileName.1
+        target = new File(source.getPath() + "." + 1);
+        file = new File(source.getPath());
+        log.debug("Renaming file {} to {}", file, target);
+        renameSucceeded = file.renameTo(target);
 
-        // If maxBackups <= 0, then there is no file renaming to be done.
-        if (maximumBackupIndex > 0) {
-            // Delete the oldest file, to keep Windows happy.
-            File file = new File(source.getPath() + '.' + maximumBackupIndex);
-            if (file.exists()) {
-                renameSucceeded = file.delete();
-            }
-
-            // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
-            for (int i=maximumBackupIndex-1; i >= 1 && renameSucceeded; i--) {
-                file = new File(source.getPath() + "." + i);
-                if (file.exists()) {
-                    target = new File(source.getPath() + '.' + (i + 1));
-                    log.debug("Renaming file {} to {}", file, target);
-                    renameSucceeded = file.renameTo(target);
-                }
-            }
-
-            if (renameSucceeded) {
-                // Rename fileName to fileName.1
-                target = new File(source.getPath() + "." + 1);
-                file = new File(source.getPath());
-                log.debug("Renaming file {} to {}", file, target);
-                renameSucceeded = file.renameTo(target);
-
-                if (!renameSucceeded) {
-                    return false;
-                }
-            }
+        if (!renameSucceeded) {
+          return false;
         }
-
-        return true;
+      }
     }
+
+    return true;
+  }
 }

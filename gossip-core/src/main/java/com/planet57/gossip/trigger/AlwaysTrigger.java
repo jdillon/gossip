@@ -24,7 +24,7 @@ package com.planet57.gossip.trigger;
 public class AlwaysTrigger
     implements Trigger
 {
-    public boolean isActive() {
-        return true;
-    }
+  public boolean isActive() {
+    return true;
+  }
 }

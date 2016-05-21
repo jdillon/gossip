@@ -31,57 +31,57 @@ import com.planet57.gossip.render.Renderer;
 public abstract class ListenerSupport
     implements Listener
 {
-    protected final Logger log = Log.getLogger(getClass());
+  protected final Logger log = Log.getLogger(getClass());
 
-    private Renderer renderer;
+  private Renderer renderer;
 
-    private Level threshold = Level.TRACE;
+  private Level threshold = Level.TRACE;
 
-    public Renderer getRenderer() {
-        return renderer;
+  public Renderer getRenderer() {
+    return renderer;
+  }
+
+  protected Renderer createRenderer() {
+    return new PatternRenderer();
+  }
+
+  public void setRenderer(final Renderer renderer) {
+    this.renderer = renderer;
+  }
+
+  public Level getThreshold() {
+    return threshold;
+  }
+
+  public void setThreshold(final Level threshold) {
+    this.threshold = threshold;
+  }
+
+  public void setThreshold(final String threshold) {
+    assert threshold != null;
+    setThreshold(Level.valueOf(threshold));
+  }
+
+  /**
+   * Returns false if the given event does not match the threshold.
+   *
+   * @param event The event to evaluate.1
+   * @return True if the event is loggable.
+   */
+  protected final boolean isLoggable(final Event event) {
+    assert event != null;
+    return threshold == null || event.getLevel().id >= threshold.id;
+  }
+
+  protected String render(final Event event) {
+    assert event != null;
+
+    Renderer renderer = getRenderer();
+    if (renderer == null) {
+      renderer = createRenderer();
+      setRenderer(renderer);
     }
 
-    protected Renderer createRenderer() {
-         return new PatternRenderer();
-    }
-    
-    public void setRenderer(final Renderer renderer) {
-        this.renderer = renderer;
-    }
-
-    public Level getThreshold() {
-        return threshold;
-    }
-
-    public void setThreshold(final Level threshold) {
-        this.threshold = threshold;
-    }
-
-    public void setThreshold(final String threshold) {
-        assert threshold != null;
-        setThreshold(Level.valueOf(threshold));
-    }
-
-    /**
-     * Returns false if the given event does not match the threshold.
-     *
-     * @param event The event to evaluate.1
-     * @return      True if the event is loggable.
-     */
-    protected final boolean isLoggable(final Event event) {
-        assert event != null;
-        return threshold == null || event.getLevel().id >= threshold.id;
-    }
-
-    protected String render(final Event event) {
-        assert event != null;
-
-        Renderer renderer = getRenderer();
-        if (renderer == null) {
-            renderer = createRenderer();
-            setRenderer(renderer);
-        }
-
-        return renderer.render(event);
-    }
+    return renderer.render(event);
+  }
 }

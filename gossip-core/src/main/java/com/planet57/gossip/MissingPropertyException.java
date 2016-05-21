@@ -24,11 +24,11 @@ package com.planet57.gossip;
 public class MissingPropertyException
     extends ConfigurationException
 {
-    ///CLOVER:OFF
+  ///CLOVER:OFF
 
-    private static final long serialVersionUID = 1;
+  private static final long serialVersionUID = 1;
 
-    public MissingPropertyException(final String name) {
-        super(String.format("Missing required configuration property: %s", name));
-    }
+  public MissingPropertyException(final String name) {
+    super(String.format("Missing required configuration property: %s", name));
+  }
 }

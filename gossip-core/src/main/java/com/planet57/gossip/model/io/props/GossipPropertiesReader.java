@@ -37,222 +37,222 @@ import java.util.Arrays;
  */
 public class GossipPropertiesReader
 {
-    private static final String EXPECTED_VERSION = "1.0.0";
+  private static final String EXPECTED_VERSION = "1.0.0";
 
-    private static final String SOURCES = "sources";
+  private static final String SOURCES = "sources";
 
-    private static final String SOURCE_DOT = "source.";
+  private static final String SOURCE_DOT = "source.";
 
-    private static final String PROFILES = "profiles";
+  private static final String PROFILES = "profiles";
 
-    private static final String PROFILE_DOT = "profile.";
+  private static final String PROFILE_DOT = "profile.";
 
-    private static final String INCLUDES = "includes";
+  private static final String INCLUDES = "includes";
 
-    private static final String PROPERTIES = "properties";
+  private static final String PROPERTIES = "properties";
 
-    private static final String LOGGER = "logger";
+  private static final String LOGGER = "logger";
 
-    private static final String TRIGGERS = "triggers";
+  private static final String TRIGGERS = "triggers";
 
-    private static final String TRIGGER_DOT = "trigger.";
+  private static final String TRIGGER_DOT = "trigger.";
 
-    private static final String LISTENERS = "listeners";
+  private static final String LISTENERS = "listeners";
 
-    private static final String LISTENER_DOT = "listener.";
+  private static final String LISTENER_DOT = "listener.";
 
-    private static final Logger log = Log.getLogger(GossipPropertiesReader.class);
+  private static final Logger log = Log.getLogger(GossipPropertiesReader.class);
 
-    //
-    // TODO: Support XML properties format
-    //
-    
-    public Model read(final URL url) throws IOException {
-        assert url != null;
+  //
+  // TODO: Support XML properties format
+  //
 
-        Model model = new Model();
+  public Model read(final URL url) throws IOException {
+    assert url != null;
 
-        Context ctx = Context.create(url);
+    Model model = new Model();
 
-        // Validate the version
-        String tmp = ctx.get("version");
-        if (!EXPECTED_VERSION.equals(tmp)) {
-            throw new ConfigurationException("Invalid configuration version: " + tmp + ", expected: " + EXPECTED_VERSION);
-        }
+    Context ctx = Context.create(url);
 
-        model.setProperties(ctx.child(PROPERTIES).toProperties());
-
-        configureSourceNodes(model, ctx);
-
-        configureProfileNodes(model, ctx);
-
-        return model;
+    // Validate the version
+    String tmp = ctx.get("version");
+    if (!EXPECTED_VERSION.equals(tmp)) {
+      throw new ConfigurationException("Invalid configuration version: " + tmp + ", expected: " + EXPECTED_VERSION);
     }
 
-    private void configureSourceNodes(final Model model, final Context ctx) {
-        assert model != null;
-        assert ctx != null;
+    model.setProperties(ctx.child(PROPERTIES).toProperties());
 
-        if (!ctx.contains(SOURCES)) {
-            return;
-        }
+    configureSourceNodes(model, ctx);
 
-        for (String name : ctx.split(SOURCES, true)) {
-            if (name.length() == 0) {
-                throw new ConfigurationException("Source name is blank");
-            }
+    configureProfileNodes(model, ctx);
 
-            log.trace("Configuring source: {}", name);
+    return model;
+  }
 
-            SourceNode node = createSourceNode(name, ctx.get(SOURCE_DOT + name), ctx.child(SOURCE_DOT + name));
-            model.getSources().add(node);
-        }
+  private void configureSourceNodes(final Model model, final Context ctx) {
+    assert model != null;
+    assert ctx != null;
+
+    if (!ctx.contains(SOURCES)) {
+      return;
     }
 
-    private SourceNode createSourceNode(final String id, final String type, final Context ctx) {
-        assert type != null;
-        assert ctx != null;
+    for (String name : ctx.split(SOURCES, true)) {
+      if (name.length() == 0) {
+        throw new ConfigurationException("Source name is blank");
+      }
 
-        log.trace("Configuring source: {} -> {}", type, ctx);
+      log.trace("Configuring source: {}", name);
 
-        SourceNode node = new SourceNode();
-        node.setId(id);
-        node.setType(type);
-        node.setConfiguration(ctx);
+      SourceNode node = createSourceNode(name, ctx.get(SOURCE_DOT + name), ctx.child(SOURCE_DOT + name));
+      model.getSources().add(node);
+    }
+  }
 
-        log.trace("Created: {}", node);
+  private SourceNode createSourceNode(final String id, final String type, final Context ctx) {
+    assert type != null;
+    assert ctx != null;
 
-        return node;
+    log.trace("Configuring source: {} -> {}", type, ctx);
+
+    SourceNode node = new SourceNode();
+    node.setId(id);
+    node.setType(type);
+    node.setConfiguration(ctx);
+
+    log.trace("Created: {}", node);
+
+    return node;
+  }
+
+  private void configureProfileNodes(final Model model, final Context ctx) {
+    assert model != null;
+    assert ctx != null;
+
+    if (!ctx.contains(PROFILES)) {
+      return;
     }
 
-    private void configureProfileNodes(final Model model, final Context ctx) {
-        assert model != null;
-        assert ctx != null;
+    for (String name : ctx.split(PROFILES, true)) {
+      if (name.length() == 0) {
+        throw new ConfigurationException("Profile name is blank");
+      }
 
-        if (!ctx.contains(PROFILES)) {
-            return;
-        }
+      ProfileNode node = createProfileNode(name, ctx.child(PROFILE_DOT + name));
+      model.getProfiles().add(node);
+    }
+  }
 
-        for (String name : ctx.split(PROFILES, true)) {
-            if (name.length() == 0) {
-                throw new ConfigurationException("Profile name is blank");
-            }
+  private ProfileNode createProfileNode(final String name, final Context ctx) {
+    assert name != null;
+    assert ctx != null;
 
-            ProfileNode node = createProfileNode(name, ctx.child(PROFILE_DOT + name));
-            model.getProfiles().add(node);
-        }
+    log.trace("Configuring profile: {} -> {}", name, ctx);
+
+    ProfileNode node = new ProfileNode();
+    node.setId(name);
+    node.setName(name);
+    node.setProperties(ctx.child(PROPERTIES).toProperties());
+
+    configureLoggerNodes(node, ctx.child(LOGGER));
+    configureTriggerNodes(node, ctx);
+    configureListenerNodes(node, ctx);
+
+    String includes = ctx.get(INCLUDES);
+    if (includes != null) {
+      String[] profiles = Context.trim(includes.split(","));
+      node.setIncludes(Arrays.asList(profiles));
     }
 
-    private ProfileNode createProfileNode(final String name, final Context ctx) {
-        assert name != null;
-        assert ctx != null;
+    log.trace("Created: {}", node);
 
-        log.trace("Configuring profile: {} -> {}", name, ctx);
+    return node;
+  }
 
-        ProfileNode node = new ProfileNode();
-        node.setId(name);
-        node.setName(name);
-        node.setProperties(ctx.child(PROPERTIES).toProperties());
+  private void configureLoggerNodes(final ProfileNode profile, final Context ctx) {
+    assert profile != null;
+    assert ctx != null;
 
-        configureLoggerNodes(node, ctx.child(LOGGER));
-        configureTriggerNodes(node, ctx);
-        configureListenerNodes(node, ctx);
+    for (String name : ctx.names()) {
+      name = name.trim();
+      String value = ctx.get(name);
 
-        String includes = ctx.get(INCLUDES);
-        if (includes != null) {
-            String[] profiles = Context.trim(includes.split(","));
-            node.setIncludes(Arrays.asList(profiles));
-        }
+      LoggerNode node = new LoggerNode();
+      node.setId(name);
+      node.setName(name);
+      node.setLevel(value);
 
-        log.trace("Created: {}", node);
+      log.trace("Created: {}", node);
 
-        return node;
+      profile.getLoggers().add(node);
+    }
+  }
+
+  private void configureTriggerNodes(final ProfileNode profile, final Context ctx) {
+    assert profile != null;
+    assert ctx != null;
+
+    if (!ctx.contains(TRIGGERS)) {
+      return;
     }
 
-    private void configureLoggerNodes(final ProfileNode profile, final Context ctx) {
-        assert profile != null;
-        assert ctx != null;
+    for (String name : ctx.split(TRIGGERS, true)) {
+      if (name.length() == 0) {
+        throw new ConfigurationException("Trigger name is blank");
+      }
 
-        for (String name : ctx.names()) {
-            name = name.trim();
-            String value = ctx.get(name);
+      TriggerNode node = createTriggerNode(name, ctx.get(TRIGGER_DOT + name), ctx.child(TRIGGER_DOT + name));
+      profile.getTriggers().add(node);
+    }
+  }
 
-            LoggerNode node = new LoggerNode();
-            node.setId(name);
-            node.setName(name);
-            node.setLevel(value);
+  private TriggerNode createTriggerNode(final String id, final String type, final Context ctx) {
+    assert type != null;
+    assert ctx != null;
 
-            log.trace("Created: {}", node);
+    log.trace("Configuring trigger: {} -> {}", type, ctx);
 
-            profile.getLoggers().add(node);
-        }
+    TriggerNode node = new TriggerNode();
+    node.setId(id);
+    node.setType(type);
+    node.setConfiguration(ctx);
+
+    log.trace("Created: {}", node);
+
+    return node;
+  }
+
+  private void configureListenerNodes(final ProfileNode profile, final Context ctx) {
+    assert profile != null;
+    assert ctx != null;
+
+    if (!ctx.contains(LISTENERS)) {
+      return;
     }
 
-    private void configureTriggerNodes(final ProfileNode profile, final Context ctx) {
-        assert profile != null;
-        assert ctx != null;
+    for (String name : ctx.split(LISTENERS, true)) {
+      if (name.length() == 0) {
+        throw new ConfigurationException("Listener name is blank");
+      }
 
-        if (!ctx.contains(TRIGGERS)) {
-            return;
-        }
-
-        for (String name : ctx.split(TRIGGERS, true)) {
-            if (name.length() == 0) {
-                throw new ConfigurationException("Trigger name is blank");
-            }
-
-            TriggerNode node = createTriggerNode(name, ctx.get(TRIGGER_DOT + name), ctx.child(TRIGGER_DOT + name));
-            profile.getTriggers().add(node);
-        }
+      ListenerNode listener = createListenerNode(name, ctx.get(LISTENER_DOT + name), ctx.child(LISTENER_DOT + name));
+      profile.getListeners().add(listener);
     }
+  }
 
-    private TriggerNode createTriggerNode(final String id, final String type, final Context ctx) {
-        assert type != null;
-        assert ctx != null;
+  private ListenerNode createListenerNode(final String id, final String type, final Context ctx) {
+    assert type != null;
+    assert ctx != null;
 
-        log.trace("Configuring trigger: {} -> {}", type, ctx);
+    log.trace("Configuring listener: {} -> {}", type, ctx);
 
-        TriggerNode node = new TriggerNode();
-        node.setId(id);
-        node.setType(type);
-        node.setConfiguration(ctx);
+    ListenerNode node = new ListenerNode();
+    node.setId(id);
+    node.setType(type);
+    node.setConfiguration(ctx);
 
-        log.trace("Created: {}", node);
+    log.trace("Created: {}", node);
 
-        return node;
-    }
-
-    private void configureListenerNodes(final ProfileNode profile, final Context ctx) {
-        assert profile != null;
-        assert ctx != null;
-
-        if (!ctx.contains(LISTENERS)) {
-            return;
-        }
-
-        for (String name : ctx.split(LISTENERS, true)) {
-            if (name.length() == 0) {
-                throw new ConfigurationException("Listener name is blank");
-            }
-
-            ListenerNode listener = createListenerNode(name, ctx.get(LISTENER_DOT + name), ctx.child(LISTENER_DOT + name));
-            profile.getListeners().add(listener);
-        }
-    }
-
-    private ListenerNode createListenerNode(final String id, final String type, final Context ctx) {
-        assert type != null;
-        assert ctx != null;
-
-        log.trace("Configuring listener: {} -> {}", type, ctx);
-
-        ListenerNode node = new ListenerNode();
-        node.setId(id);
-        node.setType(type);
-        node.setConfiguration(ctx);
-
-        log.trace("Created: {}", node);
-
-        return node;
-    }
+    return node;
+  }
 }

@@ -29,33 +29,33 @@ import java.io.File;
 public class FileSource
     extends SourceSupport
 {
-    private File file;
+  private File file;
 
-    public void setFile(final File file) {
-        this.file = file;
+  public void setFile(final File file) {
+    this.file = file;
+  }
+
+  public void setFile(final String fileName) {
+    assert fileName != null;
+    setFile(new File(fileName));
+  }
+
+  public File getFile() {
+    return file;
+  }
+
+  public Model load() throws Exception {
+    if (file == null) {
+      throw new MissingPropertyException("file");
     }
 
-    public void setFile(final String fileName) {
-        assert fileName != null;
-        setFile(new File(fileName));
-    }
+    return load(file);
+  }
 
-    public File getFile() {
-        return file;
-    }
-
-    public Model load() throws Exception {
-        if (file == null) {
-            throw new MissingPropertyException("file");
-        }
-
-        return load(file);
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "file=" + file +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "file=" + file +
+        '}';
+  }
 }

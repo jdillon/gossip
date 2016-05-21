@@ -31,76 +31,76 @@ import com.planet57.gossip.source.Source;
  */
 public class ComponentFactory
 {
-    private static Logger log = Log.getLogger(ComponentFactory.class);
+  private static Logger log = Log.getLogger(ComponentFactory.class);
 
-    public static Source create(final SourceNode node) throws Exception {
-        return (Source) build(node);
+  public static Source create(final SourceNode node) throws Exception {
+    return (Source) build(node);
+  }
+
+  public static Trigger create(final TriggerNode node) throws Exception {
+    return (Trigger) build(node);
+  }
+
+  public static Listener create(final ListenerNode node) throws Exception {
+    return (Listener) build(node);
+  }
+
+  //
+  // Helpers
+  //
+
+  private static Class loadClass(final String className) throws ClassNotFoundException {
+    assert className != null;
+
+    Class type;
+
+    try {
+      ClassLoader cl = Thread.currentThread().getContextClassLoader();
+      log.trace("Using class-loader: {}", cl);
+      if (cl == null) {
+        // HACK: Sometimes the TCL is null (ick) but this probably not right either
+        cl = ClassLoader.getSystemClassLoader();
+      }
+      type = cl.loadClass(className);
+    }
+    catch (ClassNotFoundException e) {
+      // HACK: This is needed as a fallback on Maven 2.0.x and 2.2.x which does not have the TCL setup as expected
+      log.trace("Falling back to Class.forName...");
+      type = Class.forName(className);
     }
 
-    public static Trigger create(final TriggerNode node) throws Exception {
-        return (Trigger) build(node);
+    log.trace("Loaded class: {}", type);
+
+    return type;
+  }
+
+  private static Object build(final FactoryNode node) throws Exception {
+    assert node != null;
+
+    return build(node.getType(), node.getConfiguration());
+  }
+
+  public static Object build(final String className, final Object config) throws Exception {
+    assert className != null;
+
+    Class type = loadClass(className);
+    Object obj = type.newInstance();
+
+    if (config != null) {
+      //
+      // TODO: Support the Xpp3 configuration... w/o requiring it on the classpath for this class to function
+      //
+
+      if (config instanceof Context) {
+        new ContextConfigurator().configure(obj, (Context) config);
+      }
+      else {
+        log.error("Unsupported configuration type: " + config.getClass().getName());
+      }
     }
 
-    public static Listener create(final ListenerNode node) throws Exception {
-        return (Listener) build(node);
-    }
+    log.trace("Created: {}", obj);
 
-    //
-    // Helpers
-    //
-
-    private static Class loadClass(final String className) throws ClassNotFoundException {
-        assert className != null;
-
-        Class type;
-
-        try {
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            log.trace("Using class-loader: {}", cl);
-            if (cl == null) {
-                // HACK: Sometimes the TCL is null (ick) but this probably not right either
-                cl = ClassLoader.getSystemClassLoader();
-            }
-            type = cl.loadClass(className);
-        }
-        catch (ClassNotFoundException e) {
-            // HACK: This is needed as a fallback on Maven 2.0.x and 2.2.x which does not have the TCL setup as expected
-            log.trace("Falling back to Class.forName...");
-            type = Class.forName(className);
-        }
-
-        log.trace("Loaded class: {}", type);
-
-        return type;
-    }
-
-    private static Object build(final FactoryNode node) throws Exception {
-        assert node != null;
-
-        return build(node.getType(), node.getConfiguration());
-    }
-
-    public static Object build(final String className, final Object config) throws Exception {
-        assert className != null;
-
-        Class type = loadClass(className);
-        Object obj = type.newInstance();
-
-        if (config != null) {
-            //
-            // TODO: Support the Xpp3 configuration... w/o requiring it on the classpath for this class to function
-            //
-
-            if (config instanceof Context) {
-                new ContextConfigurator().configure(obj, (Context)config);
-            }
-            else {
-                log.error("Unsupported configuration type: " + config.getClass().getName());
-            }
-        }
-
-        log.trace("Created: {}", obj);
-
-        return obj;
-    }
+    return obj;
+  }
 }

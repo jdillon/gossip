@@ -34,214 +34,215 @@ import java.util.Set;
 public final class Context
     implements Cloneable
 {
-    private static final String NEWLINE = System.getProperty("line.separator");
+  private static final String NEWLINE = System.getProperty("line.separator");
 
-    private final Map<String,String> store;
+  private final Map<String, String> store;
 
-    private String prefix;
+  private String prefix;
 
-    private Context parent;
+  private Context parent;
 
-    private Context(final Map<String,String> store, final String prefix) {
-        assert store != null;
-        this.store = store;
-        this.prefix = prefix;
+  private Context(final Map<String, String> store, final String prefix) {
+    assert store != null;
+    this.store = store;
+    this.prefix = prefix;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder buff = new StringBuilder();
+
+    buff.append(getClass().getSimpleName());
+    buff.append("[").append(NEWLINE);
+
+    if (prefix != null) {
+      for (Map.Entry<String, String> entry : store.entrySet()) {
+        if (entry.getKey().startsWith(prefix)) {
+          buff.append("  ").
+              append(entry.getKey()).append("=").append(entry.getValue()).
+              append(",").append(NEWLINE);
+        }
+      }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder buff = new StringBuilder();
+    buff.append("]");
 
-        buff.append(getClass().getSimpleName());
-        buff.append("[").append(NEWLINE);
+    return buff.toString();
+  }
 
-        if (prefix != null) {
-            for (Map.Entry<String,String> entry : store.entrySet()) {
-                if (entry.getKey().startsWith(prefix)) {
-                    buff.append("  ").
-                        append(entry.getKey()).append("=").append(entry.getValue()).
-                        append(",").append(NEWLINE);
-                }
-            }
-        }
+  @Override
+  public Object clone() {
+    try {
+      return super.clone();
+    }
+    catch (CloneNotSupportedException e) {
+      throw new InternalError();
+    }
+  }
 
-        buff.append("]");
+  public String key(final String name) {
+    assert name != null;
 
-        return buff.toString();
+    if (prefix != null) {
+      return prefix + "." + name;
     }
 
-    @Override
-    public Object clone() {
-        try {
-            return super.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            throw new InternalError();
-        }
+    return name;
+  }
+
+  public boolean contains(final String name) {
+    assert name != null;
+
+    return store.containsKey(key(name));
+  }
+
+  public String set(final String name, final String value) {
+    assert name != null;
+    assert value != null;
+
+    return store.put(key(name), value);
+  }
+
+  public String get(final String name, final String defaultValue) {
+    assert name != null;
+    // defaultValue can be null
+
+    String value = store.get(key(name));
+
+    if (value == null) {
+      value = defaultValue;
     }
 
-    public String key(final String name) {
-        assert name != null;
+    return value;
+  }
 
-        if (prefix != null) {
-            return prefix + "." + name;
-        }
+  public String get(final String name) {
+    return get(name, null);
+  }
 
-        return name;
+  public int size() {
+    if (prefix == null) {
+      return store.size();
     }
 
-    public boolean contains(final String name) {
-        assert name != null;
+    int c = 0;
 
-        return store.containsKey(key(name));
+    for (String key : store.keySet()) {
+      if (key.startsWith(prefix)) {
+        c++;
+      }
     }
 
-    public String set(final String name, final String value) {
-        assert name != null;
-        assert value != null;
+    return c;
+  }
 
-        return store.put(key(name), value);
+  public Set<String> names() {
+    if (prefix == null) {
+      return Collections.unmodifiableSet(store.keySet());
     }
 
-    public String get(final String name, final String defaultValue) {
-        assert name != null;
-        // defaultValue can be null
+    Set<String> matching = new HashSet<String>();
+    int l = prefix.length();
 
-        String value = store.get(key(name));
-
-        if (value == null) {
-            value =  defaultValue;
-        }
-
-        return value;
+    for (String key : store.keySet()) {
+      if (key.startsWith(prefix + ".")) {
+        // Strip off the prefix
+        key = key.substring(l + 1, key.length());
+        matching.add(key);
+      }
     }
 
-    public String get(final String name) {
-        return get(name, null);
+    return Collections.unmodifiableSet(matching);
+  }
+
+  //
+  // Children
+  //
+
+  public Context parent() {
+    if (parent == null) {
+      throw new IllegalStateException("Parent is not bound");
     }
 
-    public int size() {
-        if (prefix == null) {
-            return store.size();
-        }
+    return parent;
+  }
 
-        int c = 0;
+  public Context child(final String prefix) {
+    assert prefix != null;
 
-        for (String key : store.keySet()) {
-            if (key.startsWith(prefix)) {
-                c++;
-            }
-        }
+    Context child = (Context) clone();
 
-        return c;
+    child.parent = this;
+
+    if (child.prefix != null) {
+      child.prefix += "." + prefix;
+    }
+    else {
+      child.prefix = prefix;
     }
 
-    public Set<String> names() {
-        if (prefix == null) {
-            return Collections.unmodifiableSet(store.keySet());
-        }
+    return child;
+  }
 
-        Set<String> matching = new HashSet<String>();
-        int l = prefix.length();
+  //
+  // Helpers
+  //
 
-        for (String key : store.keySet()) {
-            if (key.startsWith(prefix + ".")) {
-                // Strip off the prefix
-                key = key.substring(l + 1, key.length());
-                matching.add(key);
-            }
-        }
+  @SuppressWarnings({"unchecked"})
+  public static Context create(final URL input) throws IOException {
+    assert input != null;
 
-        return Collections.unmodifiableSet(matching);
+    InputStream in = input.openStream();
+    Properties props;
+    try {
+      props = new Properties();
+      if (input.getFile().toLowerCase().endsWith(".xml")) {
+        props.loadFromXML(in);
+      }
+      props.load(in);
+    }
+    finally {
+      in.close();
     }
 
-    //
-    // Children
-    //
+    Context ctx = new Context((Map) props, null);
 
-    public Context parent() {
-        if (parent == null) {
-            throw new IllegalStateException("Parent is not bound");
-        }
+    return ctx;
+  }
 
-        return parent;
+  public static Properties asProperties(final Context ctx) {
+    assert ctx != null;
+
+    Properties props = new Properties();
+
+    for (Iterator iter = ctx.names().iterator(); iter.hasNext(); ) {
+      String key = (String) iter.next();
+      String value = ctx.get(key);
+      props.setProperty(key, value);
     }
 
-    public Context child(final String prefix) {
-        assert prefix != null;
+    return props;
+  }
 
-        Context child = (Context) clone();
+  public Properties toProperties() {
+    return asProperties(this);
+  }
 
-        child.parent = this;
+  public String[] split(final String name, boolean trim) {
+    String[] strings = this.get(name, "").split(",");
 
-        if (child.prefix != null) {
-            child.prefix += "." + prefix;
-        }
-        else {
-            child.prefix = prefix;
-        }
-
-        return child;
+    if (trim) {
+      strings = trim(strings);
     }
 
-    //
-    // Helpers
-    //
+    return strings;
+  }
 
-    @SuppressWarnings({"unchecked"})
-    public static Context create(final URL input) throws IOException {
-        assert input != null;
-
-        InputStream in = input.openStream();
-        Properties props;
-        try {
-            props = new Properties();
-            if (input.getFile().toLowerCase().endsWith(".xml")) {
-                props.loadFromXML(in);
-            }
-            props.load(in);
-        }
-        finally {
-            in.close();
-        }
-
-        Context ctx = new Context((Map)props, null);
-
-        return ctx;
-    }
-    public static Properties asProperties(final Context ctx) {
-        assert ctx != null;
-
-        Properties props = new Properties();
-
-        for (Iterator iter = ctx.names().iterator(); iter.hasNext();) {
-            String key = (String)iter.next();
-            String value = ctx.get(key);
-            props.setProperty(key, value);
-        }
-
-        return props;
+  public static String[] trim(final String[] strings) {
+    for (int i = 0; i < strings.length; i++) {
+      strings[i] = strings[i].trim();
     }
 
-    public Properties toProperties() {
-        return asProperties(this);
-    }
-
-    public String[] split(final String name, boolean trim) {
-        String[] strings = this.get(name, "").split(",");
-
-        if (trim) {
-            strings = trim(strings);
-        }
-
-        return strings;
-    }
-
-    public static String[] trim(final String[] strings) {
-        for (int i=0; i<strings.length; i++) {
-            strings[i] = strings[i].trim();
-        }
-
-        return strings;
-    }
+    return strings;
+  }
 }

@@ -30,29 +30,29 @@ import com.planet57.gossip.Log;
 public final class StaticLoggerBinder
     implements LoggerFactoryBinder
 {
-    /**
-     * @since 1.1
-     */
-    public static String REQUESTED_API_VERSION = "1.6.0";  // to avoid constant folding by the compiler, this field must *not* be final
+  /**
+   * @since 1.1
+   */
+  public static String REQUESTED_API_VERSION = "1.6.0";  // to avoid constant folding by the compiler, this field must *not* be final
 
-    private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+  private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
-    /**
-     * @since 1.1
-     * @return {@link #SINGLETON}
-     */
-    public static StaticLoggerBinder getSingleton() {
-        return SINGLETON;
-    }
+  /**
+   * @return {@link #SINGLETON}
+   * @since 1.1
+   */
+  public static StaticLoggerBinder getSingleton() {
+    return SINGLETON;
+  }
 
-    private final ILoggerFactory factory = Gossip.getInstance();
+  private final ILoggerFactory factory = Gossip.getInstance();
 
-    public ILoggerFactory getLoggerFactory() {
-        Log.configure(factory);
-        return factory;
-    }
+  public ILoggerFactory getLoggerFactory() {
+    Log.configure(factory);
+    return factory;
+  }
 
-    public String getLoggerFactoryClassStr() {
-        return Gossip.class.getName();
-    }
+  public String getLoggerFactoryClassStr() {
+    return Gossip.class.getName();
+  }
 }

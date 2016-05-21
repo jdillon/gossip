@@ -29,31 +29,31 @@ import java.io.File;
 public class HomeDirectorySource
     extends SourceSupport
 {
-    private String path;
+  private String path;
 
-    public void setPath(final String path) {
-        this.path = path;
+  public void setPath(final String path) {
+    this.path = path;
+  }
+
+  public String getPath() {
+    return path;
+  }
+
+  public Model load() throws Exception {
+    if (path == null) {
+      throw new MissingPropertyException("path");
     }
 
-    public String getPath() {
-        return path;
-    }
+    File homeDir = new File(System.getProperty("user.home"));
+    File file = new File(homeDir, path);
 
-    public Model load() throws Exception {
-        if (path == null) {
-            throw new MissingPropertyException("path");
-        }
+    return load(file);
+  }
 
-        File homeDir = new File(System.getProperty("user.home"));
-        File file = new File(homeDir, path);
-
-        return load(file);
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "path='" + path + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{" +
+        "path='" + path + '\'' +
+        '}';
+  }
 }

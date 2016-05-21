@@ -40,181 +40,181 @@ import java.util.Map;
  */
 public final class Configurator
 {
-    private static final String BOOTSTRAP_RESOURCE = "bootstrap.properties";
+  private static final String BOOTSTRAP_RESOURCE = "bootstrap.properties";
 
-    private final Logger log = Log.getLogger(getClass());
+  private final Logger log = Log.getLogger(getClass());
 
-    public EffectiveProfile configure() {
-        log.debug("Configuring");
+  public EffectiveProfile configure() {
+    log.debug("Configuring");
 
-        EffectiveProfile profile = new EffectiveProfile();
+    EffectiveProfile profile = new EffectiveProfile();
 
-        try {
-            // Load the bootstrap configuration
-            Model bootstrap = loadBootstrap();
+    try {
+      // Load the bootstrap configuration
+      Model bootstrap = loadBootstrap();
 
-            // Resolve sources and merge
-            Model config = resolve(bootstrap);
+      // Resolve sources and merge
+      Model config = resolve(bootstrap);
 
-            // Configure the active profiles
-            configureActiveProfiles(profile, config);
-        }
-        catch (Throwable t) {
-            log.error("Failed to configure; using fall-back provider", t);
-        }
-
-        if (profile.getProfiles().isEmpty()) {
-            log.debug("No profiles were activated; using fall-back");
-
-            ProfileNode p = createFallbackProfile();
-            profile.addProfile(p);
-        }
-
-        return profile;
+      // Configure the active profiles
+      configureActiveProfiles(profile, config);
+    }
+    catch (Throwable t) {
+      log.error("Failed to configure; using fall-back provider", t);
     }
 
-    private Model resolve(final Model bootstrap) {
-        assert bootstrap != null;
+    if (profile.getProfiles().isEmpty()) {
+      log.debug("No profiles were activated; using fall-back");
 
-        Model config = new Model();
-        ModelMerger merger = new ModelMerger();
-        Map<Object,Object> hints = new HashMap<Object,Object>();
+      ProfileNode p = createFallbackProfile();
+      profile.addProfile(p);
+    }
 
-        for (SourceNode source : bootstrap.getSources()) {
-            try {
-                Source loader = source.create();
-                merger.merge(config, loader.load(), true, hints);
-            }
-            catch (Exception e) {
-                log.error("Failed to resolve source: " + source, e);
-            }
+    return profile;
+  }
+
+  private Model resolve(final Model bootstrap) {
+    assert bootstrap != null;
+
+    Model config = new Model();
+    ModelMerger merger = new ModelMerger();
+    Map<Object, Object> hints = new HashMap<Object, Object>();
+
+    for (SourceNode source : bootstrap.getSources()) {
+      try {
+        Source loader = source.create();
+        merger.merge(config, loader.load(), true, hints);
+      }
+      catch (Exception e) {
+        log.error("Failed to resolve source: " + source, e);
+      }
+    }
+
+    resolveIncludes(config);
+
+    return config;
+  }
+
+  private void resolveIncludes(final Model model) {
+    assert model != null;
+
+    // Process profile includes
+    for (ProfileNode profile : model.getProfiles()) {
+      log.trace("Processing includes for: {}", profile);
+
+      for (String include : profile.getIncludes()) {
+        ProfileNode includedProfile = model.findProfile(include);
+
+        if (includedProfile == null) {
+          log.warn("Unable to include non-existent profile: {}", includedProfile);
+          continue;
         }
 
-        resolveIncludes(config);
+        log.debug("Including {} profile into: {}", include, profile);
 
-        return config;
-    }
+        // FIXME: This should really be in ModelMerger
 
-    private void resolveIncludes(final Model model) {
-        assert model != null;
-
-        // Process profile includes
-        for (ProfileNode profile : model.getProfiles()) {
-            log.trace("Processing includes for: {}", profile);
-
-            for (String include : profile.getIncludes()) {
-                ProfileNode includedProfile = model.findProfile(include);
-
-                if (includedProfile == null) {
-                    log.warn("Unable to include non-existent profile: {}", includedProfile);
-                    continue;
-                }
-
-                log.debug("Including {} profile into: {}", include, profile);
-
-                // FIXME: This should really be in ModelMerger
-
-                for (Object name : includedProfile.getProperties().keySet()) {
-                    if (!profile.getProperties().containsKey(name)) {
-                        profile.getProperties().put(name, includedProfile.getProperties().get(name));
-                        log.trace("Appending property: {}", name);
-                    }
-                }
-
-                for (LoggerNode logger : includedProfile.getLoggers()) {
-                    if (!profile.getLoggers().contains(logger)) {
-                        profile.getLoggers().add(logger);
-                        log.trace("Appending logger: {}", logger);
-                    }
-                }
-
-                for (ListenerNode listener : includedProfile.getListeners()) {
-                    if (!profile.getListeners().contains(listener)) {
-                        profile.getListeners().add(listener);
-                        log.trace("Appending listener: {}", listener);
-                    }
-                }
-
-                for (TriggerNode trigger : includedProfile.getTriggers()) {
-                    if (!profile.getTriggers().contains(trigger)) {
-                        profile.getTriggers().add(trigger);
-                        log.trace("Appending trigger: {}", trigger);
-                    }
-                }
-            }
-        }
-    }
-
-    private void configureActiveProfiles(final EffectiveProfile profile, final Model model) throws Exception {
-        assert profile != null;
-        assert model != null;
-
-        log.debug("Activating profiles");
-
-        for (ProfileNode node : model.getProfiles()) {
-            if (isProfileActive(node)) {
-                log.debug("Active profile: {}", node);
-                profile.addProfile(node);
-            }
+        for (Object name : includedProfile.getProperties().keySet()) {
+          if (!profile.getProperties().containsKey(name)) {
+            profile.getProperties().put(name, includedProfile.getProperties().get(name));
+            log.trace("Appending property: {}", name);
+          }
         }
 
-        // If no profiles were activated, look for a "default" profile, if it exists then use it
-        if (profile.getProfiles().isEmpty()) {
-            ProfileNode node = model.findProfile("default");
-            if (node != null) {
-                log.debug("Using default profile: {}", node);
-                profile.addProfile(node);
-            }
-        }
-    }
-
-    private boolean isProfileActive(final ProfileNode profile) {
-        assert profile != null;
-
-        log.trace("Checking if profile is active: {}", profile);
-
-        for (TriggerNode trigger : profile.getTriggers()) {
-            try {
-                if (trigger.create().isActive()) {
-                    log.debug("Active trigger: {}", trigger);
-                    return true;
-                }
-            }
-            catch (Exception e) {
-                log.error("Failed to evaluate trigger: " + trigger, e);
-            }
-
+        for (LoggerNode logger : includedProfile.getLoggers()) {
+          if (!profile.getLoggers().contains(logger)) {
+            profile.getLoggers().add(logger);
+            log.trace("Appending logger: {}", logger);
+          }
         }
 
-        return false;
+        for (ListenerNode listener : includedProfile.getListeners()) {
+          if (!profile.getListeners().contains(listener)) {
+            profile.getListeners().add(listener);
+            log.trace("Appending listener: {}", listener);
+          }
+        }
+
+        for (TriggerNode trigger : includedProfile.getTriggers()) {
+          if (!profile.getTriggers().contains(trigger)) {
+            profile.getTriggers().add(trigger);
+            log.trace("Appending trigger: {}", trigger);
+          }
+        }
+      }
+    }
+  }
+
+  private void configureActiveProfiles(final EffectiveProfile profile, final Model model) throws Exception {
+    assert profile != null;
+    assert model != null;
+
+    log.debug("Activating profiles");
+
+    for (ProfileNode node : model.getProfiles()) {
+      if (isProfileActive(node)) {
+        log.debug("Active profile: {}", node);
+        profile.addProfile(node);
+      }
     }
 
-    private ProfileNode createFallbackProfile() {
-        ProfileNode p = new ProfileNode();
-        p.setName("fall-back");
+    // If no profiles were activated, look for a "default" profile, if it exists then use it
+    if (profile.getProfiles().isEmpty()) {
+      ProfileNode node = model.findProfile("default");
+      if (node != null) {
+        log.debug("Using default profile: {}", node);
+        profile.addProfile(node);
+      }
+    }
+  }
 
-        TriggerNode trigger = new TriggerNode();
-        trigger.setType(AlwaysTrigger.class);
-        p.getTriggers().add(trigger);
+  private boolean isProfileActive(final ProfileNode profile) {
+    assert profile != null;
 
-        ListenerNode listenerNode = new ListenerNode();
-        listenerNode.setType(ConsoleListener.class);
-        p.getListeners().add(listenerNode);
+    log.trace("Checking if profile is active: {}", profile);
 
-        return p;
+    for (TriggerNode trigger : profile.getTriggers()) {
+      try {
+        if (trigger.create().isActive()) {
+          log.debug("Active trigger: {}", trigger);
+          return true;
+        }
+      }
+      catch (Exception e) {
+        log.error("Failed to evaluate trigger: " + trigger, e);
+      }
+
     }
 
-    private Model loadBootstrap() throws Exception {
-        URL url = getClass().getResource(BOOTSTRAP_RESOURCE);
+    return false;
+  }
 
-        // This should really never happen unless something is messed up, but don't toss an exception, let the fallback provider kick-in
-        assert url != null : "Unable to load bootstrap resource: " + BOOTSTRAP_RESOURCE;
+  private ProfileNode createFallbackProfile() {
+    ProfileNode p = new ProfileNode();
+    p.setName("fall-back");
 
-        log.trace("Using bootstrap URL: {}", url);
-        
-        URLSource source = new URLSource();
-        source.setUrl(url);
-        
-        return source.load();
-    }
+    TriggerNode trigger = new TriggerNode();
+    trigger.setType(AlwaysTrigger.class);
+    p.getTriggers().add(trigger);
+
+    ListenerNode listenerNode = new ListenerNode();
+    listenerNode.setType(ConsoleListener.class);
+    p.getListeners().add(listenerNode);
+
+    return p;
+  }
+
+  private Model loadBootstrap() throws Exception {
+    URL url = getClass().getResource(BOOTSTRAP_RESOURCE);
+
+    // This should really never happen unless something is messed up, but don't toss an exception, let the fallback provider kick-in
+    assert url != null : "Unable to load bootstrap resource: " + BOOTSTRAP_RESOURCE;
+
+    log.trace("Using bootstrap URL: {}", url);
+
+    URLSource source = new URLSource();
+    source.setUrl(url);
+
+    return source.load();
+  }
 }

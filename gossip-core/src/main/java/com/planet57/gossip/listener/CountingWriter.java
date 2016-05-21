@@ -28,35 +28,35 @@ import java.io.Writer;
 public class CountingWriter
     extends FilterWriter
 {
-    private long count = 0;
+  private long count = 0;
 
-    public CountingWriter(final Writer out) {
-        super(out);
-    }
+  public CountingWriter(final Writer out) {
+    super(out);
+  }
 
-    public long size() {
-        return count;
-    }
+  public long size() {
+    return count;
+  }
 
-    public void reset() {
-        count = 0;
-    }
+  public void reset() {
+    count = 0;
+  }
 
-    @Override
-    public void write(final int c) throws IOException {
-        super.write(c);
-        count++;
-    }
+  @Override
+  public void write(final int c) throws IOException {
+    super.write(c);
+    count++;
+  }
 
-    @Override
-    public void write(final char[] cbuf, final int off, final int len) throws IOException {
-        super.write(cbuf, off, len);
-        count += len - off;
-    }
+  @Override
+  public void write(final char[] cbuf, final int off, final int len) throws IOException {
+    super.write(cbuf, off, len);
+    count += len - off;
+  }
 
-    @Override
-    public void write(final String str, final int off, final int len) throws IOException {
-        super.write(str, off, len);
-        count += str.length();
-    }
+  @Override
+  public void write(final String str, final int off, final int len) throws IOException {
+    super.write(str, off, len);
+    count += str.length();
+  }
 }

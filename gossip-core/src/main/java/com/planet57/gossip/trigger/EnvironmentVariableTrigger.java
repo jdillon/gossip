@@ -24,8 +24,8 @@ package com.planet57.gossip.trigger;
 public class EnvironmentVariableTrigger
     extends NameValueTriggerSupport
 {
-    @Override
-    protected String resolve() {
-        return System.getenv(getName());
-    }
+  @Override
+  protected String resolve() {
+    return System.getenv(getName());
+  }
 }

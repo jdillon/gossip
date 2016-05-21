@@ -23,9 +23,9 @@ import org.junit.Test;
  */
 public class DCTest
 {
-    @Test
-    @Ignore
-    public void makeSomeRealTests() {
-        // FIXME: Reminder to make tests for this
-    }
+  @Test
+  @Ignore
+  public void makeSomeRealTests() {
+    // FIXME: Reminder to make tests for this
+  }
 }
