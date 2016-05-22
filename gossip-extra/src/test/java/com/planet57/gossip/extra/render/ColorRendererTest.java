@@ -29,12 +29,12 @@ import com.planet57.gossip.Level;
  */
 public class ColorRendererTest
 {
-    @Test
-    public void test1() throws Exception {
-        Logger log = Gossip.getInstance().getLogger("foo");
-        Event e = new Event(log, Level.DEBUG, "foo bar baz", null);
-        ColorRenderer r = new ColorRenderer();
-        String text = r.render(e);
-        System.out.println(text);
-    }
+  @Test
+  public void test1() throws Exception {
+    Logger log = Gossip.getInstance().getLogger("foo");
+    Event e = new Event(log, Level.DEBUG, "foo bar baz", null);
+    ColorRenderer r = new ColorRenderer();
+    String text = r.render(e);
+    System.out.println(text);
+  }
 }
