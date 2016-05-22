@@ -26,7 +26,7 @@ public interface Trigger
   /**
    * Determine if a profile is active.
    *
-   * @return True if the profile is active.
+   * @return {@code true} if the profile is active.
    */
   boolean isActive();
 }
