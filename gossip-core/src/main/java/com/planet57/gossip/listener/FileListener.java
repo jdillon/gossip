@@ -25,6 +25,8 @@ import java.io.Writer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nullable;
+
 /**
  * Writes events to a file.
  *
@@ -137,7 +139,7 @@ public class FileListener
     }
   }
 
-  protected String evaluate(String input) {
+  protected String evaluate(@Nullable String input) {
     if (input != null) {
       Matcher matcher = PATTERN.matcher(input);
 
