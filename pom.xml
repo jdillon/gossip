@@ -179,7 +179,7 @@
           <autoVersionSubmodules>true</autoVersionSubmodules>
           <useReleaseProfile>false</useReleaseProfile>
           <goals>deploy</goals>
-          <arguments>-B -Prelease</arguments>
+          <arguments>-B -Pbuildsupport-release</arguments>
         </configuration>
       </plugin>
     </plugins>
