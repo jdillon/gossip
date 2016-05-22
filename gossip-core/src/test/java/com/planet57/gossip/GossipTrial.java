@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 /**
- * Created by jason on 5/20/16.
+ * {@link Gossip} trials.
  */
 public class GossipTrial
 {
