@@ -54,6 +54,11 @@
     <url>http://github.com/jdillon/gossip</url>
   </scm>
 
+  <issueManagement>
+    <system>Github</system>
+    <url>https://github.com/jdillon/gossip/issues</url>
+  </issueManagement>
+
   <developers>
     <developer>
       <id>jdillon</id>
