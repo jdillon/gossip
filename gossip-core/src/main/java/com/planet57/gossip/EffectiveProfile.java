@@ -83,7 +83,7 @@ public final class EffectiveProfile
             listeners.add(listener.create());
           }
           catch (Exception e) {
-            log.error("Failed to create listener: " + listener, e);
+            log.error("Failed to create listener: {}", listener, e);
           }
         }
       }
