@@ -23,8 +23,6 @@ import static org.junit.Assert.*;
 
 /**
  * Tests for the {@link SystemPropertySource} class.
- *
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class SystemPropertySourceTest
 {

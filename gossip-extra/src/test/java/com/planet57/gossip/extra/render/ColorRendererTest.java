@@ -23,9 +23,7 @@ import com.planet57.gossip.Gossip;
 import com.planet57.gossip.Level;
 
 /**
- * Tests for the {@link ColorRenderer} class.
- *
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ * Tests for {@link ColorRenderer}.
  */
 public class ColorRendererTest
 {

@@ -25,8 +25,6 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link Model}.
- *
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class ModelTest
 {

@@ -23,8 +23,6 @@ import java.net.URL;
 
 /**
  * Tests for {@link GossipPropertiesReader}.
- *
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
 public class GossipPropertiesReaderTest
 {
