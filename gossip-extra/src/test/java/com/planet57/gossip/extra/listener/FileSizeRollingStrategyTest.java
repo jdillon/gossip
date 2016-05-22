@@ -15,120 +15,134 @@
  */
 package com.planet57.gossip.extra.listener;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
+import com.planet57.gossip.Event;
+import com.planet57.gossip.Gossip;
+import com.planet57.gossip.Level;
+import com.planet57.gossip.listener.CountingWriter;
+import com.planet57.gossip.listener.FileListener;
+import com.planet57.gossip.render.PatternRenderer;
+import org.junit.Test;
+import org.slf4j.Logger;
+
 import static org.junit.Assert.assertEquals;
-import org.junit.Ignore;
 
 /**
  * Tests for {@link FileSizeRollingStrategy}.
- *
- * @author <a href="mailto:jason@planet57.com'>Jason Dillon</a>
  */
-@Ignore
 public class FileSizeRollingStrategyTest
 {
-    private static final int NEWLINE_LENGTH = System.getProperty("line.separator").length();
+  private static final int NEWLINE_LENGTH = System.getProperty("line.separator").length();
 
-    /*
-    // FIXME: Port to Java
+  private File getBaseDir() {
+    File dir;
 
-    private File getBaseDir() {
-        File dir
+    // If ${basedir} is set, then honor it
+    String tmp = System.getProperty("basedir");
+    if (tmp != null) {
+      dir = new File(tmp);
+    }
+    else {
+      // Find the directory which this class (or really the sub-class of TestSupport) is defined in.
+      String path = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
 
-        // If ${basedir} is set, then honor it
-        String tmp = System.getProperty('basedir')
-        if (tmp != null) {
-            dir = new File(tmp)
-        }
-        else {
-            // Find the directory which this class (or really the sub-class of TestSupport) is defined in.
-            String path = getClass().getProtectionDomain().getCodeSource().getLocation().getFile()
+      // We expect the file to be in target/test-classes, so go up 2 dirs
+      dir = new File(path).getParentFile().getParentFile();
 
-            // We expect the file to be in target/test-classes, so go up 2 dirs
-            dir = new File(path).getParentFile().getParentFile()
-
-            // Set ${basedir} which is needed by logging to initialize
-            System.setProperty('basedir', dir.getPath())
-        }
-
-        return dir
+      // Set ${basedir} which is needed by logging to initialize
+      System.setProperty("basedir", dir.getPath());
     }
 
-    private FileListener createListener(final String name) {
-        def listener = new FileListener()
+    return dir;
+  }
 
-        def renderer = new PatternRenderer()
-        listener.setRenderer(renderer)
+  private FileListener createListener(final String name) {
+    FileListener listener = new FileListener();
 
-        def file = new File("${getBaseDir()}/target", name)
-        file.delete();
-        listener.file = file
+    PatternRenderer renderer = new PatternRenderer();
+    listener.setRenderer(renderer);
 
-        def strategy = new FileSizeRollingStrategy()
-        strategy.setMaximumFileSize(30)
-        strategy.setMaximumBackupIndex(2)
-        listener.rollingStrategy = strategy
-        return listener
-    }
+    File targetDir = new File(getBaseDir(), "target");
+    File file = new File(targetDir, name);
+    file.delete();
+    listener.setFile(file);
 
-    @Test
-    void test1() {
-        FileListener listener = createListener('test1.log')
-        
-        def logger = new Gossip().getLogger('a')
-        def msg = '1234567890'
-        def event = new Event(logger, Level.INFO, msg, null)
-        
-        listener.onEvent(event)
-        
-        def writer = listener.getWriter()
-        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
-    }
+    FileSizeRollingStrategy strategy = new FileSizeRollingStrategy();
+    strategy.setMaximumFileSize(30);
+    strategy.setMaximumBackupIndex(2);
+    listener.setRollingStrategy(strategy);
+    return listener;
+  }
 
-    @Test
-    void test2() {
-        FileListener listener = createListener('test2.log')
+  @SuppressWarnings("Since15")
+  private String readFile(final File file) throws IOException {
+    byte[] bytes = Files.readAllBytes(file.toPath());
+    return new String(bytes, "UTF-8");
+  }
 
-        def logger = new Gossip().getLogger('a')
-        def msg = '1234567890'
-        def event = new Event(logger, Level.INFO, msg, null)
+  @Test
+  public void test1() throws Exception {
+    FileListener listener = createListener("test1.log");
 
-        listener.onEvent(event)
+    Logger logger = Gossip.getInstance().getLogger("a");
+    String msg = "1234567890";
+    Event event = new Event(logger, Level.INFO, msg, null);
 
-        def writer = listener.getWriter()
-        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
+    listener.onEvent(event);
 
-        listener.onEvent(event)
-        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
+    CountingWriter writer = listener.getWriter();
+    assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size());
+  }
 
-        def rolled = new File("${getBaseDir()}/target", "test2.log.1")
-        assertEquals(11 + 10 + NEWLINE_LENGTH, listener.file.text.size())
-    }
+  @Test
+  public void test2() throws Exception {
+    FileListener listener = createListener("test2.log");
 
-    @Test
-    void test3() {
-        FileListener listener = createListener('test3.log')
+    Logger logger = Gossip.getInstance().getLogger("a");
+    String msg = "1234567890";
+    Event event = new Event(logger, Level.INFO, msg, null);
 
-        def logger = new Gossip().getLogger('a')
-        def msg = '1234567890'
-        def event = new Event(logger, com.planet57.gossip.Gossip.Level.INFO, msg, null)
+    listener.onEvent(event);
 
-        listener.onEvent(event)
+    CountingWriter writer = listener.getWriter();
+    assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size());
 
-        def writer = listener.getWriter()
-        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
+    listener.onEvent(event);
+    assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size());
 
-        listener.onEvent(event)
-        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
+    File targetDir = new File(getBaseDir(), "target");
+    File rolled = new File(targetDir, "test2.log.1");
+    assertEquals(11 + 10 + NEWLINE_LENGTH, readFile(listener.getFile()).length());
+  }
 
-        listener.onEvent(event)
-        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
+  @Test
+  public void test3() throws Exception {
+    FileListener listener = createListener("test3.log");
 
-        listener.onEvent(event)
-        assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size())
+    Logger logger = Gossip.getInstance().getLogger("a");
+    String msg = "1234567890";
+    Event event = new Event(logger, Level.INFO, msg, null);
 
-        assertEquals(11 + 10 + NEWLINE_LENGTH, new File("${getBaseDir()}/target", "test3.log").text.size())
-        assertEquals(11 + 10 + NEWLINE_LENGTH, new File("${getBaseDir()}/target", "test3.log.1").text.size())
-        assertEquals(11 + 10 + NEWLINE_LENGTH, new File("${getBaseDir()}/target", "test3.log.2").text.size())
-    }
-    */
+    listener.onEvent(event);
+
+    CountingWriter writer = listener.getWriter();
+    assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size());
+
+    listener.onEvent(event);
+    assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size());
+
+    listener.onEvent(event);
+    assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size());
+
+    listener.onEvent(event);
+    assertEquals(11 + 10 + NEWLINE_LENGTH, writer.size());
+
+    File targetDir = new File(getBaseDir(), "target");
+    assertEquals(11 + 10 + NEWLINE_LENGTH, readFile(new File(targetDir, "test3.log")).length());
+    assertEquals(11 + 10 + NEWLINE_LENGTH, readFile(new File(targetDir, "test3.log.1")).length());
+    assertEquals(11 + 10 + NEWLINE_LENGTH, readFile(new File(targetDir, "test3.log.2")).length());
+  }
 }
