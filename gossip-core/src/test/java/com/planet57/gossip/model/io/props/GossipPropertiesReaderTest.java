@@ -28,11 +28,11 @@ import java.net.URL;
  */
 public class GossipPropertiesReaderTest
 {
-    @Test
-    public void testLoad() throws IOException {
-        URL url = getClass().getResource("gossip1.properties");
-        GossipPropertiesReader reader = new GossipPropertiesReader();
-        Model model = reader.read(url);
-        System.out.println(model);
-    }
+  @Test
+  public void testLoad() throws IOException {
+    URL url = getClass().getResource("gossip1.properties");
+    GossipPropertiesReader reader = new GossipPropertiesReader();
+    Model model = reader.read(url);
+    System.out.println(model);
+  }
 }

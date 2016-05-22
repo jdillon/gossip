@@ -30,41 +30,41 @@ import static org.junit.Assert.assertTrue;
  */
 public class ModelTest
 {
-    @Test
-    public void testLoggerNodeIdentity() {
-        LoggerNode node1 = new LoggerNode();
-        node1.setName("foo");
+  @Test
+  public void testLoggerNodeIdentity() {
+    LoggerNode node1 = new LoggerNode();
+    node1.setName("foo");
 
-        LoggerNode node2 = new LoggerNode();
-        node2.setName("bar");
+    LoggerNode node2 = new LoggerNode();
+    node2.setName("bar");
 
-        LoggerNode node3 = new LoggerNode();
-        node3.setName("foo");
+    LoggerNode node3 = new LoggerNode();
+    node3.setName("foo");
 
-        List<LoggerNode> list = new ArrayList<LoggerNode>();
-        list.add(node1);
+    List<LoggerNode> list = new ArrayList<LoggerNode>();
+    list.add(node1);
 
-        assertTrue(list.contains(node1));
-        assertFalse(list.contains(node2));
-        assertTrue(list.contains(node3));
-    }
+    assertTrue(list.contains(node1));
+    assertFalse(list.contains(node2));
+    assertTrue(list.contains(node3));
+  }
 
-    @Test
-    public void testListenerNodeIdenityer() {
-        ListenerNode node1 = new ListenerNode();
-        node1.setType("foo");
+  @Test
+  public void testListenerNodeIdenityer() {
+    ListenerNode node1 = new ListenerNode();
+    node1.setType("foo");
 
-        ListenerNode node2 = new ListenerNode();
-        node2.setType("bar");
+    ListenerNode node2 = new ListenerNode();
+    node2.setType("bar");
 
-        ListenerNode node3 = new ListenerNode();
-        node3.setType("foo");
+    ListenerNode node3 = new ListenerNode();
+    node3.setType("foo");
 
-        List<ListenerNode> list = new ArrayList<ListenerNode>();
-        list.add(node1);
+    List<ListenerNode> list = new ArrayList<ListenerNode>();
+    list.add(node1);
 
-        assertTrue(list.contains(node1));
-        assertFalse(list.contains(node2));
-        assertTrue(list.contains(node3));
-    }
+    assertTrue(list.contains(node1));
+    assertFalse(list.contains(node2));
+    assertTrue(list.contains(node3));
+  }
 }

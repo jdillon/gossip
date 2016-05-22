@@ -29,15 +29,15 @@ import static org.junit.Assert.*;
  */
 public class URLSourceTest
 {
-    @Test
-    public void test1() throws Exception {
-        URLSource s = new URLSource();
+  @Test
+  public void test1() throws Exception {
+    URLSource s = new URLSource();
 
-        URL url = getClass().getResource("config1.properties");
-        assertNotNull(url);
-        s.setUrl(url);
+    URL url = getClass().getResource("config1.properties");
+    assertNotNull(url);
+    s.setUrl(url);
 
-        Model model = s.load();
-        assertNotNull(model);
-    }
+    Model model = s.load();
+    assertNotNull(model);
+  }
 }

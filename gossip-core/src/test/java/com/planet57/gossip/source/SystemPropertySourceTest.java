@@ -28,41 +28,42 @@ import static org.junit.Assert.*;
  */
 public class SystemPropertySourceTest
 {
-    @Test
-    public void test1() throws Exception {
-        SystemPropertySource s = new SystemPropertySource();
-        String name = "foo.bar";
-        s.setName(name);
+  @Test
+  public void test1() throws Exception {
+    SystemPropertySource s = new SystemPropertySource();
+    String name = "foo.bar";
+    s.setName(name);
 
-        System.setProperty(name, "no such file anywhere I hope");
-        try {
-            s.load();
-            fail();
-        }
-        catch (ConfigurationException e) {
-            // expected
-        }
+    System.setProperty(name, "no such file anywhere I hope");
+    try {
+      s.load();
+      fail();
     }
-
-    @Test
-    public void test2() throws Exception {
-        SystemPropertySource s = new SystemPropertySource();
-        String name = "foo.bar";
-        s.setName(name);
-
-        System.getProperties().remove(name);
-
-        Model model = s.load();
-        assertNull(model);
+    catch (ConfigurationException e) {
+      // expected
     }
+  }
 
-    @Test
-    public void test3() throws Exception {
-        try {
-            SystemPropertySource s = new SystemPropertySource();
-            s.load();
-            fail();
-        }
-        catch (ConfigurationException expected) {}
+  @Test
+  public void test2() throws Exception {
+    SystemPropertySource s = new SystemPropertySource();
+    String name = "foo.bar";
+    s.setName(name);
+
+    System.getProperties().remove(name);
+
+    Model model = s.load();
+    assertNull(model);
+  }
+
+  @Test
+  public void test3() throws Exception {
+    try {
+      SystemPropertySource s = new SystemPropertySource();
+      s.load();
+      fail();
     }
+    catch (ConfigurationException expected) {
+    }
+  }
 }
