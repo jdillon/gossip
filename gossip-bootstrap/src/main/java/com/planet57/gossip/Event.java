@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import javax.annotation.Nullable;
+
 /**
  * Gossip logging event container.
  *
@@ -39,6 +41,7 @@ public final class Event
 
   private final String message;
 
+  @Nullable
   private final Throwable cause;
 
   private final long timeStamp;
@@ -47,7 +50,7 @@ public final class Event
 
   private final StackTraceElement[] trace;
 
-  public Event(final Logger logger, final Level level, final String message, final Throwable cause) {
+  public Event(final Logger logger, final Level level, final String message, @Nullable final Throwable cause) {
     this.logger = logger;
     this.level = level;
     this.message = message;
@@ -71,6 +74,7 @@ public final class Event
     return message;
   }
 
+  @Nullable
   public Throwable getCause() {
     return cause;
   }
@@ -83,6 +87,7 @@ public final class Event
     return threadName;
   }
 
+  @Nullable
   public StackTraceElement[] getTrace() {
     return trace;
   }

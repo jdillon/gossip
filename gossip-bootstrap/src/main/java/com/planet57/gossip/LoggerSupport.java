@@ -22,6 +22,8 @@ import org.slf4j.helpers.MessageFormatter;
 
 import java.io.Serializable;
 
+import javax.annotation.Nullable;
+
 import static com.planet57.gossip.Level.DEBUG;
 import static com.planet57.gossip.Level.ERROR;
 import static com.planet57.gossip.Level.INFO;
@@ -68,7 +70,7 @@ public abstract class LoggerSupport
   }
 
   @Override
-  public final boolean equals(final Object obj) {
+  public final boolean equals(@Nullable final Object obj) {
     if (this == obj) {
       return true;
     }
@@ -85,7 +87,7 @@ public abstract class LoggerSupport
 
   protected abstract void doLog(Event event);
 
-  protected void doLog(final Level level, final String message, final Throwable cause) {
+  protected void doLog(final Level level, final String message, @Nullable final Throwable cause) {
     doLog(new Event(this, level, message, cause));
   }
 
