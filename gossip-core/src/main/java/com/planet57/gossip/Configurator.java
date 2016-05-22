@@ -181,7 +181,7 @@ public final class Configurator
         }
       }
       catch (Exception e) {
-        log.error("Failed to evaluate trigger: " + trigger, e);
+        log.error("Failed to evaluate trigger: {}", trigger, e);
       }
 
     }
