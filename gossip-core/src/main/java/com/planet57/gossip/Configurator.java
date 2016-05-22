@@ -86,7 +86,7 @@ public final class Configurator
         merger.merge(config, loader.load(), true, hints);
       }
       catch (Exception e) {
-        log.error("Failed to resolve source: " + source, e);
+        log.error("Failed to resolve source: {}", source, e);
       }
     }
 
