@@ -30,7 +30,10 @@ import java.util.Properties;
  */
 public class ModelMerger
 {
-  public void merge(Model target, Model source, boolean sourceDominant, Map<?, ?> hints) {
+  public void merge(final Model target,
+                    final Model source,
+                    final boolean sourceDominant, Map<?, ?> hints)
+  {
     assert target != null;
 
     if (source == null) {
@@ -45,13 +48,17 @@ public class ModelMerger
     mergeModel(target, source, sourceDominant, context);
   }
 
-  protected void mergeModel(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
+  protected void mergeModel(final Model target,
+                            final Model source,
+                            final boolean sourceDominant, Map<Object, Object> context)
+  {
     mergeModel_Properties(target, source, sourceDominant, context);
     mergeModel_Profiles(target, source, sourceDominant, context);
   }
 
-  protected void mergeModel_Properties(Model target, Model source, boolean sourceDominant,
-                                       Map<Object, Object> context)
+  protected void mergeModel_Properties(final Model target, Model source,
+                                       final boolean sourceDominant,
+                                       final Map<Object, Object> context)
   {
     Properties merged = new Properties();
     if (sourceDominant) {
@@ -65,7 +72,10 @@ public class ModelMerger
     target.setProperties(merged);
   }
 
-  protected void mergeModel_Profiles(Model target, Model source, boolean sourceDominant, Map<Object, Object> context) {
+  protected void mergeModel_Profiles(final Model target,
+                                     final Model source,
+                                     final boolean sourceDominant, Map<Object, Object> context)
+  {
     List<ProfileNode> src = source.getProfiles();
     if (!src.isEmpty()) {
       List<ProfileNode> profiles = target.getProfiles();
