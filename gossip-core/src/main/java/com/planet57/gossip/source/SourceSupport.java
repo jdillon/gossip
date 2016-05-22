@@ -39,9 +39,7 @@ public abstract class SourceSupport
 
     log.debug("Loading model from: {}", url);
 
-    // HACK: FOr now just assume we are doing properties, support xpp3 optionally in the future
-    GossipPropertiesReader reader = new GossipPropertiesReader();
-    return reader.read(url);
+    return new GossipPropertiesReader().read(url);
   }
 
   protected Model load(final File file) throws Exception {
