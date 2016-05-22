@@ -18,4 +18,7 @@
  *
  * @since 1.0
  */
+@ParametersAreNonnullByDefault
 package org.slf4j.impl;
+
+import javax.annotation.ParametersAreNonnullByDefault;

@@ -18,4 +18,7 @@
  *
  * @since 1.0
  */
+@ParametersAreNonnullByDefault
 package com.planet57.gossip.source;
+
+import javax.annotation.ParametersAreNonnullByDefault;
