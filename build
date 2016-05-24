@@ -1,0 +1,40 @@
+#!/bin/bash
+basename=`basename $0`
+dirname=`dirname $0`
+dirname=`cd "$dirname" && pwd`
+cd "$dirname"
+
+# load optional config
+if [ -f ./build.rc ]; then
+  source ./build.rc
+fi
+
+function die {
+    echo "$1"
+    exit 1
+}
+
+function usage {
+    echo "usage: $basename $*"
+    exit 1
+}
+
+command="$1"; shift
+case "$command" in
+    change-version)
+        newVersion=$1
+        if [ -z "$newVersion" ]; then
+            usage "$command <version>"
+        fi
+
+        exec ./mvnw org.eclipse.tycho:tycho-versions-plugin:0.25.0:set-version \
+            -Dtycho.mode=maven \
+            -Dartifacts=gossip \
+            -Dproperties=gossip.version \
+            -DnewVersion="$newVersion"
+        ;;
+
+    *)
+        usage "<command> [options]"
+        ;;
+esac
