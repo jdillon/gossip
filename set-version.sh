@@ -11,6 +11,6 @@ fi
 
 exec ./mvnw org.eclipse.tycho:tycho-versions-plugin:0.25.0:set-version \
     -Dtycho.mode=maven \
-    -Dartifacts=buildsupport \
-    -Dproperties=buildsupport.version \
+    -Dartifacts=gossip \
+    -Dproperties=gossip.version \
     -DnewVersion="$newVersion"
