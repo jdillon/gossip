@@ -47,6 +47,16 @@ case "$command" in
         exec ./mvnw -Plicense-format -N
         ;;
 
+    # prepare CI build
+    ci-prepare)
+        exec ./mvnw -V -B -P license-check -N $*
+        ;;
+
+    # build and deploy for CI
+    ci-deploy)
+        exec ./mvnw -V -B clean deploy $*
+        ;;
+
     *)
         usage "<command> [options]"
         ;;

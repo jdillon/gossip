@@ -11,6 +11,6 @@ branches:
 jdk:
   - oraclejdk8
 
-install: ./mvnw -V -P license-check -N
+install: ./build ci-prepare -s .travis/settings.xml
 
-script: ./mvnw -B -s .travis/settings.xml clean deploy
+script: ./build ci-deploy -s .travis/settings.xml
