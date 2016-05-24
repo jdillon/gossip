@@ -27,15 +27,15 @@ import org.slf4j.spi.MDCAdapter;
 @SuppressWarnings({"UnusedDeclaration"})
 public final class StaticMDCBinder
 {
-    public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
+  public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
-    private final BasicMDCAdapter adapter = new BasicMDCAdapter();
+  private final BasicMDCAdapter adapter = new BasicMDCAdapter();
 
-    public MDCAdapter getMDCA() {
-        return adapter;
-    }
+  public MDCAdapter getMDCA() {
+    return adapter;
+  }
 
-    public String getMDCAdapterClassStr() {
-        return adapter.getClass().getName();
-    }
+  public String getMDCAdapterClassStr() {
+    return adapter.getClass().getName();
+  }
 }

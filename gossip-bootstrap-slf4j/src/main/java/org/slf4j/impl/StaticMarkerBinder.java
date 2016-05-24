@@ -29,15 +29,15 @@ import org.slf4j.spi.MarkerFactoryBinder;
 public final class StaticMarkerBinder
     implements MarkerFactoryBinder
 {
-    public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
+  public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
 
-    private final IMarkerFactory factory = new BasicMarkerFactory();
+  private final IMarkerFactory factory = new BasicMarkerFactory();
 
-    public IMarkerFactory getMarkerFactory() {
-        return factory;
-    }
+  public IMarkerFactory getMarkerFactory() {
+    return factory;
+  }
 
-    public String getMarkerFactoryClassStr() {
-        return factory.getClass().getName();
-    }
+  public String getMarkerFactoryClassStr() {
+    return factory.getClass().getName();
+  }
 }

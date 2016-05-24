@@ -63,10 +63,10 @@ Configuration
 
 Configuration of Gossip is handled via standard property files.
 
-The [bootstrap configuration](http://github.com/jdillon/gossip/blob/master/gossip-core/src/main/resources/org/sonatype/gossip/bootstrap.properties)
+The [bootstrap configuration](http://github.com/jdillon/gossip/blob/master/gossip-core/src/main/resources/com/planet57/gossip/bootstrap.properties)
 attempts to read:
 
-1. META-INF/org.sonatype.gossip/config.properties (as resource)
+1. META-INF/com.planet57.gossip/config.properties (as resource)
 2. -Dgossip.configuration (value of as file/url)
 3. ~/.gossip/config.properties (as file)
 
@@ -78,7 +78,7 @@ Gossip provides some minimal SLF4j components to be used:
 * Before the proper logging was created
 * In environments where only the very basic control over logging is required
 
-The gossip-bootstrap artifact contains, [org.sonatype.gossip.Log](https://github.com/jdillon/gossip/blob/master/gossip-bootstrap/src/main/java/org/sonatype/gossip/Log.java)
+The gossip-bootstrap artifact contains, [com.planet57.gossip.Log](https://github.com/jdillon/gossip/blob/master/gossip-bootstrap/src/main/java/com/planet57/gossip/Log.java)
 which is a SLF4j LoggerFactory-like class that produces real SLF4j Logger instances.
 This can be used in cases where the configuration/installation of SLF4j is not ready yet,
 and can be converted to use the desired SLF4j provider using Log.configure(ILoggerFactory).  Gossip internal loggers
@@ -90,10 +90,10 @@ the gossip-bootstrap-slf4j module provides bindings to use the internal Log as a
 
 Log has a few parameters controlled by system properties:
 
-* org.sonatype.gossip.Log.threshold = [TRACE|DEBUG|INFO|WARN|ERROR]
-* org.sonatype.gossip.Log.internalThreshold = [TRACE|DEBUG|INFO|WARN|ERROR]
-* org.sonatype.gossip.Log.stream = [OUT|ERR]
-* org.sonatype.gossip.Log.pattern (see [PatternRenderer](https://github.com/jdillon/gossip/blob/master/gossip-bootstrap/src/main/java/org/sonatype/gossip/render/PatternRenderer.java) for details)
+* com.planet57.gossip.Log.threshold = [TRACE|DEBUG|INFO|WARN|ERROR]
+* com.planet57.gossip.Log.internalThreshold = [TRACE|DEBUG|INFO|WARN|ERROR]
+* com.planet57.gossip.Log.stream = [OUT|ERR]
+* com.planet57.gossip.Log.pattern (see [PatternRenderer](https://github.com/jdillon/gossip/blob/master/gossip-bootstrap/src/main/java/com/planet57/gossip/render/PatternRenderer.java) for details)
 
 In addition, these are configurable runtime via method calls.
 
@@ -117,14 +117,14 @@ Building
 
 ### Requirements
 
-* [Maven](http://maven.apache.org) 3+
+* [Maven](http://maven.apache.org) 3+ (recommend using Maven wrapper scripts provided)
 * [Java](http://java.sun.com/) 5+
 
 Check out and build:
 
     git clone git://github.com/jdillon/gossip.git
     cd gossip
-    mvn install
+    ./mvnw install
 
 [1]: http://slf4j.org
 [2]: http://logging.apache.org/log4j

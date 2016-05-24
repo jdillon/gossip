@@ -16,34 +16,41 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <parent>
-        <groupId>org.sonatype.gossip</groupId>
-        <artifactId>gossip</artifactId>
-        <version>1.9-SNAPSHOT</version>
-    </parent>
+  <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gossip-bootstrap</artifactId>
-    <name>${project.groupId}:${project.artifactId}</name>
+  <parent>
+    <groupId>com.planet57.gossip</groupId>
+    <artifactId>gossip</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+  </parent>
 
-    <description>
-        Contains just enough Gossip to allow the internal org.sonatype.gossip.Log to function.
-    </description>
+  <artifactId>gossip-bootstrap</artifactId>
+  <name>${project.groupId}:${project.artifactId}</name>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
+  <description>
+    Contains just enough Gossip to allow the internal com.planet57.gossip.Log to function.
+  </description>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
 </project>
