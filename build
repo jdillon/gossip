@@ -34,6 +34,14 @@ case "$command" in
             -DnewVersion="$newVersion"
         ;;
 
+    license-check)
+        exec ./mvnw -Plicense-check -N
+        ;;
+
+    license-format)
+        exec ./mvnw -Plicense-format -N
+        ;;
+
     *)
         usage "<command> [options]"
         ;;
