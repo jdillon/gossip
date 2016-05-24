@@ -7,6 +7,6 @@ env:
 jdk:
   - oraclejdk8
 
-install: ./mvnw --version
+install: ./mvnw -V -P license-check -N
 
 script: ./mvnw -B -s .travis/settings.xml clean deploy
