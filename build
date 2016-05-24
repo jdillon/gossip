@@ -9,18 +9,21 @@ if [ -f ./build.rc ]; then
   source ./build.rc
 fi
 
+# show message and exit
 function die {
     echo "$1"
     exit 1
 }
 
+# show usage and exit
 function usage {
     echo "usage: $basename $*"
-    exit 1
+    exit 2
 }
 
 command="$1"; shift
 case "$command" in
+    # change the version of the project
     change-version)
         newVersion=$1
         if [ -z "$newVersion" ]; then
@@ -34,10 +37,12 @@ case "$command" in
             -DnewVersion="$newVersion"
         ;;
 
+    # check license headers
     license-check)
         exec ./mvnw -Plicense-check -N
         ;;
 
+    # format license headers
     license-format)
         exec ./mvnw -Plicense-format -N
         ;;
