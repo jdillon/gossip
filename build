@@ -74,11 +74,12 @@ case "$command" in
         if [ -z "$version" -o -z "$nextVersion" ]; then
             usage "$command <version> <nextVersion>"
         fi
+        releaseTag="release-$version"
 
         # update version and tag
         self change-version "$version"
         git commit -a -m "update version: $version"
-        git tag "release-$version"
+        git tag $releaseTag
 
         # deploy release
         mvn -Pbuildsupport-release clean deploy
