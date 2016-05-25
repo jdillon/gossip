@@ -64,7 +64,7 @@ case "$command" in
 
     # build and deploy for CI
     ci-deploy)
-        mvn -B clean deploy $*
+        mvn clean deploy $*
         ;;
 
     # release automation

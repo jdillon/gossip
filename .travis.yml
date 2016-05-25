@@ -2,7 +2,7 @@ language: java
 
 env:
   global:
-    - MAVEN_OPTS="-V -B -s .travis/settings.xml"
+    - MAVEN_OPTS=-V -B -s .travis/settings.xml
     - secure: GfoA8QZ2NaN61FEePvUWzM+Rq8TV5Rk3hcUBYDmjXPU5IqO/ytx5DMtpiS0fIZSrq9+efrCqPOP5cAlMxrvM+Q/I9fknUTsetjV9jEbgoAVV9F/97h5VnWk67dfHPz7bVUvbF+mrnczrPCJUDd2/T7E1LuVBHZHJ3FHTk3W+TaE=
 
 branches:
