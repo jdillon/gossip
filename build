@@ -59,7 +59,7 @@ case "$command" in
 
     # prepare CI build
     ci-prepare)
-        self license-check
+        self license-check $*
         ;;
 
     # build and deploy for CI
