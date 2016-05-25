@@ -72,7 +72,7 @@ case "$command" in
         version="$1"
         nextVersion="$2"
         if [ -z "$version" -o -z "$nextVersion" ]; then
-            usage "$command <version> <nextVersion>"
+            usage "$command <version> <next-version>"
         fi
         releaseTag="release-$version"
 
