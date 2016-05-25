@@ -49,17 +49,17 @@ case "$command" in
 
     # check license headers
     license-check)
-        mvn -Plicense-check -N
+        mvn -Plicense-check -N $*
         ;;
 
     # format license headers
     license-format)
-        mvn -Plicense-format -N
+        mvn -Plicense-format -N $*
         ;;
 
     # prepare CI build
     ci-prepare)
-        mvn -B -P license-check -N $*
+        self license-check -B
         ;;
 
     # build and deploy for CI
@@ -85,7 +85,7 @@ case "$command" in
 
         # update to next version
         self change-version "$nextVersion"
-        git commit -a -m "update version: $version"
+        git commit -a -m "update version: $nextVersion"
         ;;
 
     *)
