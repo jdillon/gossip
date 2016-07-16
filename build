@@ -67,6 +67,11 @@ case "$command" in
         mvn clean deploy $*
         ;;
 
+    # build and deploy for CI
+    ci-verify)
+        mvn clean verify $*
+        ;;
+
     # release automation
     release)
         version="$1"

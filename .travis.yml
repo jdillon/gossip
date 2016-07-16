@@ -13,4 +13,6 @@ jdk:
 
 install: ./build ci-prepare -V -B -s .travis/settings.xml
 
-script: ./build ci-deploy -V -B -s .travis/settings.xml
+script:
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "true" -o "$TRAVIS_BRANCH" != "master" ] ; then ./build ci-verify -V -B -s .travis/settings.xml ; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" -a "$TRAVIS_BRANCH" = "master" ] ; then ./build ci-deploy -V -B -s .travis/settings.xml ; fi'
