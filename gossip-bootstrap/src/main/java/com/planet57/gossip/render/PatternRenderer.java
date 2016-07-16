@@ -40,6 +40,11 @@ import com.planet57.gossip.Event;
  * </tr>
  *
  * <tr>
+ * <td><tt>%r</tt></td>
+ * <td>Relative Time-stamp since creation of PatternRenderer (since 2.0.1)</td>
+ * </tr>
+ *
+ * <tr>
  * <td><tt>%c</tt></td>
  * <td>Short logger name</td>
  * </tr>
@@ -103,6 +108,8 @@ public class PatternRenderer
 {
   private static final String NEWLINE = System.getProperty("line.separator");
 
+  private static final long PATTERN_RENDERER_START_TIME = System.currentTimeMillis();
+
   /**
    * @since 1.6
    */
@@ -163,6 +170,10 @@ public class PatternRenderer
 
           case 'd':
             renderTimeStamp(event, buff);
+            break;
+
+          case 'r':
+            renderRelativeTimeStamp(event, buff);
             break;
 
           case 'c':
@@ -233,6 +244,13 @@ public class PatternRenderer
     assert buff != null;
 
     buff.append(event.getTimeStamp());
+  }
+
+  protected void renderRelativeTimeStamp(Event event, StringBuilder buff) {
+    assert event != null;
+    assert buff != null;
+
+    buff.append(event.getTimeStamp() - PATTERN_RENDERER_START_TIME);
   }
 
   protected void renderLevel(final Event event, final StringBuilder buff) {
