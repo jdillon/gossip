@@ -59,6 +59,11 @@
     <url>https://github.com/jdillon/gossip/issues</url>
   </issueManagement>
 
+  <ciManagement>
+    <system>travis</system>
+    <url>https://travis-ci.org/jdillon/gossip</url>
+  </ciManagement>
+
   <developers>
     <developer>
       <id>jdillon</id>
@@ -66,6 +71,22 @@
       <email>jason@planet57.com</email>
     </developer>
   </developers>
+
+  <!--
+  TODO: remove once parent is released.
+  -->
+  <repositories>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 
   <properties>
     <maven.compiler.source>1.5</maven.compiler.source>
