@@ -21,6 +21,7 @@ Description
 [SLF4j][1] Gossip Provider
 
 [![Build Status](https://travis-ci.org/jdillon/gossip.svg?branch=master)](https://travis-ci.org/jdillon/gossip)
+[![DepShield Badge](https://depshield.sonatype.org/badges/jdillon/gossip/depshield.svg)](https://depshield.github.io)
 
 Features
 --------
